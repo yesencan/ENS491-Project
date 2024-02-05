@@ -16,7 +16,7 @@ def gene_post():
         positions = i["positions"]
         peptides = protein_utils.separate_peptides(gene_sequence, positions)
         for peptide_record in peptides:
-            #prediction here
+            #TODO: Run real prediction when model is ready
             res.append(
                 {"gene": gene,
                  "peptide": peptide_record[0],

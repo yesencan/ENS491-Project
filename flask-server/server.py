@@ -7,8 +7,8 @@ app = Flask(__name__)
 def home():
     return "<p>Home Page</p>"
 
-@app.post("/api/gene")
-def gene_post():
+@app.post("/api/predict/gene-id")
+def predict_gene_id():
     res = []
     for i in request.json["geneList"]:
         gene = i['gene']

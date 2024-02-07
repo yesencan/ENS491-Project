@@ -56,3 +56,10 @@ def pad_peptide(peptide, residue):
         right_padding = '_' * (15 - len(peptide))
         peptide = peptide + right_padding
         return peptide
+    
+def get_uniprot_id(s):
+    parts = s.split('|')
+    if len(parts) >= 3:
+        return parts[1]
+    else:
+        return s

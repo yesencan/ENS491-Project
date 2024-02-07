@@ -2,18 +2,22 @@ import requests
 from io import StringIO
 from Bio import SeqIO
 
+def parse_fasta(fasta_str):
+    fasta_io = StringIO(fasta_str) 
+    records = list(SeqIO.parse(fasta_io, "fasta") )
+    fasta_io.close()
+    return records
+
 def fetch_gene_sequence(gene):
     res = requests.get(f'https://rest.uniprot.org/uniprotkb/{gene}.fasta')
     
-    fasta_io = StringIO(res.text) 
-    records = SeqIO.parse(fasta_io, "fasta") 
+    records = parse_fasta(res.text) 
     
     sequence = ''
     for record in records:
         sequence = record.seq
         break
-
-    fasta_io.close()
+    
     return str(sequence)
 
 def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'])):

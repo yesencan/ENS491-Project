@@ -35,12 +35,13 @@ def gene_post():
 @app.post("/api/predict/sequence-file")
 def sequence_post():
     json_data = flask.json.loads(request.files['json'].read())
-
+    aminoacids = set(json_data['aminoacids'])
+    
     res = []
 
     fasta_records = protein_utils.parse_fasta(request.files['file'].read().decode('utf-8'))
     for record in fasta_records:
-        peptides = protein_utils.separate_peptides(str(record.seq))
+        peptides = protein_utils.separate_peptides(str(record.seq),aminoacids=aminoacids)
         for peptide_record in peptides:
             #TODO: Run real prediction when model is ready
             res.append(

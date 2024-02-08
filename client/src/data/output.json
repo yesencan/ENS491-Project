@@ -1,0 +1,84 @@
+{
+  "results": [
+    {
+      "geneId": "P46937",
+      "position": "127",
+      "proteinSeq": "PQHVRAHSSPASLQL",
+      "probKinase": "Q9Y2H1",
+      "kinaseFamily": "AGC Ser/Thr",
+      "probability": "73"
+    },
+    {
+      "geneId": "Q14457",
+      "position": "406",
+      "proteinSeq": "EKGKIEDTGGSGGSY",
+      "probKinase": "P78368",
+      "kinaseFamily": "CK1 Ser/Thr",
+      "probability": "86"
+    },
+    {
+      "geneId": "P29678",
+      "position": "218",
+      "proteinSeq": "VSGQLIDSMANSFVG",
+      "probKinase": "Q6VAB6",
+      "kinaseFamily": "TKL Ser/Thr",
+      "probability": "69"
+    },
+    {
+      "geneId": "Q64122",
+      "position": "19",
+      "proteinSeq": "KKRPQSATSNVFAMF",
+      "probKinase": "O14578",
+      "kinaseFamily": "AGC Ser/Thr",
+      "probability": "93"
+    },
+    {
+      "geneId": "Q923E4",
+      "position": "522",
+      "proteinSeq": "HLSELPPTPLHISEDS",
+      "probKinase": "O43781",
+      "kinaseFamily": "CMGC Ser/Thr",
+      "probability": "88"
+    },
+    {
+      "geneId": "T62322",
+      "position": "346",
+      "proteinSeq": "HLSELPPTPLHISED",
+      "probKinase": "O43781",
+      "kinaseFamily": "CK1 Ser/Thr",
+      "probability": "45"
+    },
+    {
+      "geneId": "U64299",
+      "position": "157",
+      "proteinSeq": "HLSELPPTPLHISED",
+      "probKinase": "O14578",
+      "kinaseFamily": "AGC Ser/Thr",
+      "probability": "78"
+    },
+    {
+      "geneId": "Z12387",
+      "position": "58",
+      "proteinSeq": "HLSELPPTPLHISED",
+      "probKinase": "Q6VAB6",
+      "kinaseFamily": "CMGC Ser/Thr",
+      "probability": "34"
+    },
+    {
+      "geneId": "S34985",
+      "position": "214",
+      "proteinSeq": "HLSELPPTPLHISED",
+      "probKinase": "Q9Y2H1",
+      "kinaseFamily": "AGC Ser/Thr",
+      "probability": "67"
+    },
+    {
+      "geneId": "W09640",
+      "position": "138",
+      "proteinSeq": "HLSELPPTPLHISED",
+      "probKinase": "P78368",
+      "kinaseFamily": "TKL Ser/Thr",
+      "probability": "74"
+    }
+  ]
+}

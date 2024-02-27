@@ -7,7 +7,7 @@ import Input from "./pages/Input";
 import styled from "styled-components";
 
 
-const AppContainer = styled.div`
+const InputContainer = styled.div`
   padding-top: 70px;
 `;
 
@@ -16,13 +16,11 @@ const App = () => {
     <>
       <BrowserRouter>
         <Navbar />
-        <AppContainer>
           <Routes>
             <Route path="/" element={<Launch />}></Route>
             <Route path="/results" element={<Output />}></Route>
-            <Route path="/input" element={<Input />}></Route>
+            <Route path="/input" element={<InputContainer><Input /></InputContainer>}></Route>
           </Routes>
-        </AppContainer>
       </BrowserRouter>
     </>
   );

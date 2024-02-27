@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding-top: 70px; // padding to account for the fixed navbar
 `;
 
 const TabContainer = styled.div`

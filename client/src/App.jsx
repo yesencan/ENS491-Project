@@ -4,12 +4,6 @@ import Navbar from "./components/Launch/Navbar";
 import Launch from "./pages/Launch";
 import Output from "./pages/Output";
 import Input from "./pages/Input";
-import styled from "styled-components";
-
-
-const InputContainer = styled.div`
-  padding-top: 70px;
-`;
 
 const App = () => {
   return (
@@ -19,7 +13,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Launch />}></Route>
             <Route path="/results" element={<Output />}></Route>
-            <Route path="/input" element={<InputContainer><Input /></InputContainer>}></Route>
+            <Route path="/input" element={<Input />}></Route>
           </Routes>
       </BrowserRouter>
     </>

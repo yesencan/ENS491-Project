@@ -85,7 +85,7 @@ const InputTextArea = styled.textarea`
 `;
 
 const geneIDPlaceholderText = `P05198 52 105 267
-P83268 51	
+P83268 51
 P05198
 P22455 754
 P24928 1616 1619`;

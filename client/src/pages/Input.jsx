@@ -255,7 +255,7 @@ const InputPage = () => {
           Gene ID
         </Tab>
         <Tab active={activeTab === 2} onClick={() => handleTabClick(2)}>
-        Protein Sequence
+          Protein Sequence
         </Tab>
       </TabContainer>
       <ContentArea>
@@ -273,8 +273,10 @@ const InputPage = () => {
                   onChange={(e) => setGeneIdInputText(e.target.value)}
                 />
               </Row>
+              <Row>
+                <PredictButton onClick={handlePredictClick}>Predict</PredictButton>
+              </Row>
             </Col>
-            <PredictButton onClick={handlePredictClick}>Predict</PredictButton>
           </>
         )}
         {activeTab === 2 && (
@@ -285,10 +287,10 @@ const InputPage = () => {
               </Row>
               <Row>
                 <InputLabel>Protein Sequence</InputLabel>
-                <InputTextArea 
-                placeholder={proteinSequencePlaceholderText}
-                value={proteinSequenceInputText}
-                onChange={(e) => setProteinSequenceInputText(e.target.value)} />
+                <InputTextArea
+                  placeholder={proteinSequencePlaceholderText}
+                  value={proteinSequenceInputText}
+                  onChange={(e) => setProteinSequenceInputText(e.target.value)} />
               </Row>
               <Row>
                 <SeparatorText>or</SeparatorText>

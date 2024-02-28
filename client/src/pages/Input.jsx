@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useRef } from 'react';
+import { useRef } from "react";
 
 const Container = styled.div`
   width: 100vw;
@@ -120,8 +120,8 @@ const CheckboxLabel = styled.label`
 `;
 
 const Checkbox = styled.input`
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
   margin-top: 5px;
 `;
 
@@ -223,13 +223,15 @@ const InputPage = () => {
     hiddenFileInput.current.click();
   };
 
-  const handleFileChange = event => {
+  const handleFileChange = (event) => {
     const fileUploaded = event.target.files[0];
 
     if (fileUploaded) {
       // Check if the file extension is ".fasta"
       const validExtensions = [".fasta"];
-      const isValidExtension = validExtensions.some((ext) => fileUploaded.name.toLowerCase().endsWith(ext));
+      const isValidExtension = validExtensions.some((ext) =>
+        fileUploaded.name.toLowerCase().endsWith(ext)
+      );
 
       if (isValidExtension) {
         // Valid file extension, proceed with handling the file
@@ -252,7 +254,7 @@ const InputPage = () => {
     <Container>
       <TabContainer>
         <Tab active={activeTab === 1} onClick={() => handleTabClick(1)}>
-          Gene ID
+          Uniprot ID
         </Tab>
         <Tab active={activeTab === 2} onClick={() => handleTabClick(2)}>
           Protein Sequence
@@ -263,7 +265,9 @@ const InputPage = () => {
           <>
             <Col>
               <Row>
-                <LoadSampleLink onClick={handleLoadSample}>Load Sample</LoadSampleLink>
+                <LoadSampleLink onClick={handleLoadSample}>
+                  Load Sample
+                </LoadSampleLink>
               </Row>
               <Row>
                 <InputLabel>Gene ID List</InputLabel>
@@ -274,7 +278,9 @@ const InputPage = () => {
                 />
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick}>Predict</PredictButton>
+                <PredictButton onClick={handlePredictClick}>
+                  Predict
+                </PredictButton>
               </Row>
             </Col>
           </>
@@ -283,14 +289,17 @@ const InputPage = () => {
           <>
             <Col>
               <Row>
-                <LoadSampleLink onClick={handleLoadSample}>Load Sample</LoadSampleLink>
+                <LoadSampleLink onClick={handleLoadSample}>
+                  Load Sample
+                </LoadSampleLink>
               </Row>
               <Row>
                 <InputLabel>Protein Sequence</InputLabel>
                 <InputTextArea
                   placeholder={proteinSequencePlaceholderText}
                   value={proteinSequenceInputText}
-                  onChange={(e) => setProteinSequenceInputText(e.target.value)} />
+                  onChange={(e) => setProteinSequenceInputText(e.target.value)}
+                />
               </Row>
               <Row>
                 <SeparatorText>or</SeparatorText>
@@ -299,9 +308,17 @@ const InputPage = () => {
                 <FileUploadContainer>
                   <UploadButton onClick={handleFileUpload}>
                     Upload File
-                    <input type="file" accept=".fasta" ref={hiddenFileInput} onChange={handleFileChange} style={{ display: "none" }} />
+                    <input
+                      type="file"
+                      accept=".fasta"
+                      ref={hiddenFileInput}
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
                   </UploadButton>
-                  <UploadedFileName>{uploadedFile ? uploadedFile.name : ""}</UploadedFileName>
+                  <UploadedFileName>
+                    {uploadedFile ? uploadedFile.name : ""}
+                  </UploadedFileName>
                 </FileUploadContainer>
               </Row>
               <Row>
@@ -325,7 +342,9 @@ const InputPage = () => {
                 </CheckboxContainer>
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick}>Predict</PredictButton>
+                <PredictButton onClick={handlePredictClick}>
+                  Predict
+                </PredictButton>
               </Row>
             </Col>
           </>

@@ -6,7 +6,7 @@
       "proteinSeq": "PQHVRAHSSPASLQL",
       "probKinase": "Q9Y2H1",
       "kinaseFamily": "AGC Ser/Thr",
-      "probability": "73"
+      "probability": "0.73"
     },
     {
       "geneId": "Q14457",
@@ -14,7 +14,7 @@
       "proteinSeq": "EKGKIEDTGGSGGSY",
       "probKinase": "P78368",
       "kinaseFamily": "CK1 Ser/Thr",
-      "probability": "86"
+      "probability": "0.86"
     },
     {
       "geneId": "P29678",
@@ -22,7 +22,7 @@
       "proteinSeq": "VSGQLIDSMANSFVG",
       "probKinase": "Q6VAB6",
       "kinaseFamily": "TKL Ser/Thr",
-      "probability": "69"
+      "probability": "0.69"
     },
     {
       "geneId": "Q64122",
@@ -30,7 +30,7 @@
       "proteinSeq": "KKRPQSATSNVFAMF",
       "probKinase": "O14578",
       "kinaseFamily": "AGC Ser/Thr",
-      "probability": "93"
+      "probability": "0.93"
     },
     {
       "geneId": "Q923E4",
@@ -38,7 +38,7 @@
       "proteinSeq": "HLSELPPTPLHISEDS",
       "probKinase": "O43781",
       "kinaseFamily": "CMGC Ser/Thr",
-      "probability": "88"
+      "probability": "0.88"
     },
     {
       "geneId": "T62322",
@@ -46,7 +46,7 @@
       "proteinSeq": "HLSELPPTPLHISED",
       "probKinase": "O43781",
       "kinaseFamily": "CK1 Ser/Thr",
-      "probability": "45"
+      "probability": "0.45"
     },
     {
       "geneId": "U64299",
@@ -54,7 +54,7 @@
       "proteinSeq": "HLSELPPTPLHISED",
       "probKinase": "O14578",
       "kinaseFamily": "AGC Ser/Thr",
-      "probability": "78"
+      "probability": "0.78"
     },
     {
       "geneId": "Z12387",
@@ -62,7 +62,7 @@
       "proteinSeq": "HLSELPPTPLHISED",
       "probKinase": "Q6VAB6",
       "kinaseFamily": "CMGC Ser/Thr",
-      "probability": "34"
+      "probability": "0.34"
     },
     {
       "geneId": "S34985",
@@ -70,7 +70,7 @@
       "proteinSeq": "HLSELPPTPLHISED",
       "probKinase": "Q9Y2H1",
       "kinaseFamily": "AGC Ser/Thr",
-      "probability": "67"
+      "probability": "0.67"
     },
     {
       "geneId": "W09640",
@@ -78,7 +78,7 @@
       "proteinSeq": "HLSELPPTPLHISED",
       "probKinase": "P78368",
       "kinaseFamily": "TKL Ser/Thr",
-      "probability": "74"
+      "probability": "0.74"
     }
   ]
 }

@@ -45,6 +45,7 @@ const Tab = styled.div`
 `;
 
 const ContentArea = styled.div`
+  box-sizing: border-box;
   height: fit-content; /* Expand based on content */
   max-height: 1500px; /* Set a maximum height if needed */
   width: 80%;

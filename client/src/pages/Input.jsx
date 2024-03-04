@@ -17,23 +17,27 @@ const TabContainer = styled.div`
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
 `;
 
 const Tab = styled.div`
   flex: 1;
-  height: 30px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${(props) => (props.active ? "lightblue" : "white")};
   cursor: pointer;
   border: 1px solid lightblue;
-  border-radius: 5px;
+  border-bottom: none;
   transition: background-color 0.3s;
   &:hover {
     background-color: ${(props) => (props.active ? "lightblue" : "#f0f0f0")};
+  }
+  &:first-child {
+    border-top-left-radius: 5px;
+  }
+  &:last-child {
+    border-top-right-radius: 5px;
   }
   font-family: "Poppins";
   font-size: 14px;
@@ -50,7 +54,8 @@ const ContentArea = styled.div`
   align-items: center;
   justify-content: start;
   border: 1px solid lightblue;
-  border-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   overflow-y: auto; /* Add scrollbar if content overflows vertically */
 `;
 
@@ -63,6 +68,7 @@ const InputLabel = styled.div`
 const LoadSampleLink = styled.a`
   margin-left: auto;
   margin-right: 10px;
+  margin-top: 20px;
   font-family: "Poppins";
   font-size: 14px;
   color: blue;
@@ -75,7 +81,8 @@ const InputTextArea = styled.textarea`
   width: 90%;
   height: 70%;
   min-height: 200px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
   padding: 10px; /* Add padding for better visual appearance */
@@ -103,7 +110,7 @@ const SeparatorText = styled.div`
 
 const CheckboxContainer = styled.div`
   display: flex;
-  margin-top: 20px;
+  margin: 10px;
 `;
 
 const CheckboxWrapper = styled.div`
@@ -145,14 +152,14 @@ const PredictButton = styled.button`
 const FileUploadContainer = styled.div`
   width: 50%;
   height: 70px;
-  margin: 10px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0 10px; /* Adjust padding for better spacing */
+  margin: 10px;
 `;
 
 const UploadButton = styled.button`
@@ -173,6 +180,7 @@ const UploadButton = styled.button`
 
 const UploadedFileName = styled.div`
   padding: 10px;
+  margin-left: 10px;
   font-family: "Poppins";
   font-size: 14px;
 `;
@@ -190,7 +198,6 @@ const Row = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-bottom: 10px;
 `;
 
 const InputPage = () => {

@@ -3,7 +3,7 @@ import pandas as pd
 from scripts.run.predict import predict
 from scripts.utils.arguments import load_config
 
-def main():
+def run():
     config = load_config('configs/proteinbert_model.yaml')
 
     test_data_path = 'test_data.csv'

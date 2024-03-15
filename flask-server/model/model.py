@@ -3,16 +3,15 @@ import pandas as pd
 from scripts.run.predict import predict
 from scripts.utils.arguments import load_config
 
-def run():
-    config = load_config('configs/proteinbert_model.yaml')
+def run(test_data_path):
+    config = load_config('model/configs/proteinbert_model.yaml')
 
-    test_data_path = 'test_data.csv'
     test_data_csv = pd.read_csv(test_data_path)
     test_ids = test_data_csv['SUB_ACC_ID']
     test_positions = test_data_csv['SUB_MOD_RSD']
     test_sites = test_data_csv['SITE_+/-7_AA']
     
-    results = predict(config)
+    results = predict(config, test_data_path)
     result_data = []
     for idx, prediction in enumerate(results.probabilities):
         max_5_prob = heapq.nlargest(5, prediction)
@@ -37,3 +36,4 @@ def run():
 
     return result_data
         
+print(run('model/test_data.csv'))

@@ -45,7 +45,7 @@ def predict_model(
     return metrics
 
 
-def predict(config):
+def predict(config, test_data_path):
     # Device
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -58,7 +58,7 @@ def predict(config):
     with open(config['testing']['kinase_encoder_load_path'], 'rb') as file:
         encoders = pickle.load(file)
 
-    phosphosite_data_dict = load_phosphosite_data(config['phosphosite']['dataset']['test'])
+    phosphosite_data_dict = load_phosphosite_data(test_data_path)
     kinase_data_dict = load_kinase_data(config['kinase']['dataset']['test'])
     if config['phosphosite']['dataset']['processor']['read_embeddings']:
         phosphosite_data = read_torch_embedding(

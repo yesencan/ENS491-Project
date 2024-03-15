@@ -1,13 +1,13 @@
 phosphosite:
   dataset:
-    train: dataset/new_dataset/zsl/seed_12345/train_data.csv
-    validation: dataset/new_dataset/zsl/seed_12345/validation_data.csv
-    test: test_data.csv
+    train: model/dataset/new_dataset/zsl/seed_12345/train_data.csv
+    validation: model/dataset/new_dataset/zsl/seed_12345/validation_data.csv
+    test: model/test_data.csv
     processor:
       processor_type: proteinbert
       model_name: proteinbert
       read_embeddings: true
-      phosphosite_embedding_path: checkpoints/proteinbert_embeddings/proteinbert_phosphosite.pt
+      phosphosite_embedding_path: model/checkpoints/proteinbert_embeddings/proteinbert_phosphosite.pt
   model:
     model_type: proteinbert
     model_name: proteinbert
@@ -21,14 +21,14 @@ phosphosite:
 
 kinase:
   dataset:
-    train: dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
-    validation: dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
-    test: dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
+    train: model/dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
+    validation: model/dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
+    test: model/dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
     processor:
       processor_type: proteinbert
       model_name: proteinbert
       read_embeddings: true
-      kinase_embedding_path: checkpoints/proteinbert_embeddings/proteinbert_kinase.pt
+      kinase_embedding_path: model/checkpoints/proteinbert_embeddings/proteinbert_kinase.pt
       use_family: true
       use_group: true
       use_enzymes: true
@@ -51,12 +51,12 @@ training:
   learning_rate: 0.001
   normalize_data: false
   save_model: true
-  saved_model_path: checkpoints/proteinbert_models
-  kinase_encoder_save_path : checkpoints/proteinbert_models/kinase_encoder.pkl
+  saved_model_path: model/checkpoints/proteinbert_models
+  kinase_encoder_save_path : model/checkpoints/proteinbert_models/kinase_encoder.pkl
 
 testing:
-  kinase_encoder_load_path : checkpoints/proteinbert_models/kinase_encoder.pkl
-  load_model_path: checkpoints/proteinbert_models
+  kinase_encoder_load_path : model/checkpoints/proteinbert_models/kinase_encoder.pkl
+  load_model_path: model/checkpoints/proteinbert_models
   checkpoint_file_name: 'proteinbert_saved'
 
 logging:

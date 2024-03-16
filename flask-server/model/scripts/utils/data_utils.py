@@ -2,9 +2,9 @@ import torch
 import pickle
 import pandas as pd
 
-from scripts.data.data_processors.protvec_processor import ProtVecProcessor
-from scripts.data.data_processors.esm_processor import ESMProcessor
-from scripts.data.data_processors.msa_processor import MsaProcessor
+from model.scripts.data.data_processors.protvec_processor import ProtVecProcessor
+from model.scripts.data.data_processors.esm_processor import ESMProcessor
+from model.scripts.data.data_processors.msa_processor import MsaProcessor
 
 def load_phosphosite_data(filename):
     df = pd.read_csv(filename)

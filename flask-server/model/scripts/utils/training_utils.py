@@ -1,8 +1,8 @@
 import os
 
-from scripts.models.esm_models import ESM
-from scripts.models.bilstm import *
-from scripts.models.zero_dkz import Zero_DKZ
+from model.scripts.models.esm_models import ESM
+from model.scripts.models.bilstm import *
+from model.scripts.models.zero_dkz import Zero_DKZ
 
 def generate_model(config, data_shapes):
     phosphosite_model = None

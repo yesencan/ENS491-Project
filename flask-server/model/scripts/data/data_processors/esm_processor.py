@@ -1,5 +1,5 @@
 import torch
-from scripts.data.data_processors.base_processor import SequenceProcessor
+from model.scripts.data.data_processors.base_processor import SequenceProcessor
 
 class ESMProcessor(SequenceProcessor):
     def __init__(self, processor_config):

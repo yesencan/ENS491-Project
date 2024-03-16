@@ -5,8 +5,8 @@ from sklearn import preprocessing
 
 import torch
 import torch.nn.functional as F
-from scripts.utils.data_utils import load_phosphosite_data, load_kinase_data, get_processor, read_torch_embedding
-from scripts.data.data_processors.kinase_embedding_generator import KinaseEmbeddingGenerator
+from model.scripts.utils.data_utils import load_phosphosite_data, load_kinase_data, get_processor, read_torch_embedding
+from model.scripts.data.data_processors.kinase_embedding_generator import KinaseEmbeddingGenerator
 
 class ZeroShotDataset(torch.utils.data.Dataset):
     def __init__(self, phosphosite_data, kinase_data, kinase_info_dict, phosphosite_data_dict):

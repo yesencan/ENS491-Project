@@ -3,7 +3,7 @@ import random
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
-from scripts.utils.data_utils import get_processor, read_torch_embedding
+from model.scripts.utils.data_utils import get_processor, read_torch_embedding
 
 
 class KinaseEmbeddingGenerator:

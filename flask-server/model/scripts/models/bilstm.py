@@ -3,7 +3,7 @@ import torch.nn as nn
 
 # rnnlib package for Bidirectional Layer Norm LSTM
 # https://github.com/daehwannam/pytorch-rnn-library
-from scripts.models.rnnlib.seq import LayerNormLSTM
+from model.scripts.models.rnnlib.seq import LayerNormLSTM
 
 class BiLstm(nn.Module):
     def __init__(self, vocabnum, seq_lens):

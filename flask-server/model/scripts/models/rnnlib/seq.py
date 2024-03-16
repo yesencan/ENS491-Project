@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch
 from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_sequence
 
-from scripts.models.rnnlib.common import no_dropout, no_layer_norm, get_indicator, get_module_device
+from model.scripts.models.rnnlib.common import no_dropout, no_layer_norm, get_indicator, get_module_device
 
 
 class RNNFrame(nn.Module):

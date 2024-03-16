@@ -4,10 +4,10 @@ from torch.utils.data import DataLoader
 import pandas as pd
 import lightning as L
 
-from scripts.utils.training_utils import load_model
-from scripts.evaluation.losses import cross_entropy, cross_entropy_with_normlization
-from scripts.evaluation.metrics import EvaluationMetrics
-from scripts.data.model_dataset import create_zero_shot_dataset
+from model.scripts.utils.training_utils import load_model
+from model.scripts.evaluation.losses import cross_entropy, cross_entropy_with_normlization
+from model.scripts.evaluation.metrics import EvaluationMetrics
+from model.scripts.data.model_dataset import create_zero_shot_dataset
 
 
 def test_model(

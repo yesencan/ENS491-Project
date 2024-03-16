@@ -1,4 +1,4 @@
-from scripts.data.data_processors.base_processor import SequenceProcessor
+from model.scripts.data.data_processors.base_processor import SequenceProcessor
 import numpy as np
 import torch
 

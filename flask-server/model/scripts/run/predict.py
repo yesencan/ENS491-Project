@@ -4,12 +4,12 @@ from torch.utils.data import DataLoader
 import pickle
 import pandas as pd
 import lightning as L
-from scripts.data.data_processors.kinase_embedding_generator import KinaseEmbeddingGenerator
-from scripts.utils.data_utils import get_processor, load_kinase_data, load_phosphosite_data, read_torch_embedding
+from model.scripts.data.data_processors.kinase_embedding_generator import KinaseEmbeddingGenerator
+from model.scripts.utils.data_utils import get_processor, load_kinase_data, load_phosphosite_data, read_torch_embedding
 
-from scripts.utils.training_utils import load_model
-from scripts.evaluation.metrics import EvaluationMetrics
-from scripts.data.model_dataset import ZeroShotDataset
+from model.scripts.utils.training_utils import load_model
+from model.scripts.evaluation.metrics import EvaluationMetrics
+from model.scripts.data.model_dataset import ZeroShotDataset
 
 
 def predict_model(

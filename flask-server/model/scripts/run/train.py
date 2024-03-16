@@ -5,11 +5,11 @@ from torch.utils.data import DataLoader
 
 import lightning as L
 
-from scripts.evaluation.losses import cross_entropy, cross_entropy_with_normlization
-from scripts.evaluation.metrics import EvaluationMetrics
-from scripts.run.test import test_model
-from scripts.utils.training_utils import save_model, generate_model, get_optimizer, get_scheduler
-from scripts.data.model_dataset import create_zero_shot_dataset
+from model.scripts.evaluation.losses import cross_entropy, cross_entropy_with_normlization
+from model.scripts.evaluation.metrics import EvaluationMetrics
+from model.scripts.run.test import test_model
+from model.scripts.utils.training_utils import save_model, generate_model, get_optimizer, get_scheduler
+from model.scripts.data.model_dataset import create_zero_shot_dataset
 
 ### --- training ---
 def train_one_epoch(model, dataloader, optimizer, loss_fn, fabric):

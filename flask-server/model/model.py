@@ -1,7 +1,7 @@
 import heapq
 import pandas as pd
-from scripts.run.predict import predict
-from scripts.utils.arguments import load_config
+from model.scripts.run.predict import predict
+from model.scripts.utils.arguments import load_config
 
 def run(test_data_path):
     config = load_config('model/configs/proteinbert_model.yaml')
@@ -24,9 +24,9 @@ def run(test_data_path):
         
         for i in range(5):
             result_data.append({
-                'substrate': test_ids[idx],
+                'gene': test_ids[idx],
                 'position': test_positions[idx],
-                'site': test_sites[idx],
+                'peptide': test_sites[idx],
                 'prediction': max_5_kinase[i],
                 'probability': max_5_prob[i].item(),
                 'family': kinase_info_dict[max_5_kinase[i]]['family'],
@@ -35,5 +35,3 @@ def run(test_data_path):
             )
 
     return result_data
-        
-print(run('model/test_data.csv'))

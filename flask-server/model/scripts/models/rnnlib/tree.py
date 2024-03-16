@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 
-from scripts.models.rnnlib.common import no_dropout, no_layer_norm
+from model.scripts.models.rnnlib.common import no_dropout, no_layer_norm
 
 
 class ChildSumTreeLSTMCell(nn.Module):

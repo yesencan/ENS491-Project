@@ -24,8 +24,8 @@ def predict_gene_id():
                     "position": peptide_record[1],
                     "probKinase": "Q05655",
                     "probability": 0.85,
-                    "family": "PKA",
-                    "group": "AGC"
+                    "kinaseFamily": "PKA",
+                    "kinaseGroup": "AGC"
                 }
             )
 
@@ -54,8 +54,8 @@ def predict_sequence_file():
                     "position": peptide_record[1],
                     "probKinase": "Q05655",
                     "probability": 0.85,
-                    "family": "PKA",
-                    "group": "AGC"
+                    "kinaseFamily": "PKA",
+                    "kinaseGroup": "AGC"
                 }
             )
     
@@ -83,8 +83,8 @@ def predict_sequence_string():
                     "position": peptide_record[1],
                     "probKinase": "Q05655",
                     "probability": 0.85,
-                    "family": "PKA",
-                    "group": "AGC"
+                    "kinaseFamily": "PKA",
+                    "kinaseGroup": "AGC"
                 }
             )
     

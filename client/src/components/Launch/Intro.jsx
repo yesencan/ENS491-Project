@@ -1,20 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-const RotateAnimation = keyframes`
-  0% {
-    transform: rotate(0deg) scale(0.7);
-  }
-
-  50% {
-    transform: rotate(180deg) scale(0.7);
-  }
-
-  100% {
-    transform: rotate(360deg) scale(0.7);
-  }
-`;
-
 const Container = styled.div`
   width: 100vw;
   height: 160vh;
@@ -81,14 +67,6 @@ const VisualizationContainer = styled.div`
   z-index: 4;
 `;
 
-const ProteinImage = styled.img`
-  position: absolute;
-  top: -70%;
-  right: -20%;
-  animation: ${RotateAnimation} 50s linear infinite;
-  user-select: none;
-`;
-
 const AboutContainer = styled.div`
   grid-column: 1 / 3;
   grid-row: 2 / 3;
@@ -135,9 +113,7 @@ const Intro = () => {
         </SubTitle>
         <TryButton>Try DeepKinZero</TryButton>
       </TitleContainer>
-      <VisualizationContainer>
-        <ProteinImage src="./images/protein.png" />
-      </VisualizationContainer>
+      <VisualizationContainer></VisualizationContainer>
       <AboutContainer>
         <DefinitionContainer>
           <DefinitionTitle>What is DeepKinZero?</DefinitionTitle>

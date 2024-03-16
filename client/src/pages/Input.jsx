@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useRef } from 'react';
+import { useRef } from "react";
 
 const Container = styled.div`
   width: 100vw;
@@ -17,23 +17,27 @@ const TabContainer = styled.div`
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
 `;
 
 const Tab = styled.div`
   flex: 1;
-  height: 30px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${(props) => (props.active ? "lightblue" : "white")};
   cursor: pointer;
   border: 1px solid lightblue;
-  border-radius: 5px;
+  border-bottom: none;
   transition: background-color 0.3s;
   &:hover {
     background-color: ${(props) => (props.active ? "lightblue" : "#f0f0f0")};
+  }
+  &:first-child {
+    border-top-left-radius: 5px;
+  }
+  &:last-child {
+    border-top-right-radius: 5px;
   }
   font-family: "Poppins";
   font-size: 14px;
@@ -41,6 +45,7 @@ const Tab = styled.div`
 `;
 
 const ContentArea = styled.div`
+  box-sizing: border-box;
   height: fit-content; /* Expand based on content */
   max-height: 1500px; /* Set a maximum height if needed */
   width: 80%;
@@ -50,7 +55,8 @@ const ContentArea = styled.div`
   align-items: center;
   justify-content: start;
   border: 1px solid lightblue;
-  border-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   overflow-y: auto; /* Add scrollbar if content overflows vertically */
 `;
 
@@ -63,6 +69,7 @@ const InputLabel = styled.div`
 const LoadSampleLink = styled.a`
   margin-left: auto;
   margin-right: 10px;
+  margin-top: 20px;
   font-family: "Poppins";
   font-size: 14px;
   color: blue;
@@ -75,7 +82,8 @@ const InputTextArea = styled.textarea`
   width: 90%;
   height: 70%;
   min-height: 200px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
   padding: 10px; /* Add padding for better visual appearance */
@@ -103,7 +111,7 @@ const SeparatorText = styled.div`
 
 const CheckboxContainer = styled.div`
   display: flex;
-  margin-top: 20px;
+  margin: 10px;
 `;
 
 const CheckboxWrapper = styled.div`
@@ -120,8 +128,8 @@ const CheckboxLabel = styled.label`
 `;
 
 const Checkbox = styled.input`
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
   margin-top: 5px;
 `;
 
@@ -145,14 +153,14 @@ const PredictButton = styled.button`
 const FileUploadContainer = styled.div`
   width: 50%;
   height: 70px;
-  margin: 10px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0 10px; /* Adjust padding for better spacing */
+  margin: 10px;
 `;
 
 const UploadButton = styled.button`
@@ -173,6 +181,7 @@ const UploadButton = styled.button`
 
 const UploadedFileName = styled.div`
   padding: 10px;
+  margin-left: 10px;
   font-family: "Poppins";
   font-size: 14px;
 `;
@@ -190,7 +199,6 @@ const Row = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-bottom: 10px;
 `;
 
 const InputPage = () => {
@@ -223,13 +231,15 @@ const InputPage = () => {
     hiddenFileInput.current.click();
   };
 
-  const handleFileChange = event => {
+  const handleFileChange = (event) => {
     const fileUploaded = event.target.files[0];
 
     if (fileUploaded) {
       // Check if the file extension is ".fasta"
       const validExtensions = [".fasta"];
-      const isValidExtension = validExtensions.some((ext) => fileUploaded.name.toLowerCase().endsWith(ext));
+      const isValidExtension = validExtensions.some((ext) =>
+        fileUploaded.name.toLowerCase().endsWith(ext)
+      );
 
       if (isValidExtension) {
         // Valid file extension, proceed with handling the file
@@ -252,7 +262,7 @@ const InputPage = () => {
     <Container>
       <TabContainer>
         <Tab active={activeTab === 1} onClick={() => handleTabClick(1)}>
-          Gene ID
+          Uniprot ID
         </Tab>
         <Tab active={activeTab === 2} onClick={() => handleTabClick(2)}>
           Protein Sequence
@@ -263,7 +273,9 @@ const InputPage = () => {
           <>
             <Col>
               <Row>
-                <LoadSampleLink onClick={handleLoadSample}>Load Sample</LoadSampleLink>
+                <LoadSampleLink onClick={handleLoadSample}>
+                  Load Sample
+                </LoadSampleLink>
               </Row>
               <Row>
                 <InputLabel>Gene ID List</InputLabel>
@@ -274,7 +286,9 @@ const InputPage = () => {
                 />
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick}>Predict</PredictButton>
+                <PredictButton onClick={handlePredictClick}>
+                  Predict
+                </PredictButton>
               </Row>
             </Col>
           </>
@@ -283,14 +297,17 @@ const InputPage = () => {
           <>
             <Col>
               <Row>
-                <LoadSampleLink onClick={handleLoadSample}>Load Sample</LoadSampleLink>
+                <LoadSampleLink onClick={handleLoadSample}>
+                  Load Sample
+                </LoadSampleLink>
               </Row>
               <Row>
                 <InputLabel>Protein Sequence</InputLabel>
                 <InputTextArea
                   placeholder={proteinSequencePlaceholderText}
                   value={proteinSequenceInputText}
-                  onChange={(e) => setProteinSequenceInputText(e.target.value)} />
+                  onChange={(e) => setProteinSequenceInputText(e.target.value)}
+                />
               </Row>
               <Row>
                 <SeparatorText>or</SeparatorText>
@@ -299,9 +316,17 @@ const InputPage = () => {
                 <FileUploadContainer>
                   <UploadButton onClick={handleFileUpload}>
                     Upload File
-                    <input type="file" accept=".fasta" ref={hiddenFileInput} onChange={handleFileChange} style={{ display: "none" }} />
+                    <input
+                      type="file"
+                      accept=".fasta"
+                      ref={hiddenFileInput}
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
                   </UploadButton>
-                  <UploadedFileName>{uploadedFile ? uploadedFile.name : ""}</UploadedFileName>
+                  <UploadedFileName>
+                    {uploadedFile ? uploadedFile.name : ""}
+                  </UploadedFileName>
                 </FileUploadContainer>
               </Row>
               <Row>
@@ -325,7 +350,9 @@ const InputPage = () => {
                 </CheckboxContainer>
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick}>Predict</PredictButton>
+                <PredictButton onClick={handlePredictClick}>
+                  Predict
+                </PredictButton>
               </Row>
             </Col>
           </>

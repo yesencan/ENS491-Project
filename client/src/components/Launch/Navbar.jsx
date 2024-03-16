@@ -25,16 +25,17 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.div`
-  width: 80px;
+  width: 120px;
   height: 30px;
   margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Poppins";
-  font-size: 12px;
+  font-size: 16px;
   transition: 0.2s all;
   border: 2px solid transparent;
+  border-radius: 5px;
   cursor: pointer;
   &:hover {
     border: 2px solid orange;

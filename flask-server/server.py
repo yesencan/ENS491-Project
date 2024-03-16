@@ -18,11 +18,14 @@ def predict_gene_id():
         for peptide_record in peptides:
             #TODO: Run real prediction when model is ready
             res.append(
-                {"gene": gene,
-                 "peptide": peptide_record[0],
-                  "position": peptide_record[1],
-                  "prediction": "Q05655",
-                  "probability": 0.85
+                { 
+                    "geneId": gene,
+                    "proteinSeq": peptide_record[0],
+                    "position": peptide_record[1],
+                    "probKinase": "Q05655",
+                    "probability": 0.85,
+                    "family": "PKA",
+                    "group": "AGC"
                 }
             )
 
@@ -45,11 +48,14 @@ def predict_sequence_file():
         for peptide_record in peptides:
             #TODO: Run real prediction when model is ready
             res.append(
-                {"gene": protein_utils.get_uniprot_id(record.id),
-                 "peptide": peptide_record[0],
-                  "position": peptide_record[1],
-                  "prediction": "Q05655",
-                  "probability": 0.85
+                {
+                    "geneId": protein_utils.get_uniprot_id(record.id),
+                    "proteinSeq": peptide_record[0],
+                    "position": peptide_record[1],
+                    "probKinase": "Q05655",
+                    "probability": 0.85,
+                    "family": "PKA",
+                    "group": "AGC"
                 }
             )
     
@@ -71,11 +77,14 @@ def predict_sequence_string():
         for peptide_record in peptides:
             #TODO: Run real prediction when model is ready
             res.append(
-                {"gene": protein_utils.get_uniprot_id(record.id),
-                 "peptide": peptide_record[0],
-                  "position": peptide_record[1],
-                  "prediction": "Q05655",
-                  "probability": 0.85
+                {
+                    "geneId": protein_utils.get_uniprot_id(record.id),
+                    "proteinSeq": peptide_record[0],
+                    "position": peptide_record[1],
+                    "probKinase": "Q05655",
+                    "probability": 0.85,
+                    "family": "PKA",
+                    "group": "AGC"
                 }
             )
     

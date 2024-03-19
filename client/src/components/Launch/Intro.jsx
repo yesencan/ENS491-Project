@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-
+import { Link } from "react-router-dom";
 const Container = styled.div`
   width: 100vw;
   height: 160vh;
@@ -111,7 +111,9 @@ const Intro = () => {
           Zero-shot learning for predicting kinase-phosphosite associations
           involving understudied kinases.
         </SubTitle>
-        <TryButton>Try DeepKinZero</TryButton>
+        <Link to="/input" style={{ textDecoration: "none", color: "black" }}>
+          <TryButton>Try DeepKinZero</TryButton>
+        </Link>
       </TitleContainer>
       <VisualizationContainer></VisualizationContainer>
       <AboutContainer>

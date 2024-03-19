@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useContext } from 'react';
 import styled, { keyframes } from "styled-components";
-import OutputData from "../data/output.json";
-
+//import OutputData from "../data/output.json";
+import OutputDataContext from '../contexts/OutputDataContext'; 
 const FadeInAnimation = keyframes`
   from {
     transform: translateY(100px);
@@ -197,9 +198,10 @@ const DownloadCSV = styled.button`
 `;
 
 const Output = () => {
+  const { outputData } = useContext(OutputDataContext);
   const [sortBy, setSortBy] = useState("probability");
   const getRowKey = (item, idx) => `${idx}-${sortBy}`;
-
+  console.log(outputData);
   const handleSort = (type) => {
     setSortBy(type);
   };
@@ -261,7 +263,7 @@ const Output = () => {
           </Label>
         </Table>
         <ResultsContainer>
-          {OutputData.results
+          {outputData
             .sort((a, b) => {
               if (sortBy === "probability") {
                 return parseFloat(b.probability) - parseFloat(a.probability);

@@ -14,6 +14,7 @@ const Container = styled.div`
   justify-content: space-between;
   padding: 0 50px 0 50px;
   box-sizing: border-box;
+  border-bottom:1px solid lightblue;
 `;
 
 const ButtonContainer = styled.div`
@@ -51,19 +52,19 @@ const Logo = styled.div`
 `;
 
 const Navbar = () => {
-  return (
-    <Container>
-      <Logo>DeepKinZero.</Logo>
-      <ButtonContainer>
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-          <Button>About</Button>
-        </Link>
-        <Button>Page Link 3</Button>
+    return (
+        <Container>
+            <Logo>DeepKinZero.</Logo>
+            <ButtonContainer>
+                <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+                    <Button>About</Button>
+                </Link>
+                {/* <Button>Page Link 3</Button>
         <Button>Page Link 4</Button>
-        <Button>Page Link 5</Button>
-      </ButtonContainer>
-    </Container>
-  );
+        <Button>Page Link 5</Button> */}
+            </ButtonContainer>
+        </Container>
+    );
 };
 
 export default Navbar;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import OutputDataContext from '../contexts/OutputDataContext'; 
+import OutputDataContext from '../contexts/OutputDataContext';
 
 const Container = styled.div`
   width: 100vw;
@@ -20,6 +20,7 @@ const TabContainer = styled.div`
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
+  padding-top:6vh;
 `;
 
 const Tab = styled.div`
@@ -205,258 +206,258 @@ const Row = styled.div`
 `;
 
 const InputPage = () => {
-  let navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(1);
-  const [geneIDInputText, setGeneIdInputText] = useState("");
-  const [proteinSequenceInputText, setProteinSequenceInputText] = useState("");
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const hiddenFileInput = useRef(null);
-  const { setOutputData } = useContext(OutputDataContext);
+    let navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState(1);
+    const [geneIDInputText, setGeneIdInputText] = useState("");
+    const [proteinSequenceInputText, setProteinSequenceInputText] = useState("");
+    const [uploadedFile, setUploadedFile] = useState(null);
+    const hiddenFileInput = useRef(null);
+    const { setOutputData } = useContext(OutputDataContext);
 
-  const handleTabClick = (tabNumber) => {
-    setActiveTab(tabNumber);
-  };
-
-  const handleLoadSample = () => {
-    // Load sample data into the input text area
-    switch (activeTab) {
-      case 1:
-        setGeneIdInputText(geneIDPlaceholderText);
-        break;
-      case 2:
-        setProteinSequenceInputText(proteinSequencePlaceholderText);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleFileUpload = (e) => {
-    // Handle file upload logic here
-    hiddenFileInput.current.click();
-  };
-
-  const handleFileChange = (event) => {
-    const fileUploaded = event.target.files[0];
-
-    if (fileUploaded) {
-      // Check if the file extension is ".fasta"
-      const validExtensions = [".fasta"];
-      const isValidExtension = validExtensions.some((ext) =>
-        fileUploaded.name.toLowerCase().endsWith(ext)
-      );
-
-      if (isValidExtension) {
-        // Valid file extension, proceed with handling the file
-        setUploadedFile(fileUploaded);
-      } else {
-        // Invalid file extension, show an error message or take appropriate action
-        alert("Invalid file extension. Please select a .fasta file.");
-        // Optionally, reset the file input to clear the selected file
-        event.target.value = null;
-      }
-    }
-  };
-
-  const handlePredictClick = async () => {
-    const parseGeneListInput = (geneListInput) => {
-      const geneList = [];
-      let currentGene = null;
-  
-      geneListInput.forEach(item => {
-        if (/^P\d+$/.test(item)) {
-          currentGene = { gene: item, positions: [] };
-          geneList.push(currentGene);
-        } 
-        else if (/^\d+$/.test(item) && currentGene !== null) {
-          // position, add to the current gene
-          currentGene.positions.push(parseInt(item));
-        }
-      });
-  
-      return geneList;
+    const handleTabClick = (tabNumber) => {
+        setActiveTab(tabNumber);
     };
-    
-    // Assuming geneIDInputText is a string with genes and positions
-    const geneListInput = geneIDInputText.trim().split(/\s+/);
-    console.log(geneListInput);
-    const geneList = parseGeneListInput(geneListInput);
-    console.log(geneList);
 
-    const apiEndpoint = 'http://127.0.0.1:5000/api/predict/gene-id';
-  
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ geneList: geneList })
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      
-      setOutputData(data.results); 
-      navigate('/results');
-      console.log("sevval", data.results);
-      
-    } catch (error) {
-      console.error('There was an error with the prediction request:', error);
-    }
-  };
+    const handleLoadSample = () => {
+        // Load sample data into the input text area
+        switch (activeTab) {
+            case 1:
+                setGeneIdInputText(geneIDPlaceholderText);
+                break;
+            case 2:
+                setProteinSequenceInputText(proteinSequencePlaceholderText);
+                break;
+            default:
+                break;
+        }
+    };
 
-  async function handlePredictClick2() {
+    const handleFileUpload = (e) => {
+        // Handle file upload logic here
+        hiddenFileInput.current.click();
+    };
 
-    const aminoacids = ['S', 'T', 'Y', 'H'].filter((acid, index) => {
-      return document.querySelectorAll('input[type="checkbox"]')[index].checked;
-    });
-  
-    // check if user uploaded a file or entered as text
-    if (uploadedFile) {
-      // send file to the "/api/predict/sequence-file" endpoint
-      const formData = new FormData();
-      formData.append('file', uploadedFile);
-      formData.append('json', new Blob([JSON.stringify({ aminoacids })], { type: 'application/json' }));
-  
-      try {
-        const response = await fetch('http://127.0.0.1:5000/api/predict/sequence-file', {
-          method: 'POST',
-          body: formData,
+    const handleFileChange = (event) => {
+        const fileUploaded = event.target.files[0];
+
+        if (fileUploaded) {
+            // Check if the file extension is ".fasta"
+            const validExtensions = [".fasta"];
+            const isValidExtension = validExtensions.some((ext) =>
+                fileUploaded.name.toLowerCase().endsWith(ext)
+            );
+
+            if (isValidExtension) {
+                // Valid file extension, proceed with handling the file
+                setUploadedFile(fileUploaded);
+            } else {
+                // Invalid file extension, show an error message or take appropriate action
+                alert("Invalid file extension. Please select a .fasta file.");
+                // Optionally, reset the file input to clear the selected file
+                event.target.value = null;
+            }
+        }
+    };
+
+    const handlePredictClick = async () => {
+        const parseGeneListInput = (geneListInput) => {
+            const geneList = [];
+            let currentGene = null;
+
+            geneListInput.forEach(item => {
+                if (/^P\d+$/.test(item)) {
+                    currentGene = { gene: item, positions: [] };
+                    geneList.push(currentGene);
+                }
+                else if (/^\d+$/.test(item) && currentGene !== null) {
+                    // position, add to the current gene
+                    currentGene.positions.push(parseInt(item));
+                }
+            });
+
+            return geneList;
+        };
+
+        // Assuming geneIDInputText is a string with genes and positions
+        const geneListInput = geneIDInputText.trim().split(/\s+/);
+        console.log(geneListInput);
+        const geneList = parseGeneListInput(geneListInput);
+        console.log(geneList);
+
+        const apiEndpoint = 'http://127.0.0.1:5000/api/predict/gene-id';
+
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ geneList: geneList })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            setOutputData(data.results);
+            navigate('/results');
+            console.log("sevval", data.results);
+
+        } catch (error) {
+            console.error('There was an error with the prediction request:', error);
+        }
+    };
+
+    async function handlePredictClick2() {
+
+        const aminoacids = ['S', 'T', 'Y', 'H'].filter((acid, index) => {
+            return document.querySelectorAll('input[type="checkbox"]')[index].checked;
         });
-        const result = await response.json();
-        setOutputData(result.results); 
-        navigate('/results');
-        console.log(result);
-      } catch (error) {
-        console.error('Error predicting sequence from file:', error);
-      }
-    } else if (proteinSequenceInputText) {
-      console.log(proteinSequenceInputText);
-      try {
-        const response = await fetch('http://127.0.0.1:5000/api/predict/sequence-string', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ fasta: proteinSequenceInputText, aminoacids }),
-        });
-        const result = await response.json();
-        setOutputData(result.results); // This updates the context
-        navigate('/results');
-        console.log("eb", result);
-      } catch (error) {
-        console.error('Error predicting sequence from text:', error);
-      }
-    } else {
-      alert('Please enter a protein sequence or upload a file.');
-    }
-  };
-  return (
-    <Container>
-      <TabContainer>
-        <Tab active={activeTab === 1} onClick={() => handleTabClick(1)}>
-          Uniprot ID
-        </Tab>
-        <Tab active={activeTab === 2} onClick={() => handleTabClick(2)}>
-          Protein Sequence
-        </Tab>
-      </TabContainer>
-      <ContentArea>
-        {activeTab === 1 && (
-          <>
-            <Col>
-              <Row>
-                <LoadSampleLink onClick={handleLoadSample}>
-                  Load Sample
-                </LoadSampleLink>
-              </Row>
-              <Row>
-                <InputLabel>Gene ID List</InputLabel>
-                <InputTextArea
-                  placeholder={geneIDPlaceholderText}
-                  value={geneIDInputText}
-                  onChange={(e) => setGeneIdInputText(e.target.value)}
-                />
-              </Row>
-              <Row>
-                <PredictButton onClick={handlePredictClick}>
-                  Predict
-                </PredictButton>
-              </Row>
-            </Col>
-          </>
-        )}
-        {activeTab === 2 && (
-          <>
-            <Col>
-              <Row>
-                <LoadSampleLink onClick={handleLoadSample}>
-                  Load Sample
-                </LoadSampleLink>
-              </Row>
-              <Row>
-                <InputLabel>Protein Sequence</InputLabel>
-                <InputTextArea
-                  placeholder={proteinSequencePlaceholderText}
-                  value={proteinSequenceInputText}
-                  onChange={(e) => setProteinSequenceInputText(e.target.value)}
-                />
-              </Row>
-              <Row>
-                <SeparatorText>or</SeparatorText>
-              </Row>
-              <Row>
-                <FileUploadContainer>
-                  <UploadButton onClick={handleFileUpload}>
-                    Upload File
-                    <input
-                      type="file"
-                      accept=".fasta"
-                      ref={hiddenFileInput}
-                      onChange={handleFileChange}
-                      style={{ display: "none" }}
-                    />
-                  </UploadButton>
-                  <UploadedFileName>
-                    {uploadedFile ? uploadedFile.name : ""}
-                  </UploadedFileName>
-                </FileUploadContainer>
-              </Row>
-              <Row>
-                <CheckboxContainer>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Serine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
-                  </CheckboxWrapper>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Threonine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
-                  </CheckboxWrapper>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Tyrosine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
-                  </CheckboxWrapper>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Histidine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
-                  </CheckboxWrapper>
-                </CheckboxContainer>
-              </Row>
-              <Row>
-                <PredictButton onClick={handlePredictClick2}>
-                  Predict
-                </PredictButton>
-              </Row>
-            </Col>
-          </>
-        )}
-      </ContentArea>
-    </Container>
-  );
+
+        // check if user uploaded a file or entered as text
+        if (uploadedFile) {
+            // send file to the "/api/predict/sequence-file" endpoint
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+            formData.append('json', new Blob([JSON.stringify({ aminoacids })], { type: 'application/json' }));
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/predict/sequence-file', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                setOutputData(result.results);
+                navigate('/results');
+                console.log(result);
+            } catch (error) {
+                console.error('Error predicting sequence from file:', error);
+            }
+        } else if (proteinSequenceInputText) {
+            console.log(proteinSequenceInputText);
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/predict/sequence-string', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fasta: proteinSequenceInputText, aminoacids }),
+                });
+                const result = await response.json();
+                setOutputData(result.results); // This updates the context
+                navigate('/results');
+                console.log("eb", result);
+            } catch (error) {
+                console.error('Error predicting sequence from text:', error);
+            }
+        } else {
+            alert('Please enter a protein sequence or upload a file.');
+        }
+    };
+    return (
+        <Container>
+            <TabContainer>
+                <Tab active={activeTab === 1} onClick={() => handleTabClick(1)}>
+                    Uniprot ID
+                </Tab>
+                <Tab active={activeTab === 2} onClick={() => handleTabClick(2)}>
+                    Protein Sequence
+                </Tab>
+            </TabContainer>
+            <ContentArea>
+                {activeTab === 1 && (
+                    <>
+                        <Col>
+                            <Row>
+                                <LoadSampleLink onClick={handleLoadSample}>
+                                    Load Sample
+                                </LoadSampleLink>
+                            </Row>
+                            <Row>
+                                <InputLabel>Gene ID List</InputLabel>
+                                <InputTextArea style={{ "height": "44.5vh" }}
+                                    placeholder={geneIDPlaceholderText}
+                                    value={geneIDInputText}
+                                    onChange={(e) => setGeneIdInputText(e.target.value)}
+                                />
+                            </Row>
+                            <Row>
+                                <PredictButton onClick={handlePredictClick}>
+                                    Predict
+                                </PredictButton>
+                            </Row>
+                        </Col>
+                    </>
+                )}
+                {activeTab === 2 && (
+                    <>
+                        <Col>
+                            <Row>
+                                <LoadSampleLink onClick={handleLoadSample}>
+                                    Load Sample
+                                </LoadSampleLink>
+                            </Row>
+                            <Row>
+                                <InputLabel>Protein Sequence</InputLabel>
+                                <InputTextArea
+                                    placeholder={proteinSequencePlaceholderText}
+                                    value={proteinSequenceInputText}
+                                    onChange={(e) => setProteinSequenceInputText(e.target.value)}
+                                />
+                            </Row>
+                            <Row>
+                                <SeparatorText>or</SeparatorText>
+                            </Row>
+                            <Row>
+                                <FileUploadContainer>
+                                    <UploadButton onClick={handleFileUpload}>
+                                        Upload File
+                                        <input
+                                            type="file"
+                                            accept=".fasta"
+                                            ref={hiddenFileInput}
+                                            onChange={handleFileChange}
+                                            style={{ display: "none" }}
+                                        />
+                                    </UploadButton>
+                                    <UploadedFileName>
+                                        {uploadedFile ? uploadedFile.name : ""}
+                                    </UploadedFileName>
+                                </FileUploadContainer>
+                            </Row>
+                            <Row>
+                                <CheckboxContainer>
+                                    <CheckboxWrapper>
+                                        <CheckboxLabel>Serine</CheckboxLabel>
+                                        <Checkbox type="checkbox" />
+                                    </CheckboxWrapper>
+                                    <CheckboxWrapper>
+                                        <CheckboxLabel>Threonine</CheckboxLabel>
+                                        <Checkbox type="checkbox" />
+                                    </CheckboxWrapper>
+                                    <CheckboxWrapper>
+                                        <CheckboxLabel>Tyrosine</CheckboxLabel>
+                                        <Checkbox type="checkbox" />
+                                    </CheckboxWrapper>
+                                    <CheckboxWrapper>
+                                        <CheckboxLabel>Histidine</CheckboxLabel>
+                                        <Checkbox type="checkbox" />
+                                    </CheckboxWrapper>
+                                </CheckboxContainer>
+                            </Row>
+                            <Row>
+                                <PredictButton onClick={handlePredictClick2}>
+                                    Predict
+                                </PredictButton>
+                            </Row>
+                        </Col>
+                    </>
+                )}
+            </ContentArea>
+        </Container>
+    );
 };
 
 export default InputPage;

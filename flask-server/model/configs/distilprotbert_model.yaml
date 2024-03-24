@@ -2,12 +2,12 @@ phosphosite:
   dataset:
     train: model/dataset/new_dataset/zsl/seed_12345/train_data.csv
     validation: model/dataset/new_dataset/zsl/seed_12345/validation_data.csv
-    test: model/dataset/new_dataset/zsl/seed_12345/test_data.csv
+    test: model/test_data.csv
     processor:
       processor_type: distilprotbert
       model_name: distilprotbert
       read_embeddings: true
-      phosphosite_embedding_path: model/checkpoints/distilprotbert_embeddings/distilprotbert_phosphosite.pt
+      phosphosite_embedding_path: model/checkpoints/distilprotbert_embeddings/user_input_phosphosite.pt
   model:
     model_type: distilprotbert
     model_name: distilprotbert

@@ -4,7 +4,7 @@ from model.scripts.run.predict import predict
 from model.scripts.utils.arguments import load_config
 
 def run(test_data_path):
-    config = load_config('model/configs/proteinbert_model.yaml')
+    config = load_config('model/configs/distilprotbert_model.yaml')
 
     test_data_csv = pd.read_csv(test_data_path)
     test_ids = test_data_csv['SUB_ACC_ID']

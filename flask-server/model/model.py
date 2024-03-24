@@ -24,13 +24,13 @@ def run(test_data_path):
         
         for i in range(5):
             result_data.append({
-                'gene': test_ids[idx],
-                'position': test_positions[idx],
-                'peptide': test_sites[idx],
-                'prediction': max_5_kinase[i],
+                'geneId': test_ids[idx],
+                'position': int(test_positions[idx]),
+                'proteinSeq': test_sites[idx],
+                'probKinase': max_5_kinase[i],
                 'probability': max_5_prob[i].item(),
-                'family': kinase_info_dict[max_5_kinase[i]]['family'],
-                'group': kinase_info_dict[max_5_kinase[i]]['group']
+                'kinaseFamily': kinase_info_dict[max_5_kinase[i]]['family'],
+                'kinaseGroup': kinase_info_dict[max_5_kinase[i]]['group']
                 }
             )
 

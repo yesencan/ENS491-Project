@@ -52,10 +52,10 @@ training:
   normalize_data: false
   save_model: true
   saved_model_path: model/checkpoints/distilprotbert_models
-  kinase_encoder_save_path : model/checkpoints/distilprotbert_models/kinase_encoder.pkl
+  kinase_encoder_save_path : model/checkpoints/distilprotbert_models/kinase_encoder_distilprotbert.pkl
 
 testing:
-  kinase_encoder_load_path : model/checkpoints/distilprotbert_models/kinase_encoder.pkl
+  kinase_encoder_load_path : model/checkpoints/distilprotbert_models/kinase_encoder_distilprotbert.pkl
   load_model_path: model/checkpoints/distilprotbert_models
   checkpoint_file_name: 'distilprotbert_saved'
 

@@ -15,4 +15,7 @@ def write_test_data(test_data):
 
     return filename
 
+def remove_test_data(test_data_path):
+    os.remove(test_data_path)
+
     

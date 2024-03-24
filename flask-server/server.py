@@ -3,7 +3,10 @@ from flask import Flask, request
 import protein_utils
 import data_utils
 from model import model
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/home")
 def home():
@@ -22,6 +25,7 @@ def predict_gene_id():
     test_data_filename = data_utils.write_test_data(test_data)
     results = model.run(test_data_filename)
     data_utils.remove_test_data(test_data_filename)
+
 
     return flask.json.jsonify(
         results=results
@@ -64,7 +68,7 @@ def predict_sequence_string():
     test_data_filename = data_utils.write_test_data(test_data)
     results = model.run(test_data_filename)
     data_utils.remove_test_data(test_data_filename)
-    
+
     return flask.json.jsonify(
         results=results
     )

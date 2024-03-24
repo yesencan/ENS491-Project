@@ -2,3 +2,8 @@
 virtualenv/
 venv/
 __pycache__/
+
+.DS_Store
+
+#ignore model checkpoints
+model/checkpoints

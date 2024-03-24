@@ -1,0 +1,73 @@
+phosphosite:
+  dataset:
+    train: model/dataset/new_dataset/zsl/seed_12345/train_data.csv
+    validation: model/dataset/new_dataset/zsl/seed_12345/validation_data.csv
+    test: model/test_data.csv
+    processor:
+      processor_type: distilprotbert
+      model_name: distilprotbert
+      read_embeddings: true
+      phosphosite_embedding_path: model/checkpoints/distilprotbert_embeddings/user_input_phosphosite.pt
+  model:
+    model_type: distilprotbert
+    model_name: distilprotbert
+    embedding_mode: sequence
+    freeze: true
+  
+  sequence_model:
+    model_type: bilstm
+    hidden_size: 512
+    use_sequence_model: false
+
+kinase:
+  dataset:
+    train: model/dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
+    validation: model/dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
+    test: model/dataset/new_dataset/zsl/seed_12345/kinase_properties.csv
+    processor:
+      processor_type: distilprotbert
+      model_name: distilprotbert
+      read_embeddings: true
+      kinase_embedding_path: model/checkpoints/distilprotbert_embeddings/distilprotbert_kinase.pt
+      use_family: true
+      use_group: true
+      use_enzymes: true
+      use_kin2vec: false
+      use_pathway: false
+      use_active_site: false
+      use_domain: true
+  model:
+    model_type: distilprotbert
+    model_name: distilprotbert
+    embedding_mode: sequence
+    freeze: true
+
+training:
+  train:
+    batch_size: 32
+  validation:
+    batch_size: 1
+  num_epochs: 200
+  learning_rate: 0.001
+  normalize_data: false
+  save_model: true
+  saved_model_path: model/checkpoints/distilprotbert_models
+  kinase_encoder_save_path : model/checkpoints/distilprotbert_models/kinase_encoder_distilprotbert.pkl
+
+testing:
+  kinase_encoder_load_path : model/checkpoints/distilprotbert_models/kinase_encoder_distilprotbert.pkl
+  load_model_path: model/checkpoints/distilprotbert_models
+  checkpoint_file_name: 'distilprotbert_saved'
+
+logging:
+  use_wandb : false
+  log_name : n
+  project_name : n
+  entity_name : n
+
+hyper_parameters:
+  gamma : 0.97
+  learning_rate : 0.01
+  optimizer : 'SGD'
+  scheduler_type : 'CosineAnnealingLR'
+  weight_decay: 0.0001

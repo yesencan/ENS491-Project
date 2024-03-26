@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 const TabContainer = styled.div`
-  width: 80%;
+  width: 70%;
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
@@ -52,7 +52,7 @@ const ContentArea = styled.div`
   box-sizing: border-box;
   height: fit-content; /* Expand based on content */
   max-height: 1500px; /* Set a maximum height if needed */
-  width: 80%;
+  width: 70%;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -68,6 +68,11 @@ const InputLabel = styled.div`
   font-family: "Poppins";
   font-size: 14px;
   color: black;
+  width: 10%;
+  height: 100%;
+  text-align: end;
+  margin-right: 10px;
+  overflow-wrap: break-word;
 `;
 
 const LoadSampleLink = styled.a`
@@ -86,7 +91,6 @@ const InputTextArea = styled.textarea`
   width: 90%;
   height: 70%;
   min-height: 200px;
-  margin-left: 10px;
   margin-bottom: 10px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
@@ -94,6 +98,9 @@ const InputTextArea = styled.textarea`
   font-family: "Poppins";
   font-size: 16px;
   resize: none;
+  &::placeholder{
+    color: lightgray;
+  }
 `;
 
 const geneIDPlaceholderText = `P05198 52 105 267
@@ -113,9 +120,22 @@ const SeparatorText = styled.div`
   color: black;
 `;
 
-const CheckboxContainer = styled.div`
+const LabelCentered = styled.div`
+  width: 10%;
+  font-family: "Poppins";
   display: flex;
-  margin: 10px;
+  justify-content: end;
+  text-align: end;
+  font-size: 14px;
+  margin-right: 10px;
+  overflow-wrap: break-word;
+`;
+
+const CheckboxContainer = styled.div`
+  width: 90%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 const CheckboxWrapper = styled.div`
@@ -155,7 +175,7 @@ const PredictButton = styled.button`
 `;
 
 const FileUploadContainer = styled.div`
-  width: 50%;
+  width: 90%;
   height: 70px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
@@ -164,7 +184,7 @@ const FileUploadContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0 10px; /* Adjust padding for better spacing */
-  margin: 10px;
+  margin: 10px 0;
 `;
 
 const UploadButton = styled.button`
@@ -411,6 +431,8 @@ const InputPage = () => {
                                 <SeparatorText>or</SeparatorText>
                             </Row>
                             <Row>
+                            <LabelCentered>Fasta File</LabelCentered>
+
                                 <FileUploadContainer>
                                     <UploadButton onClick={handleFileUpload}>
                                         Upload File
@@ -428,6 +450,7 @@ const InputPage = () => {
                                 </FileUploadContainer>
                             </Row>
                             <Row>
+                                <LabelCentered>Select Amino Acids</LabelCentered>
                                 <CheckboxContainer>
                                     <CheckboxWrapper>
                                         <CheckboxLabel>Serine</CheckboxLabel>

@@ -35,7 +35,7 @@
     {
       "geneId": "Q923E4",
       "position": "522",
-      "proteinSeq": "HLSELPPTPLHISEDS",
+      "proteinSeq": "HLSELPPTPLHISED",
       "probKinase": "O43781",
       "kinaseFamily": "CMGC Ser/Thr",
       "probability": "0.88"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
-//import OutputData from "../data/output.json";
+import OutputData from "../data/output.json";
 import OutputDataContext from "../contexts/OutputDataContext";
 const FadeInAnimation = keyframes`
   from {
@@ -18,170 +18,90 @@ const FadeInAnimation = keyframes`
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  grid-template-rows: 70px 70px 70px calc(100% - 210px);
 `;
 
-const Wrapper = styled.div`
-  width: 100vw;
-  height: calc(100vh - 70px);
+const DownloadCSVContainer = styled.div`
+  grid-column: 7 / 8;
+  grid-row: 2 / 3;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: right;
 `;
 
-const ResultsContainer = styled.div`
-  width: 90%;
-  height: 80vh;
-  max-height: 80%;
-  overflow-y: auto;
-  position: relative;
-  &::-webkit-scrollbar {
-    display: none;
+const DownloadCSV = styled.button`
+  width: 160px;
+  height: 30px;
+  border: 2px solid orange;
+  color: black;
+  background-color: white;
+  font-size: 14px;
+  transition: 0.2s all;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: orange;
   }
 `;
 
-const Row = styled.div`
-  width: calc(100% - 40px);
-  height: 50px;
-  margin: 0 20px 10px 20px;
-  background-color: orange;
-  font-family: "Roboto";
-  display: flex;
-  opacity: 0;
-  animation: ${FadeInAnimation} 1s ease forwards;
-  animation-delay: ${(props) => props.idx * 0.1}s;
-  box-shadow: 0 0 5px 1px lightgray;
-  border-radius: 5px;
-`;
-
 const Table = styled.div`
-  width: 90%;
-  height: 60px;
+  grid-column: 2 / 8;
+  grid-row: 3 / 4;
   display: flex;
-  padding: 0 20px 0 20px;
   box-sizing: border-box;
-  position: relative;
-  font-family: "Poppins";
+  font-family: "Roboto";
   font-size: 16px;
-  bottom: 5px;
+  border-right: 5px solid orange;
+  border-left: 5px solid orange;
 `;
 
 const LabelContainer = styled.div`
-  flex: 1;
+  width: calc(100% / 6);
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Poppins";
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 14px;
   color: black;
   flex-direction: column;
-  border: 1px solid orange;
-  border-radius: 5px;
+  border-top: 0.5px solid lightgray;
+  border-right: ${(props) =>
+    props.id === 5 ? "0.5px solid white" : "0.5px solid lightgray"};
 `;
 
 const Label = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
+  padding-left: 20px;
+  box-sizing: border-box;
 `;
 
 const OptionsContainer = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-`;
-
-const GeneId = styled.div`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 20px;
-`;
-
-const Position = styled.div`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 20px;
-`;
-
-const ProteinSequence = styled.div`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 20px;
-`;
-
-const ProbableKinase = styled.div`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 20px;
-`;
-
-const KinaseFamily = styled.div`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 20px;
-`;
-
-const Probability = styled.div`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) =>
-    props.probability > 0.8
-      ? "green"
-      : props.probability > 0.5
-      ? "yellow"
-      : "red"};
-  font-size: 20px;
-  font-weight: 700;
-`;
-
-const Letter = styled.span`
-  font-size: ${(props) => (props.idx === 7 ? "40px" : "18px")};
-  color: ${(props) => (props.idx === 7 ? "gray" : "black")};
-  margin: ${(props) => (props.idx === 7 ? "0 3px 0 3px" : "0")};
-  transform: translateY(5px);
-  &:hover {
-  }
+  padding-left: 20px;
+  box-sizing: border-box;
 `;
 
 const Tag = styled.button`
   width: auto;
   height: 30px;
-  margin: 0 5px 0 5px;
+  padding: 0;
+  margin-right: 5px;
   display: flex;
   border: none;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   color: ${(props) => (props.isClicked ? "orange" : "black")};
-  font-family: "Poppins";
+  font-family: "Roboto";
   font-size: 20px;
   background-color: transparent;
   transition: 0.2s all;
@@ -189,28 +109,6 @@ const Tag = styled.button`
   cursor: pointer;
   &:hover {
     transform: translateY(-2px);
-  }
-`;
-
-const DownloadCSV = styled.button`
-  width: 160px;
-  height: 30px;
-  position: absolute;
-  right: 20px;
-  bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  border: 2px solid orange;
-  color: orange;
-  background-color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: 0.2s all;
-  cursor: pointer;
-  &:hover {
-    color: white;
-    background-color: orange;
   }
 `;
 
@@ -233,15 +131,98 @@ const SearchInput = styled.input`
   transition: 0.5s;
 `;
 
+const ResultsContainer = styled.div`
+  grid-column: 2 / 8;
+  grid-row: 4 / end;
+  overflow-y: auto;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const Row = styled.div`
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  background-color: ${(props) => props.bgColor};
+  font-family: "Roboto";
+  display: flex;
+  opacity: 0;
+  animation: ${FadeInAnimation} 1s ease forwards;
+  animation-delay: ${(props) => props.idx * 0.1}s;
+  border-right: 5px solid orange;
+  border-left: 5px solid orange;
+`;
+
+const Data = styled.div`
+  width: calc(100% / 6);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  color: black;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: "Roboto";
+  border-right: 0.5px solid lightgray;
+  padding: 0 20px;
+`;
+
+const Letter = styled.span`
+  width: ${(props) => (props.idx === 7 ? "5px" : "2px")};
+  flex: ${(props) => (props.idx === 7 ? "2" : "1")};
+  font-size: ${(props) => (props.idx === 7 ? "40px" : "12px")};
+  color: ${(props) => (props.idx === 7 ? "gray" : "black")};
+  margin: ${(props) => (props.idx === 7 ? "0 3px 0 3px" : "0")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto";
+  &:hover {
+  }
+`;
+
+const Probability = styled.div`
+  width: calc(100% / 6);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  color: ${(props) =>
+    props.probability > 0.8
+      ? "green"
+      : props.probability > 0.5
+      ? "orange"
+      : "red"};
+  font-size: 14px;
+  font-weight: 700;
+  box-sizing: border-box;
+  padding: 0 20px;
+`;
+
 const Output = () => {
   const { outputData } = useContext(OutputDataContext);
-  const [sortBy, setSortBy] = useState("probability");
-  const getRowKey = (item, idx) => `${idx}-${sortBy}`;
+  const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
   const [searchClicked, setSearchClicked] = useState("");
-  const [filteredList, setFilteredList] = useState(outputData);
+  const [filteredList, setFilteredList] = useState(OutputData);
+  const [sortOrder, setSortOrder] = useState({
+    sortBy: "",
+    ascending: true,
+  });
 
-  const handleSort = (type) => {
-    setSortBy(type);
+  const handleSort = (sortBy) => {
+    if (sortOrder.sortBy === sortBy) {
+      setSortOrder({
+        sortBy,
+        ascending: !sortOrder.ascending,
+      });
+    } else {
+      setSortOrder({
+        sortBy,
+        ascending: true,
+      });
+    }
   };
 
   const handleSearchClick = (type) => {
@@ -334,208 +315,241 @@ const Output = () => {
       setFilteredList(filteredList);
     }
   };
-  console.log(filteredList);
   return (
     <Container>
-      <Wrapper>
-        <Table>
-          <DownloadCSV>
-            Download CSV <i class="bi bi-box-arrow-down"></i>
-          </DownloadCSV>
-        </Table>
-        <Table>
-          <LabelContainer>
-            <OptionsContainer>
-              {" "}
-              <Tag
-                isClicked={sortBy === "geneID"}
-                onClick={() => handleSort("geneID")}
-              >
-                <i class="bi bi-sort-alpha-down"></i>
-              </Tag>
-              <SearchContainer>
-                <Tag
-                  style={{ fontSize: "16px", margin: 0, padding: 0 }}
-                  onClick={() => handleSearchClick("GeneID")}
-                >
-                  <i class="bi bi-search"></i>
-                </Tag>
-                <SearchInput
-                  placeholder="Search..."
-                  isClicked={searchClicked === "GeneID"}
-                  type="text"
-                  onChange={(e) => handleSearch(e, "GeneID")}
-                />
-              </SearchContainer>
-            </OptionsContainer>
-            <Label> Gene ID </Label>
-          </LabelContainer>
-          <LabelContainer>
-            <OptionsContainer>
-              {" "}
-              <Tag
-                isClicked={sortBy === "position"}
-                onClick={() => handleSort("position")}
-              >
-                {" "}
-                <i class="bi bi-sort-down"></i>
-              </Tag>
-              <SearchContainer>
-                <Tag
-                  style={{ fontSize: "16px", margin: 0, padding: 0 }}
-                  onClick={() => handleSearchClick("Position")}
-                >
-                  <i class="bi bi-search"></i>
-                </Tag>
-                <SearchInput
-                  placeholder="Search..."
-                  isClicked={searchClicked === "Position"}
-                  type="text"
-                  onChange={(e) => handleSearch(e, "Position")}
-                />
-              </SearchContainer>
-            </OptionsContainer>
-            <Label> Position </Label>
-          </LabelContainer>
-          <LabelContainer>
-            <OptionsContainer>
-              {" "}
-              <SearchContainer>
-                <Tag
-                  style={{ fontSize: "16px" }}
-                  onClick={() => handleSearchClick("Phosphate")}
-                >
-                  <i class="bi bi-search"></i>
-                </Tag>
-                <SearchInput
-                  placeholder="Search..."
-                  isClicked={searchClicked === "Phosphate"}
-                  type="text"
-                  onChange={(e) => handleSearch(e, "Phosphate")}
-                />
-              </SearchContainer>
-            </OptionsContainer>
-            <Label> Phosphate (+-7) </Label>
-          </LabelContainer>
+      <DownloadCSVContainer>
+        <DownloadCSV>
+          Download CSV <i class="bi bi-box-arrow-down"></i>
+        </DownloadCSV>
+      </DownloadCSVContainer>
 
-          <LabelContainer>
-            <OptionsContainer>
-              <Tag
-                isClicked={sortBy === "probableKinase"}
-                onClick={() => handleSort("probableKinase")}
-              >
+      <Table></Table>
+      <Table>
+        <LabelContainer id={0}>
+          <OptionsContainer>
+            {" "}
+            <Tag
+              isClicked={sortOrder.sortBy === "geneID"}
+              onClick={() => handleSort("geneID")}
+            >
+              {sortOrder.ascending && sortOrder.sortBy === "geneID" ? (
                 <i class="bi bi-sort-alpha-down"></i>
-              </Tag>
-              <SearchContainer>
-                <Tag
-                  style={{ fontSize: "16px", margin: 0, padding: 0 }}
-                  onClick={() => handleSearchClick("Kinase")}
-                >
-                  <i class="bi bi-search"></i>
-                </Tag>
-                <SearchInput
-                  placeholder="Search..."
-                  isClicked={searchClicked === "Kinase"}
-                  type="text"
-                  onChange={(e) => handleSearch(e, "Kinase")}
-                />
-              </SearchContainer>
-            </OptionsContainer>
-            <Label> Probable Kinase </Label>
-          </LabelContainer>
-          <LabelContainer>
-            <OptionsContainer>
-              {" "}
+              ) : (
+                <i class="bi bi-sort-alpha-up"></i>
+              )}
+            </Tag>
+            <SearchContainer>
               <Tag
-                isClicked={sortBy === "kinaseFamily"}
-                onClick={() => handleSort("kinaseFamily")}
+                style={{ fontSize: "16px", margin: 0, padding: 0 }}
+                onClick={() => handleSearchClick("GeneID")}
               >
-                <i class="bi bi-sort-alpha-down"></i>
+                <i class="bi bi-search"></i>
               </Tag>
-              <SearchContainer>
-                <Tag
-                  style={{ fontSize: "16px", margin: 0, padding: 0 }}
-                  onClick={() => handleSearchClick("KinaseFamily")}
-                >
-                  <i class="bi bi-search"></i>
-                </Tag>
-                <SearchInput
-                  placeholder="Search..."
-                  isClicked={searchClicked === "KinaseFamily"}
-                  type="text"
-                  onChange={(e) => handleSearch(e, "KinaseFamily")}
-                />
-              </SearchContainer>
-            </OptionsContainer>
-            <Label> Kinase Family </Label>
-          </LabelContainer>
-          <LabelContainer>
-            <OptionsContainer>
-              {" "}
-              <Tag
-                isClicked={sortBy === "probability"}
-                onClick={() => handleSort("probability")}
-              >
+              <SearchInput
+                autoFocus
+                placeholder="Search..."
+                isClicked={searchClicked === "GeneID"}
+                type="text"
+                onChange={(e) => handleSearch(e, "GeneID")}
+              />
+            </SearchContainer>
+          </OptionsContainer>
+          <Label> Gene ID </Label>
+        </LabelContainer>
+        <LabelContainer id={1}>
+          <OptionsContainer>
+            {" "}
+            <Tag
+              isClicked={sortOrder.sortBy === "position"}
+              onClick={() => handleSort("position")}
+            >
+              {sortOrder.ascending && sortOrder.sortBy === "position" ? (
                 <i class="bi bi-sort-down"></i>
+              ) : (
+                <i class="bi bi-sort-up"></i>
+              )}
+            </Tag>
+            <SearchContainer>
+              <Tag
+                style={{ fontSize: "16px", margin: 0, padding: 0 }}
+                onClick={() => handleSearchClick("Position")}
+              >
+                <i class="bi bi-search"></i>
               </Tag>
-              <SearchContainer>
-                <Tag
-                  style={{ fontSize: "16px", margin: 0, padding: 0 }}
-                  onClick={() => handleSearchClick("Probability")}
-                >
-                  <i class="bi bi-search"></i>
-                </Tag>
-                <SearchInput
-                  placeholder="Search..."
-                  isClicked={searchClicked === "Probability"}
-                  type="text"
-                  onChange={(e) => handleSearch(e, "Probability")}
-                />
-              </SearchContainer>
-            </OptionsContainer>
-            <Label> Probability </Label>
-          </LabelContainer>
-        </Table>
-        <ResultsContainer>
-          {filteredList
-            .sort((a, b) => {
-              if (sortBy === "probability") {
-                return parseFloat(b.probability) - parseFloat(a.probability);
-              }
-              if (sortBy === "position") {
-                return parseFloat(b.position) - parseFloat(a.position);
-              }
-              if (sortBy === "geneID") {
-                return a.geneId.localeCompare(b.geneId);
-              }
-              if (sortBy === "probableKinase") {
-                return a.probKinase.localeCompare(b.probKinase);
-              }
-              if (sortBy === "kinaseFamily") {
-                return a.kinaseFamily.localeCompare(b.kinaseFamily);
-              }
-              return 0;
-            })
-            .map((item, idx) => (
-              <Row key={getRowKey(item, idx)} idx={idx}>
-                <GeneId>{item.geneId}</GeneId>
-                <Position>{item.position}</Position>
-                <ProteinSequence>
-                  {item.proteinSeq.split("").map((letter, idx) => (
-                    <Letter key={idx} idx={idx}>
-                      {letter}
-                    </Letter>
-                  ))}
-                </ProteinSequence>
-                <ProbableKinase>{item.probKinase}</ProbableKinase>
-                <KinaseFamily>{item.kinaseFamily}</KinaseFamily>
-                <Probability probability={parseFloat(item.probability)}>
-                  {item.probability} <span style={{ fontSize: "24px" }}></span>
-                </Probability>
-              </Row>
-            ))}
-        </ResultsContainer>
-      </Wrapper>
+              <SearchInput
+                placeholder="Search..."
+                isClicked={searchClicked === "Position"}
+                type="text"
+                onChange={(e) => handleSearch(e, "Position")}
+              />
+            </SearchContainer>
+          </OptionsContainer>
+          <Label> Position </Label>
+        </LabelContainer>
+        <LabelContainer id={2}>
+          <OptionsContainer>
+            {" "}
+            <SearchContainer>
+              <Tag
+                style={{ fontSize: "16px" }}
+                onClick={() => handleSearchClick("Phosphate")}
+              >
+                <i class="bi bi-search"></i>
+              </Tag>
+              <SearchInput
+                placeholder="Search..."
+                isClicked={searchClicked === "Phosphate"}
+                type="text"
+                onChange={(e) => handleSearch(e, "Phosphate")}
+              />
+            </SearchContainer>
+          </OptionsContainer>
+          <Label> Phosphate (+-7) </Label>
+        </LabelContainer>
+
+        <LabelContainer id={3}>
+          <OptionsContainer>
+            <Tag
+              isClicked={sortOrder.sortBy === "probableKinase"}
+              onClick={() => handleSort("probableKinase")}
+            >
+              {sortOrder.ascending && sortOrder.sortBy === "probableKinase" ? (
+                <i class="bi bi-sort-alpha-down"></i>
+              ) : (
+                <i class="bi bi-sort-alpha-up"></i>
+              )}
+            </Tag>
+            <SearchContainer>
+              <Tag
+                style={{ fontSize: "16px", margin: 0, padding: 0 }}
+                onClick={() => handleSearchClick("Kinase")}
+              >
+                <i class="bi bi-search"></i>
+              </Tag>
+              <SearchInput
+                placeholder="Search..."
+                isClicked={searchClicked === "Kinase"}
+                type="text"
+                onChange={(e) => handleSearch(e, "Kinase")}
+              />
+            </SearchContainer>
+          </OptionsContainer>
+          <Label> Probable Kinase </Label>
+        </LabelContainer>
+        <LabelContainer id={4}>
+          <OptionsContainer>
+            {" "}
+            <Tag
+              isClicked={sortOrder.sortBy === "kinaseFamily"}
+              onClick={() => handleSort("kinaseFamily")}
+            >
+              {sortOrder.ascending && sortOrder.sortBy === "kinaseFamily" ? (
+                <i class="bi bi-sort-alpha-down"></i>
+              ) : (
+                <i class="bi bi-sort-alpha-up"></i>
+              )}
+            </Tag>
+            <SearchContainer>
+              <Tag
+                style={{ fontSize: "16px", margin: 0, padding: 0 }}
+                onClick={() => handleSearchClick("KinaseFamily")}
+              >
+                <i class="bi bi-search"></i>
+              </Tag>
+              <SearchInput
+                placeholder="Search..."
+                isClicked={searchClicked === "KinaseFamily"}
+                type="text"
+                onChange={(e) => handleSearch(e, "KinaseFamily")}
+              />
+            </SearchContainer>
+          </OptionsContainer>
+          <Label> Kinase Family </Label>
+        </LabelContainer>
+        <LabelContainer id={5}>
+          <OptionsContainer>
+            {" "}
+            <Tag
+              isClicked={sortOrder.sortBy === "probability"}
+              onClick={() => handleSort("probability")}
+            >
+              {sortOrder.ascending && sortOrder.sortBy === "probability" ? (
+                <i class="bi bi-sort-down"></i>
+              ) : (
+                <i class="bi bi-sort-up"></i>
+              )}
+            </Tag>
+            <SearchContainer>
+              <Tag
+                style={{ fontSize: "16px", margin: 0, padding: 0 }}
+                onClick={() => handleSearchClick("Probability")}
+              >
+                <i class="bi bi-search"></i>
+              </Tag>
+              <SearchInput
+                placeholder="Search..."
+                isClicked={searchClicked === "Probability"}
+                type="text"
+                onChange={(e) => handleSearch(e, "Probability")}
+              />
+            </SearchContainer>
+          </OptionsContainer>
+          <Label> Probability </Label>
+        </LabelContainer>
+      </Table>
+      <ResultsContainer>
+        {filteredList.results
+          .sort((a, b) => {
+            if (sortOrder.sortBy === "probability") {
+              return sortOrder.ascending
+                ? parseFloat(a.probability) - parseFloat(b.probability)
+                : parseFloat(b.probability) - parseFloat(a.probability);
+            }
+            if (sortOrder.sortBy === "position") {
+              return sortOrder.ascending
+                ? parseFloat(a.position) - parseFloat(b.position)
+                : parseFloat(b.position) - parseFloat(a.position);
+            }
+            if (sortOrder.sortBy === "geneID") {
+              return sortOrder.ascending
+                ? a.geneId.localeCompare(b.geneId)
+                : b.geneId.localeCompare(a.geneId);
+            }
+            if (sortOrder.sortBy === "probableKinase") {
+              return sortOrder.ascending
+                ? a.probKinase.localeCompare(b.probKinase)
+                : b.probKinase.localeCompare(a.probKinase);
+            }
+            if (sortOrder.sortBy === "kinaseFamily") {
+              return sortOrder.ascending
+                ? a.kinaseFamily.localeCompare(b.kinaseFamily)
+                : b.kinaseFamily.localeCompare(a.kinaseFamily);
+            }
+            return 0;
+          })
+          .map((item, idx) => (
+            <Row
+              key={getRowKey(item, idx)}
+              idx={idx}
+              bgColor={idx % 2 === 0 ? "#ffa60045" : "#ffa60026"}
+            >
+              <Data>{item.geneId}</Data>
+              <Data>{item.position}</Data>
+              <Data>
+                {item.proteinSeq.split("").map((letter, idx) => (
+                  <Letter key={idx} idx={idx}>
+                    {letter}
+                  </Letter>
+                ))}
+              </Data>
+              <Data>{item.probKinase}</Data>
+              <Data>{item.kinaseFamily}</Data>
+              <Probability probability={parseFloat(item.probability)}>
+                {item.probability} <span style={{ fontSize: "24px" }}></span>
+              </Probability>
+            </Row>
+          ))}
+      </ResultsContainer>
     </Container>
   );
 };

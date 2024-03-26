@@ -106,7 +106,7 @@ const Intro = () => {
   return (
     <Container>
       <TitleContainer>
-        <Title>DeepKinZero.</Title>
+        <Title>DeepKinZero</Title>
         <SubTitle>
           Zero-shot learning for predicting kinase-phosphosite associations
           involving understudied kinases.

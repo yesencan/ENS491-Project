@@ -54,19 +54,37 @@ def predict_gene_id():
 
 @app.post("/api/predict/sequence-file")
 def predict_sequence_file():
+    aminoacid_set = set(['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'])
+    is_invalid = False
+
     json_data = flask.json.loads(request.files['json'].read())
-    aminoacids = set(json_data['aminoacids'])
+    target_aminoacids = set(json_data['aminoacids'])
     
     test_data = []
     fasta_records = protein_utils.parse_fasta(request.files['file'].read().decode('utf-8'))
-    for record in fasta_records:
+    for record in fasta_records: 
+        sequence = str(record.seq)
+        if not set(sequence.upper()).issubset(aminoacid_set):
+            is_invalid = True
+            continue
+
         gene = protein_utils.get_uniprot_id(record.id)
-        peptides = protein_utils.separate_peptides(str(record.seq),aminoacids=aminoacids)
+        peptides, _ = protein_utils.separate_peptides(sequence,aminoacids=target_aminoacids)
         test_data.extend([[gene] + i for i in peptides])
     
+
+    if is_invalid:
+        return flask.json.jsonify(
+            error= 'invalid_aa_seq'), 400
+    
     test_data_filename = data_utils.write_test_data(test_data)
-    results = model.run(test_data_filename)
-    data_utils.remove_test_data(test_data_filename)
+    try:
+        results = model.run(test_data_filename)
+        data_utils.remove_test_data(test_data_filename)
+    except:
+        data_utils.remove_test_data(test_data_filename)
+        return flask.json.jsonify(
+            error= 'incorrect_format'), 400
 
     return flask.json.jsonify(
         results=results
@@ -74,6 +92,9 @@ def predict_sequence_file():
 
 @app.post("/api/predict/sequence-string")
 def predict_sequence_string():
+    aminoacid_set = set(['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'])
+    is_invalid = False
+
     json_data = request.json
     fasta_sequence = json_data['fasta']
     aminoacids = set(json_data['aminoacids'])
@@ -81,13 +102,28 @@ def predict_sequence_string():
     test_data = []
     fasta_records = protein_utils.parse_fasta(fasta_sequence)
     for record in fasta_records:
+        sequence = str(record.seq)
+        if not set(sequence.upper()).issubset(aminoacid_set):
+            is_invalid = True
+            continue
+
         gene = protein_utils.get_uniprot_id(record.id)
-        peptides = protein_utils.separate_peptides(str(record.seq),aminoacids=aminoacids)
+        peptides, _ = protein_utils.separate_peptides(sequence,aminoacids=aminoacids)
         test_data.extend([[gene] + i for i in peptides])
     
+    if is_invalid:
+        return flask.json.jsonify(
+            error= 'invalid_aa_seq'), 400
+    
+    
     test_data_filename = data_utils.write_test_data(test_data)
-    results = model.run(test_data_filename)
-    data_utils.remove_test_data(test_data_filename)
+    try:
+        results = model.run(test_data_filename)
+        data_utils.remove_test_data(test_data_filename)
+    except:
+        data_utils.remove_test_data(test_data_filename)
+        return flask.json.jsonify(
+            error= 'incorrect_format'), 400
 
     return flask.json.jsonify(
         results=results

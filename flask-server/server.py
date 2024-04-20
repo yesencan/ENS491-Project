@@ -15,13 +15,33 @@ def home():
 @app.post("/api/predict/gene-id")
 def predict_gene_id():
     test_data = []
+    invalid_ids = []
+    invalid_positions = []
     for i in request.json["geneList"]:
         gene = i['gene']
-        gene_sequence = protein_utils.fetch_gene_sequence(gene)
+
+        gene_sequence, is_invalid = protein_utils.fetch_gene_sequence(gene)
+        if is_invalid:
+            invalid_ids.append(gene)
+            continue
+
         positions = i["positions"]
-        peptides = protein_utils.separate_peptides(gene_sequence, positions)
+        peptides, invalid = protein_utils.separate_peptides(gene_sequence, positions)
+        if len(invalid) > 0:
+            invalid_positions.append(
+                {'id': gene, 'invalid_positions': invalid}
+            )
+            continue
+
         test_data.extend([[gene] + i for i in peptides])
-       
+    
+
+    if len(invalid_ids) > 0 or len(invalid_positions) > 0:
+        return flask.json.jsonify(
+            invalid_ids= invalid_ids,
+            invalid_positions= invalid_positions,
+            error= 'invalid_id_pos'), 400
+    
     test_data_filename = data_utils.write_test_data(test_data)
     results = model.run(test_data_filename)
     data_utils.remove_test_data(test_data_filename)

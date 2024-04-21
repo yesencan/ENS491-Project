@@ -7,7 +7,7 @@ import OutputDataContext from "../contexts/OutputDataContext";
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100vh - 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@ const TabContainer = styled.div`
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  padding-top: 6vh;
+  padding-top: 10vh;
 `;
 
 const Tab = styled.div`
@@ -215,12 +215,27 @@ const Row = styled.div`
   width: 100%;
 `;
 
+const ErrorMessageDiv = styled.div`
+  width:70%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border-left: 5px solid red;
+  color: red;
+  background-color: #ffb3b3;
+  padding: 16px;
+  margin-top: 3vh;
+  position: absolute;
+`
+
 const InputPage = () => {
   let navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(1);
   const [geneIDInputText, setGeneIdInputText] = useState("");
   const [proteinSequenceInputText, setProteinSequenceInputText] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [errorOpen, setErrorOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const hiddenFileInput = useRef(null);
   const { setOutputData } = useContext(OutputDataContext);
   const geneIDPlaceholderText = `P05198 52 105 267
@@ -314,11 +329,36 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         body: JSON.stringify({ geneList: geneList }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
+        const error = data['error']
+        switch (error) {
+          case "invalid_id_pos":
+            setErrorMessage("Invalid UniProt ID or positions. Please check input data.")
+            setErrorOpen(true)
+            break;
+
+          case "empty-test-data":
+            setErrorMessage("Input data is empty.")
+            setErrorOpen(true)
+            break;
+
+          case "invalid-aa-seq":
+            setErrorMessage("Invalid aminoacid sequence.")
+            setErrorOpen(true)
+            break;
+
+          case "incorrect_format":
+            setErrorMessage("Input data is in incorrect format.")
+            setErrorOpen(true)
+            break;
+          default:
+            break;
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
 
       setOutputData(data.results);
       navigate("/results");
@@ -352,6 +392,25 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
           }
         );
         const result = await response.json();
+
+        if (!response.ok) {
+          const error = result['error']
+          switch (error) {
+            case "invalid-aa-seq":
+              setErrorMessage("Invalid aminoacid sequence.")
+              setErrorOpen(true)
+              break;
+
+            case "incorrect_format":
+              setErrorMessage("Input data is in incorrect format.")
+              setErrorOpen(true)
+              break;
+            default:
+              break;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         setOutputData(result.results);
         navigate("/results");
         console.log(result);
@@ -375,6 +434,23 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
           }
         );
         const result = await response.json();
+        if (!response.ok) {
+          const error = result['error']
+          switch (error) {
+            case "invalid-aa-seq":
+              setErrorMessage("Invalid aminoacid sequence.")
+              setErrorOpen(true)
+              break;
+
+            case "incorrect_format":
+              setErrorMessage("Input data is in incorrect format.")
+              setErrorOpen(true)
+              break;
+            default:
+              break;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         setOutputData(result.results); // This updates the context
         navigate("/results");
         console.log("eb", result);
@@ -387,6 +463,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   }
   return (
     <Container>
+      {errorOpen ? <ErrorMessageDiv>{errorMessage}</ErrorMessageDiv> : null}
       <TabContainer>
         <Tab active={activeTab === 1} onClick={() => handleTabClick(1)}>
           Uniprot ID

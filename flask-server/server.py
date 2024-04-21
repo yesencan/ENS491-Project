@@ -31,17 +31,18 @@ def predict_gene_id():
             invalid_positions.append(
                 {'id': gene, 'invalid_positions': invalid}
             )
-            continue
-
+            continue    
         test_data.extend([[gene] + i for i in peptides])
     
-
     if len(invalid_ids) > 0 or len(invalid_positions) > 0:
         return flask.json.jsonify(
             invalid_ids= invalid_ids,
             invalid_positions= invalid_positions,
             error= 'invalid_id_pos'), 400
     
+    if len(test_data) == 0:
+        return flask.json.jsonify(error= 'empty-test-data'), 400
+
     test_data_filename = data_utils.write_test_data(test_data)
     results = model.run(test_data_filename)
     data_utils.remove_test_data(test_data_filename)

@@ -22,7 +22,7 @@ def fetch_gene_sequence(gene):
     return str(sequence), error
 
 def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'])):
-    aminoacids = aminoacids if len(aminoacids) > 0 else set(['S', 'T', 'Y', 'H'])
+    aminoacids = aminoacids if len(aminoacids) > 0 else set(['S', 'T', 'Y', 'H'])    
     if positions == []:
         result = []
         for i, residue in enumerate(sequence):
@@ -42,11 +42,9 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
     else:
         result = []
 
-        invalid_positions = [p for p in positions if p > len(sequence)]
-        if len(invalid_positions) > 0:
-            return result, invalid_positions
+        invalid_positions = [p for p in positions if p > len(sequence) or p < 0]
+        positions = [p - 1 for p in positions if 0 < p <= len(sequence)]
 
-        positions = [p - 1 for p in positions if 0 < p <= len(sequence) if p <= len(sequence)]
         for position in positions:
             residue = sequence[position]
             if residue in aminoacids:
@@ -60,8 +58,9 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                     peptide = pad_peptide(peptide, 'end')
 
                 result.append([position + 1, peptide])
-
-        return result, []
+            else:
+                invalid_positions.append(position)
+        return result, invalid_positions
 
 def pad_peptide(peptide, pad_direction):
     padding = '_' * (15 - len(peptide))

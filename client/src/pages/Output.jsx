@@ -205,7 +205,7 @@ const Output = () => {
   const { outputData } = useContext(OutputDataContext);
   const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
   const [searchClicked, setSearchClicked] = useState("");
-  const [filteredList, setFilteredList] = useState(OutputData);
+  const [filteredList, setFilteredList] = useState(outputData);
   const [sortOrder, setSortOrder] = useState({
     sortBy: "",
     ascending: true,

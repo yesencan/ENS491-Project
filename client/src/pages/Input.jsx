@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import OutputDataContext from "../contexts/OutputDataContext";
-
+import { PulseLoader } from "react-spinners";
 const Container = styled.div`
   width: 100vw;
   height: 100vh - 70px;
@@ -236,6 +236,7 @@ const InputPage = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [errorOpen, setErrorOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isPredicting, setIsPredicting] = useState(false);
 
   const hiddenFileInput = useRef(null);
   const { setOutputData } = useContext(OutputDataContext);
@@ -296,6 +297,8 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   };
 
   const handlePredictClick = async () => {
+    setIsPredicting(true);
+
     const parseGeneListInput = (geneListInput) => {
       const geneList = [];
       let currentGene = null;
@@ -368,11 +371,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
       navigate("/results");
       console.log("sevval", data.results);
     } catch (error) {
+      setIsPredicting(false);
       console.error("There was an error with the prediction request:", error);
     }
   };
 
   async function handlePredictClick2() {
+    setIsPredicting(true);
     const aminoacids = ["S", "T", "Y", "H"].filter((acid, index) => {
       return document.querySelectorAll('input[type="checkbox"]')[index].checked;
     });
@@ -422,6 +427,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         navigate("/results");
         console.log(result);
       } catch (error) {
+        setIsPredicting(false);
         console.error("Error predicting sequence from file:", error);
       }
     } else if (proteinSequenceInputText) {
@@ -465,9 +471,11 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         navigate("/results");
         console.log("eb", result);
       } catch (error) {
+        setIsPredicting(false);
         console.error("Error predicting sequence from text:", error);
       }
     } else {
+      setIsPredicting(false);
       alert("Please enter a protein sequence or upload a file.");
     }
   }
@@ -502,8 +510,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 />
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick}>
-                  Predict
+                <PredictButton onClick={handlePredictClick} disabled={isPredicting}>
+                  {isPredicting
+                    ? <PulseLoader
+                      color="hsla(168, 0%, 100%, 1)"
+                      size={8}
+                    />
+                    : "Predict"}
                 </PredictButton>
               </Row>
             </Col>

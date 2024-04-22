@@ -225,6 +225,7 @@ const ErrorMessageDiv = styled.div`
   padding: 16px;
   margin-top: 3vh;
   position: absolute;
+  font-family: "Roboto";
 `
 
 const InputPage = () => {

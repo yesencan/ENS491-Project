@@ -346,15 +346,18 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
             break;
 
           case "invalid-aa-seq":
-            setErrorMessage("Invalid aminoacid sequence.")
+            setErrorMessage("Invalid amino acid sequence.")
             setErrorOpen(true)
             break;
 
           case "incorrect_format":
-            setErrorMessage("Input data is in incorrect format.")
+            setErrorMessage("Input data is in incorrect format or there is no site with selected amino acid(s).")
             setErrorOpen(true)
             break;
+
           default:
+            setErrorMessage("Some error occurred. Please try again.")
+            setErrorOpen(true)
             break;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -397,16 +400,19 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         if (!response.ok) {
           const error = result['error']
           switch (error) {
-            case "invalid-aa-seq":
+            case "invalid_aa_seq":
               setErrorMessage("Invalid aminoacid sequence.")
               setErrorOpen(true)
               break;
 
             case "incorrect_format":
-              setErrorMessage("Input data is in incorrect format.")
+              setErrorMessage("Input data is in incorrect format or there is no site with selected amino acid(s).")
               setErrorOpen(true)
               break;
+
             default:
+              setErrorMessage("Some error occurred. Please try again.")
+              setErrorOpen(true)
               break;
           }
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -438,16 +444,19 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         if (!response.ok) {
           const error = result['error']
           switch (error) {
-            case "invalid-aa-seq":
+            case "invalid_aa_seq":
               setErrorMessage("Invalid aminoacid sequence.")
               setErrorOpen(true)
               break;
 
             case "incorrect_format":
-              setErrorMessage("Input data is in incorrect format.")
+              setErrorMessage("Input data is in incorrect format or there is no site with selected amino acid(s).")
               setErrorOpen(true)
               break;
+
             default:
+              setErrorMessage("Some error occurred. Please try again.")
+              setErrorOpen(true)
               break;
           }
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -12,15 +12,17 @@ def fetch_gene_sequence(gene):
     res = requests.get(f'https://rest.uniprot.org/uniprotkb/{gene}.fasta')
     
     records = parse_fasta(res.text) 
-    
+    error = 0 if len(records) > 0 else 1
+
     sequence = ''
     for record in records:
         sequence = record.seq
         break
     
-    return str(sequence)
+    return str(sequence), error
 
 def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'])):
+    aminoacids = aminoacids if len(aminoacids) > 0 else set(['S', 'T', 'Y', 'H'])    
     if positions == []:
         result = []
         for i, residue in enumerate(sequence):
@@ -35,11 +37,14 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                     peptide = pad_peptide(peptide, 'end')
 
                 result.append([i + 1, peptide])
-        return result
+        return result, []
     
     else:
         result = []
+
+        invalid_positions = [p for p in positions if p > len(sequence) or p < 0]
         positions = [p - 1 for p in positions if 0 < p <= len(sequence)]
+
         for position in positions:
             residue = sequence[position]
             if residue in aminoacids:
@@ -53,7 +58,9 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                     peptide = pad_peptide(peptide, 'end')
 
                 result.append([position + 1, peptide])
-        return result
+            else:
+                invalid_positions.append(position)
+        return result, invalid_positions
 
 def pad_peptide(peptide, pad_direction):
     padding = '_' * (15 - len(peptide))

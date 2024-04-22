@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
-import OutputData from "../data/output.json";
 import OutputDataContext from "../contexts/OutputDataContext";
 const FadeInAnimation = keyframes`
   from {
@@ -193,8 +192,8 @@ const Probability = styled.div`
     props.probability > 0.8
       ? "green"
       : props.probability > 0.5
-      ? "orange"
-      : "red"};
+        ? "orange"
+        : "red"};
   font-size: 14px;
   font-weight: 700;
   box-sizing: border-box;
@@ -205,7 +204,7 @@ const Output = () => {
   const { outputData } = useContext(OutputDataContext);
   const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
   const [searchClicked, setSearchClicked] = useState("");
-  const [filteredList, setFilteredList] = useState(OutputData);
+  const [filteredList, setFilteredList] = useState(outputData);
   const [sortOrder, setSortOrder] = useState({
     sortBy: "",
     ascending: true,
@@ -498,7 +497,7 @@ const Output = () => {
         </LabelContainer>
       </Table>
       <ResultsContainer>
-        {filteredList.results
+        {filteredList
           .sort((a, b) => {
             if (sortOrder.sortBy === "probability") {
               return sortOrder.ascending

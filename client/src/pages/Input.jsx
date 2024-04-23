@@ -221,9 +221,9 @@ const ErrorMessageDiv = styled.div`
   border-radius: 5px;
   border-left: 5px solid red;
   color: red;
-  background-color: #ffb3b3;
+  background-color: #f7d5d5;
   padding: 16px;
-  margin-top: 3vh;
+  margin-top: 2.5vh;
   position: absolute;
   font-family: "Roboto";
 `

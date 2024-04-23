@@ -53,7 +53,11 @@ const Logo = styled.div`
 const Navbar = () => {
   return (
     <Container>
-      <Logo>DeepKinZero</Logo>
+      <Logo>
+        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+          DeepKinZero
+        </Link>
+      </Logo>
       <ButtonContainer>
         <Link to="/about" style={{ textDecoration: "none", color: "black" }}>
           <Button>About</Button>

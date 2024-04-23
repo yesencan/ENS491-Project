@@ -347,9 +347,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         const error = data['error']
         switch (error) {
           case "invalid_id_pos":
-            enableErrorMessage("Invalid UniProt ID or positions. Please check input data.")
-            break;
+            if (data["invalid_ids"].length > 2) {
+              enableErrorMessage("Invalid UniProt ID or positions. Please check: " + data['invalid_ids'].slice(0, 3) + "...");
+            } else {
+              enableErrorMessage("Invalid UniProt ID or positions. Please check: " + data['invalid_ids']);
+            }
 
+            break;
           case "empty-test-data":
             enableErrorMessage("Input data is empty.")
             break;

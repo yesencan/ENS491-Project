@@ -122,6 +122,8 @@ const ResultsContainer = styled.div`
   grid-row: 4 / end;
   overflow-y: auto;
   position: relative;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -179,8 +181,8 @@ const Probability = styled.div`
     props.probability > 0.8
       ? "green"
       : props.probability > 0.5
-        ? "orange"
-        : "red"};
+      ? "orange"
+      : "red"};
   font-size: 14px;
   font-weight: 700;
   box-sizing: border-box;
@@ -253,7 +255,7 @@ const Output = () => {
         if (text === "") {
           filteredList.push(item);
         } else if (
-          item.position.toString().toLowerCase().includes(text.toLowerCase())
+          item.position.toString().toLowerCase().startsWith(text.toLowerCase())
         ) {
           filteredList.push(item);
         }
@@ -334,9 +336,9 @@ const Output = () => {
               onClick={() => handleSort("geneID")}
             >
               {sortOrder.ascending && sortOrder.sortBy === "geneID" ? (
-                <i class="bi bi-sort-alpha-down"></i>
-              ) : (
                 <i class="bi bi-sort-alpha-up"></i>
+              ) : (
+                <i class="bi bi-sort-alpha-down"></i>
               )}
             </Tag>
             <SearchContainer>
@@ -355,7 +357,7 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label> Gene ID </Label>
+          <Label>ID</Label>
         </LabelContainer>
         <LabelContainer id={1}>
           <OptionsContainer>
@@ -365,9 +367,9 @@ const Output = () => {
               onClick={() => handleSort("position")}
             >
               {sortOrder.ascending && sortOrder.sortBy === "position" ? (
-                <i class="bi bi-sort-down"></i>
-              ) : (
                 <i class="bi bi-sort-up"></i>
+              ) : (
+                <i class="bi bi-sort-down"></i>
               )}
             </Tag>
             <SearchContainer>
@@ -405,7 +407,7 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label> Phosphate (+-7) </Label>
+          <Label> Phosphosite (+-7) </Label>
         </LabelContainer>
 
         <LabelContainer id={3}>
@@ -415,9 +417,9 @@ const Output = () => {
               onClick={() => handleSort("probableKinase")}
             >
               {sortOrder.ascending && sortOrder.sortBy === "probableKinase" ? (
-                <i class="bi bi-sort-alpha-down"></i>
-              ) : (
                 <i class="bi bi-sort-alpha-up"></i>
+              ) : (
+                <i class="bi bi-sort-alpha-down"></i>
               )}
             </Tag>
             <SearchContainer>
@@ -445,9 +447,9 @@ const Output = () => {
               onClick={() => handleSort("kinaseFamily")}
             >
               {sortOrder.ascending && sortOrder.sortBy === "kinaseFamily" ? (
-                <i class="bi bi-sort-alpha-down"></i>
-              ) : (
                 <i class="bi bi-sort-alpha-up"></i>
+              ) : (
+                <i class="bi bi-sort-alpha-down"></i>
               )}
             </Tag>
             <SearchContainer>
@@ -475,9 +477,9 @@ const Output = () => {
               onClick={() => handleSort("probability")}
             >
               {sortOrder.ascending && sortOrder.sortBy === "probability" ? (
-                <i class="bi bi-sort-down"></i>
-              ) : (
                 <i class="bi bi-sort-up"></i>
+              ) : (
+                <i class="bi bi-sort-down"></i>
               )}
             </Tag>
             <SearchContainer>
@@ -546,7 +548,8 @@ const Output = () => {
               <Data>{item.probKinase}</Data>
               <Data>{item.kinaseFamily}</Data>
               <Probability probability={parseFloat(item.probability)}>
-                {item.probability} <span style={{ fontSize: "24px" }}></span>
+                {item.probability.toFixed(3).replace(/\.?0+$/, "")}{" "}
+                <span style={{ fontSize: "24px" }}></span>
               </Probability>
             </Row>
           ))}

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import OutputDataContext from "../contexts/OutputDataContext";
+import CsvDownloadButton from "react-json-to-csv"
+
 const FadeInAnimation = keyframes`
   from {
     transform: translateY(100px);
@@ -28,21 +30,6 @@ const DownloadCSVContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: right;
-`;
-
-const DownloadCSV = styled.button`
-  width: 160px;
-  height: 30px;
-  border: 2px solid orange;
-  color: black;
-  background-color: white;
-  font-size: 14px;
-  transition: 0.2s all;
-  cursor: pointer;
-  &:hover {
-    color: white;
-    background-color: orange;
-  }
 `;
 
 const Table = styled.div`
@@ -200,6 +187,21 @@ const Probability = styled.div`
   padding: 0 20px;
 `;
 
+const StyledCsvDownloadButton = styled(CsvDownloadButton)`
+  width: 160px;
+  height: 30px;
+  border: 2px solid orange;
+  color: black;
+  background-color: white;
+  font-size: 14px;
+  transition: 0.2s all;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: orange;
+  }
+`
+
 const Output = () => {
   const { outputData } = useContext(OutputDataContext);
   const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
@@ -317,9 +319,9 @@ const Output = () => {
   return (
     <Container>
       <DownloadCSVContainer>
-        <DownloadCSV>
+        <StyledCsvDownloadButton data={outputData} filename="deepkinzero-output.csv">
           Download CSV <i class="bi bi-box-arrow-down"></i>
-        </DownloadCSV>
+        </StyledCsvDownloadButton >
       </DownloadCSVContainer>
 
       <Table></Table>

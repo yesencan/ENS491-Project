@@ -7,20 +7,21 @@ import OutputDataContext from "../contexts/OutputDataContext";
 import { PulseLoader } from "react-spinners";
 const Container = styled.div`
   width: 100vw;
-  height: 100vh - 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 70px; // padding to account for the fixed navbar
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  grid-template-rows: 70px 70px 40px calc(33% - 30px) calc(33% - 30px) calc(
+      33% - 30px
+    );
 `;
 
 const TabContainer = styled.div`
-  width: 70%;
-  max-width: 1200px;
+  grid-column: 3 / 7;
+  grid-row: 3 / 4;
+  width: 100%;
+  height: 40px;
   display: flex;
   justify-content: space-between;
-  padding-top: 10vh;
 `;
 
 const Tab = styled.div`
@@ -49,11 +50,11 @@ const Tab = styled.div`
 `;
 
 const ContentArea = styled.div`
+  grid-column: 3 / 7;
+  grid-row: 4 / 6;
   box-sizing: border-box;
   height: fit-content; /* Expand based on content */
-  max-height: 1500px; /* Set a maximum height if needed */
-  width: 70%;
-  max-width: 1200px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,6 +100,7 @@ const InputTextArea = styled.textarea`
   font-size: 16px;
   resize: none;
   outline: none;
+  box-sizing: border-box;
   &::placeholder {
     color: lightgray;
   }
@@ -216,7 +218,7 @@ const Row = styled.div`
 `;
 
 const ErrorMessageDiv = styled.div`
-  width:70%;
+  width: 70%;
   box-sizing: border-box;
   border-radius: 5px;
   border-left: 5px solid red;
@@ -226,7 +228,7 @@ const ErrorMessageDiv = styled.div`
   margin-top: 2.5vh;
   position: absolute;
   font-family: "Roboto";
-`
+`;
 
 const InputPage = () => {
   let navigate = useNavigate();
@@ -297,12 +299,12 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   };
 
   const enableErrorMessage = (msg) => {
-    setErrorMessage(msg)
-    setErrorOpen(true)
+    setErrorMessage(msg);
+    setErrorOpen(true);
     setTimeout(() => {
       setErrorOpen(false);
     }, 3500);
-  }
+  };
 
   const handlePredictClick = async () => {
     setIsPredicting(true);
@@ -344,35 +346,43 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
       const data = await response.json();
 
       if (!response.ok) {
-        const error = data['error']
+        const error = data["error"];
         switch (error) {
           case "invalid_id_pos":
             if (data["invalid_ids"].length > 2) {
-              enableErrorMessage("Invalid UniProt ID or positions. Please check: " + data['invalid_ids'].slice(0, 3) + "...");
+              enableErrorMessage(
+                "Invalid UniProt ID or positions. Please check: " +
+                  data["invalid_ids"].slice(0, 3) +
+                  "..."
+              );
             } else {
-              enableErrorMessage("Invalid UniProt ID or positions. Please check: " + data['invalid_ids']);
+              enableErrorMessage(
+                "Invalid UniProt ID or positions. Please check: " +
+                  data["invalid_ids"]
+              );
             }
 
             break;
           case "empty-test-data":
-            enableErrorMessage("Input data is empty.")
+            enableErrorMessage("Input data is empty.");
             break;
 
           case "invalid-aa-seq":
-            enableErrorMessage("Invalid amino acid sequence.")
+            enableErrorMessage("Invalid amino acid sequence.");
             break;
 
           case "incorrect_format":
-            enableErrorMessage("Input data is in incorrect format or there is no site with selected amino acid(s).")
+            enableErrorMessage(
+              "Input data is in incorrect format or there is no site with selected amino acid(s)."
+            );
             break;
 
           default:
-            enableErrorMessage("Some error occurred. Please try again.")
+            enableErrorMessage("Some error occurred. Please try again.");
             break;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
 
       setOutputData(data.results);
       navigate("/results");
@@ -410,18 +420,20 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         const result = await response.json();
 
         if (!response.ok) {
-          const error = result['error']
+          const error = result["error"];
           switch (error) {
             case "invalid_aa_seq":
-              enableErrorMessage("Invalid aminoacid sequence.")
+              enableErrorMessage("Invalid aminoacid sequence.");
               break;
 
             case "incorrect_format":
-              enableErrorMessage("Input data is in incorrect format or there is no site with selected amino acid(s).")
+              enableErrorMessage(
+                "Input data is in incorrect format or there is no site with selected amino acid(s)."
+              );
               break;
 
             default:
-              enableErrorMessage("Some error occurred. Please try again.")
+              enableErrorMessage("Some error occurred. Please try again.");
               break;
           }
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -452,18 +464,20 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         );
         const result = await response.json();
         if (!response.ok) {
-          const error = result['error']
+          const error = result["error"];
           switch (error) {
             case "invalid_aa_seq":
-              enableErrorMessage("Invalid aminoacid sequence.")
+              enableErrorMessage("Invalid aminoacid sequence.");
               break;
 
             case "incorrect_format":
-              enableErrorMessage("Input data is in incorrect format or there is no site with selected amino acid(s).")
+              enableErrorMessage(
+                "Input data is in incorrect format or there is no site with selected amino acid(s)."
+              );
               break;
 
             default:
-              enableErrorMessage("Some error occurred. Please try again.")
+              enableErrorMessage("Some error occurred. Please try again.");
               break;
           }
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -504,20 +518,21 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 <InputLabel>Gene ID List</InputLabel>
                 <InputTextArea
                   autoFocus
-                  style={{ height: "44.5vh" }}
                   placeholder={geneIDPlaceholderText}
                   value={geneIDInputText}
                   onChange={(e) => setGeneIdInputText(e.target.value)}
                 />
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick} disabled={isPredicting}>
-                  {isPredicting
-                    ? <PulseLoader
-                      color="hsla(168, 0%, 100%, 1)"
-                      size={8}
-                    />
-                    : "Predict"}
+                <PredictButton
+                  onClick={handlePredictClick}
+                  disabled={isPredicting}
+                >
+                  {isPredicting ? (
+                    <PulseLoader color="hsla(168, 0%, 100%, 1)" size={8} />
+                  ) : (
+                    "Predict"
+                  )}
                 </PredictButton>
               </Row>
             </Col>
@@ -584,13 +599,15 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </CheckboxContainer>
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick2} disabled={isPredicting}>
-                  {isPredicting
-                    ? <PulseLoader
-                      color="hsla(168, 0%, 100%, 1)"
-                      size={8}
-                    />
-                    : "Predict"}
+                <PredictButton
+                  onClick={handlePredictClick2}
+                  disabled={isPredicting}
+                >
+                  {isPredicting ? (
+                    <PulseLoader color="hsla(168, 0%, 100%, 1)" size={8} />
+                  ) : (
+                    "Predict"
+                  )}
                 </PredictButton>
               </Row>
             </Col>

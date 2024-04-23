@@ -69,11 +69,12 @@ const InputLabel = styled.div`
   font-family: "Poppins";
   font-size: 14px;
   color: black;
-  width: 10%;
+  width: 15%;
   height: 100%;
   text-align: end;
   margin-right: 10px;
   overflow-wrap: break-word;
+  z-index: 99;
 `;
 
 const LoadSampleLink = styled.a`
@@ -89,7 +90,7 @@ const LoadSampleLink = styled.a`
 `;
 
 const InputTextArea = styled.textarea`
-  width: 90%;
+  width: 85%;
   height: 70%;
   min-height: 200px;
   margin-bottom: 10px;
@@ -113,7 +114,7 @@ const SeparatorText = styled.div`
 `;
 
 const LabelCentered = styled.div`
-  width: 10%;
+  width: 15%;
   font-family: "Poppins";
   display: flex;
   justify-content: end;
@@ -124,7 +125,7 @@ const LabelCentered = styled.div`
 `;
 
 const CheckboxContainer = styled.div`
-  width: 90%;
+  width: 85%;
   padding: 10px;
   display: flex;
   justify-content: space-evenly;
@@ -167,7 +168,7 @@ const PredictButton = styled.button`
 `;
 
 const FileUploadContainer = styled.div`
-  width: 90%;
+  width: 85%;
   height: 70px;
   border: 1px solid lightblue; /* Add border style here */
   border-radius: 5px;
@@ -218,15 +219,18 @@ const Row = styled.div`
 `;
 
 const ErrorMessageDiv = styled.div`
-  width: 70%;
+  grid-column: 3 / 7;
+  grid-row: 2 / 3;
+  width: 100%;
+  margin: 5px 0;
   box-sizing: border-box;
   border-radius: 5px;
   border-left: 5px solid red;
   color: red;
   background-color: #f7d5d5;
-  padding: 16px;
-  margin-top: 2.5vh;
-  position: absolute;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
   font-family: "Roboto";
 `;
 
@@ -352,13 +356,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
             if (data["invalid_ids"].length > 2) {
               enableErrorMessage(
                 "Invalid UniProt ID or positions. Please check: " +
-                data["invalid_ids"].slice(0, 3) +
-                "..."
+                  data["invalid_ids"].slice(0, 3) +
+                  "..."
               );
             } else {
               enableErrorMessage(
                 "Invalid UniProt ID or positions. Please check: " +
-                data["invalid_ids"]
+                  data["invalid_ids"]
               );
             }
 

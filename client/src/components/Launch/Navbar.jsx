@@ -55,7 +55,7 @@ const Navbar = () => {
     <Container>
       <Logo>DeepKinZero</Logo>
       <ButtonContainer>
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/about" style={{ textDecoration: "none", color: "black" }}>
           <Button>About</Button>
         </Link>
         {/* <Button>Page Link 3</Button>

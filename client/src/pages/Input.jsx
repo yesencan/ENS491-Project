@@ -583,8 +583,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </CheckboxContainer>
               </Row>
               <Row>
-                <PredictButton onClick={handlePredictClick2}>
-                  Predict
+                <PredictButton onClick={handlePredictClick2} disabled={isPredicting}>
+                  {isPredicting
+                    ? <PulseLoader
+                      color="hsla(168, 0%, 100%, 1)"
+                      size={8}
+                    />
+                    : "Predict"}
                 </PredictButton>
               </Row>
             </Col>

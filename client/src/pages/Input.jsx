@@ -242,11 +242,11 @@ const InputPage = () => {
 
   const hiddenFileInput = useRef(null);
   const { setOutputData } = useContext(OutputDataContext);
-  const geneIDPlaceholderText = `P05198 52 105 267
-P83268 51
+  const geneIDPlaceholderText = `P05198 5 86 91
+P83268 48
 P05198
-P22455 754
-P24928 1616 1619`;
+P22455 67
+P24928 79 103`;
 
   const proteinSequencePlaceholderText = `>TP53
 MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYQGSYGFRLGFLHSGTAKSVTCTYSPALNKMFCQLAKTCPVQLWVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHER
@@ -352,13 +352,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
             if (data["invalid_ids"].length > 2) {
               enableErrorMessage(
                 "Invalid UniProt ID or positions. Please check: " +
-                  data["invalid_ids"].slice(0, 3) +
-                  "..."
+                data["invalid_ids"].slice(0, 3) +
+                "..."
               );
             } else {
               enableErrorMessage(
                 "Invalid UniProt ID or positions. Please check: " +
-                  data["invalid_ids"]
+                data["invalid_ids"]
               );
             }
 

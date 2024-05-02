@@ -295,7 +295,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         setUploadedFile(fileUploaded);
       } else {
         // Invalid file extension, show an error message or take appropriate action
-        alert("Invalid file extension. Please select a .fasta file.");
+        enableErrorMessage("Invalid file extension. Please select a .fasta file.");
         // Optionally, reset the file input to clear the selected file
         event.target.value = null;
       }
@@ -516,7 +516,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
       }
     } else {
       setIsPredicting(false);
-      alert("Please enter a protein sequence or upload a file.");
+      enableErrorMessage("Please enter a protein sequence or upload a file.");
     }
   }
   return (

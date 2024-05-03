@@ -357,13 +357,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               if (data["invalid_ids"].length > 2) {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_ids"].slice(0, 3) +
-                    "..."
+                  data["invalid_ids"].slice(0, 3) +
+                  "..."
                 );
               } else {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_ids"]
+                  data["invalid_ids"]
                 );
               }
             }
@@ -371,21 +371,21 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               if (data["invalid_positions"].length > 2) {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_positions"].slice(0, 3).map(function(entry) {
-                      return entry.id + " (" + entry.invalid_positions + ") ";
+                  data["invalid_positions"].slice(0, 3).map(function (entry) {
+                    return entry.id + " (" + entry.invalid_positions + ") ";
                   }).join(", ") +
-                    "..."
+                  "..."
                 );
               } else {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_positions"].map(function(entry) {
-                      return entry.id + " (" + entry.invalid_positions + ") ";
+                  data["invalid_positions"].map(function (entry) {
+                    return entry.id + " (" + entry.invalid_positions + ") ";
                   }).join(", ")
                 );
               }
             }
-              
+
 
             break;
           case "empty-test-data":
@@ -540,7 +540,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </LoadSampleLink>
               </Row>
               <Row>
-                <InputLabel>Gene ID List</InputLabel>
+                <InputLabel>UniProt ID List</InputLabel>
                 <InputTextArea
                   autoFocus
                   placeholder={geneIDPlaceholderText}
@@ -603,7 +603,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </FileUploadContainer>
               </Row>
               <Row>
-                <LabelCentered>Select Amino Acids</LabelCentered>
+                <LabelCentered>Scan For:</LabelCentered>
                 <CheckboxContainer>
                   <CheckboxWrapper>
                     <CheckboxLabel>Serine</CheckboxLabel>

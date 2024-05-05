@@ -313,7 +313,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         setUploadedFile(fileUploaded);
       } else {
         // Invalid file extension, show an error message or take appropriate action
-        alert("Invalid file extension. Please select a .fasta file.");
+        enableErrorMessage("Invalid file extension. Please select a .fasta file.");
         // Optionally, reset the file input to clear the selected file
         event.target.value = null;
       }
@@ -371,18 +371,39 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         const error = data["error"];
         switch (error) {
           case "invalid_id_pos":
-            if (data["invalid_ids"].length > 2) {
-              enableErrorMessage(
-                "Invalid UniProt ID or positions. Please check: " +
-                data["invalid_ids"].slice(0, 3) +
-                "..."
-              );
-            } else {
-              enableErrorMessage(
-                "Invalid UniProt ID or positions. Please check: " +
-                data["invalid_ids"]
-              );
+            if (data["invalid_ids"].length > 0) {
+              if (data["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Invalid UniProt ID or positions. Please check: " +
+                  data["invalid_ids"].slice(0, 3) +
+                  "..."
+                );
+              } else {
+                enableErrorMessage(
+                  "Invalid UniProt ID or positions. Please check: " +
+                  data["invalid_ids"]
+                );
+              }
             }
+            else if (data["invalid_positions"].length > 0) {
+              if (data["invalid_positions"].length > 2) {
+                enableErrorMessage(
+                  "Invalid UniProt ID or positions. Please check: " +
+                  data["invalid_positions"].slice(0, 3).map(function (entry) {
+                    return entry.id + " (" + entry.invalid_positions + ") ";
+                  }).join(", ") +
+                  "..."
+                );
+              } else {
+                enableErrorMessage(
+                  "Invalid UniProt ID or positions. Please check: " +
+                  data["invalid_positions"].map(function (entry) {
+                    return entry.id + " (" + entry.invalid_positions + ") ";
+                  }).join(", ")
+                );
+              }
+            }
+
 
             break;
           case "empty-test-data":
@@ -513,7 +534,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
       }
     } else {
       setIsPredicting(false);
-      alert("Please enter a protein sequence or upload a file.");
+      enableErrorMessage("Please enter a protein sequence or upload a file.");
     }
   }
   return (
@@ -617,6 +638,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               </Row>
               <Row>
                 <LabelCentered>Scan for:</LabelCentered>
+
                 <CheckboxContainer>
                   <CheckboxWrapper>
                     <CheckboxLabel>Serine</CheckboxLabel>

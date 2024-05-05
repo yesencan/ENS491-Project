@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import OutputDataContext from "../contexts/OutputDataContext";
-import CsvDownloadButton from "react-json-to-csv"
+import CsvDownloadButton from "react-json-to-csv";
 
 const FadeInAnimation = keyframes`
   from {
@@ -21,7 +21,7 @@ const Container = styled.div`
   height: 100vh;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
-  grid-template-rows: 70px 70px 70px calc(100% - 210px);
+  grid-template-rows: 70px 70px 70px 600px calc(100% - 810px);
 `;
 
 const DownloadCSVContainer = styled.div`
@@ -109,7 +109,8 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
   width: ${(props) => (props.isClicked ? "70px" : "0")};
   height: 25px;
-  border: ${(props) => (props.isClicked ? "1px solid black" : "none")};
+  border: ${(props) =>
+    props.isClicked ? "1px solid black" : "1px solid transparent"};
   border-radius: 5px;
   outline: none;
   margin-left: 5px;
@@ -119,7 +120,7 @@ const SearchInput = styled.input`
 
 const ResultsContainer = styled.div`
   grid-column: 2 / 8;
-  grid-row: 4 / end;
+  grid-row: 4 / 5;
   overflow-y: auto;
   position: relative;
   -ms-overflow-style: none;
@@ -131,7 +132,7 @@ const ResultsContainer = styled.div`
 
 const Row = styled.div`
   width: 100%;
-  height: 50px;
+  height: 200px;
   box-sizing: border-box;
   background-color: ${(props) => props.bgColor};
   font-family: "Roboto";
@@ -157,6 +158,35 @@ const Data = styled.div`
   padding: 0 20px;
 `;
 
+const InlineRow = styled.div`
+  width: calc(100% / 6);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: left;
+  color: black;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: "Roboto";
+`;
+
+const InlineData = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  color: black;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: "Roboto";
+  border-right: 0.5px solid lightgray;
+  border-bottom: 0.5px solid lightgray;
+  background-color: ${(props) => props.bgColor};
+  padding: 0 20px;
+`;
+
 const Letter = styled.span`
   width: ${(props) => (props.idx === 7 ? "5px" : "2px")};
   flex: ${(props) => (props.idx === 7 ? "2" : "1")};
@@ -169,24 +199,6 @@ const Letter = styled.span`
   font-family: "Roboto";
   &:hover {
   }
-`;
-
-const Probability = styled.div`
-  width: calc(100% / 6);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  color: ${(props) =>
-    props.probability > 0.8
-      ? "green"
-      : props.probability > 0.5
-      ? "orange"
-      : "red"};
-  font-size: 14px;
-  font-weight: 700;
-  box-sizing: border-box;
-  padding: 0 20px;
 `;
 
 const StyledCsvDownloadButton = styled(CsvDownloadButton)`
@@ -202,17 +214,89 @@ const StyledCsvDownloadButton = styled(CsvDownloadButton)`
     color: white;
     background-color: orange;
   }
-`
+`;
+
+const Pagination = styled.div`
+  grid-column: 2 / 8;
+  grid-row: 5 / end;
+  width: auto;
+  height: 40px;
+  margin: 10px 0 10px 0;
+  box-sizing: border-box;
+  transition: 0.2s all;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow-y: scroll;
+`;
+
+const PaginationButton = styled.button`
+  width: auto;
+  min-width: 30px;
+  height: 30px;
+  margin: ${(props) => (props.type === "Next" ? "5px 0 5px 5px" : "5px")};
+  box-sizing: border-box;
+  border: 2px solid orange;
+  color: black;
+  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  font-size: 14px;
+  transition: 0.2s all;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: orange;
+  }
+`;
 
 const Output = () => {
   const { outputData } = useContext(OutputDataContext);
   const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
   const [searchClicked, setSearchClicked] = useState("");
   const [filteredList, setFilteredList] = useState(outputData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 3;
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = filteredList.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(outputData.length / rowsPerPage);
+
   const [sortOrder, setSortOrder] = useState({
     sortBy: "",
     ascending: true,
   });
+
+  const searchContainerRefs = {
+    GeneID: useRef(null),
+    Position: useRef(null),
+    Phosphate: useRef(null),
+    Kinase: useRef(null),
+    KinaseFamily: useRef(null),
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      let clickedInsideInput = false;
+      Object.values(searchContainerRefs).forEach((ref) => {
+        if (ref.current && ref.current.contains(event.target)) {
+          if (
+            event.target.tagName === "INPUT" &&
+            event.target.type === "text"
+          ) {
+            clickedInsideInput = true;
+          }
+        }
+      });
+
+      if (!clickedInsideInput) {
+        setSearchClicked("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchContainerRefs]);
 
   const handleSort = (sortBy) => {
     if (sortOrder.sortBy === sortBy) {
@@ -280,10 +364,14 @@ const Output = () => {
         console.log(item);
         if (text === "") {
           filteredList.push(item);
-        } else if (
-          item.probKinase.toString().toLowerCase().includes(text.toLowerCase())
-        ) {
-          filteredList.push(item);
+        } else {
+          item.probKinase.forEach((inlineitem) => {
+            if (
+              inlineitem.toString().toLowerCase().includes(text.toLowerCase())
+            ) {
+              filteredList.push(item);
+            }
+          });
         }
       });
       setFilteredList(filteredList);
@@ -293,43 +381,55 @@ const Output = () => {
         console.log(item);
         if (text === "") {
           filteredList.push(item);
-        } else if (
-          item.kinaseFamily
-            .toString()
-            .toLowerCase()
-            .includes(text.toLowerCase())
-        ) {
-          filteredList.push(item);
-        }
-      });
-      setFilteredList(filteredList);
-    }
-    if (type === "Probability") {
-      outputData.forEach((item) => {
-        console.log(item);
-        if (text === "") {
-          filteredList.push(item);
-        } else if (
-          item.probability.toString().toLowerCase().includes(text.toLowerCase())
-        ) {
-          filteredList.push(item);
+        } else {
+          item.kinaseFamily.forEach((inlineitem) => {
+            if (
+              inlineitem.toString().toLowerCase().includes(text.toLowerCase())
+            ) {
+              filteredList.push(item);
+            }
+          });
         }
       });
       setFilteredList(filteredList);
     }
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <Container>
       <DownloadCSVContainer>
-        <StyledCsvDownloadButton data={outputData} filename="deepkinzero-output.csv">
+        <StyledCsvDownloadButton
+          data={outputData}
+          filename="deepkinzero-output.csv"
+        >
           Download CSV <i class="bi bi-box-arrow-down"></i>
-        </StyledCsvDownloadButton >
+        </StyledCsvDownloadButton>
       </DownloadCSVContainer>
 
       <Table></Table>
       <Table>
         <LabelContainer id={0}>
-          <OptionsContainer>
+          <Label>ID</Label>
+          <OptionsContainer ref={searchContainerRefs.GeneID}>
             {" "}
             <Tag
               isClicked={sortOrder.sortBy === "geneID"}
@@ -357,10 +457,10 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label>ID</Label>
         </LabelContainer>
         <LabelContainer id={1}>
-          <OptionsContainer>
+          <Label> Position </Label>
+          <OptionsContainer ref={searchContainerRefs.Position}>
             {" "}
             <Tag
               isClicked={sortOrder.sortBy === "position"}
@@ -387,10 +487,10 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label> Position </Label>
         </LabelContainer>
         <LabelContainer id={2}>
-          <OptionsContainer>
+          <Label> Phosphosite (+-7) </Label>
+          <OptionsContainer ref={searchContainerRefs.Phosphate}>
             {" "}
             <SearchContainer>
               <Tag
@@ -407,21 +507,11 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label> Phosphosite (+-7) </Label>
         </LabelContainer>
 
         <LabelContainer id={3}>
-          <OptionsContainer>
-            <Tag
-              isClicked={sortOrder.sortBy === "probableKinase"}
-              onClick={() => handleSort("probableKinase")}
-            >
-              {sortOrder.ascending && sortOrder.sortBy === "probableKinase" ? (
-                <i class="bi bi-sort-alpha-up"></i>
-              ) : (
-                <i class="bi bi-sort-alpha-down"></i>
-              )}
-            </Tag>
+          <Label> Probable Kinase </Label>
+          <OptionsContainer ref={searchContainerRefs.Kinase}>
             <SearchContainer>
               <Tag
                 style={{ fontSize: "16px", margin: 0, padding: 0 }}
@@ -437,21 +527,11 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label> Probable Kinase </Label>
         </LabelContainer>
         <LabelContainer id={4}>
-          <OptionsContainer>
+          <Label> Kinase Family </Label>
+          <OptionsContainer ref={searchContainerRefs.KinaseFamily}>
             {" "}
-            <Tag
-              isClicked={sortOrder.sortBy === "kinaseFamily"}
-              onClick={() => handleSort("kinaseFamily")}
-            >
-              {sortOrder.ascending && sortOrder.sortBy === "kinaseFamily" ? (
-                <i class="bi bi-sort-alpha-up"></i>
-              ) : (
-                <i class="bi bi-sort-alpha-down"></i>
-              )}
-            </Tag>
             <SearchContainer>
               <Tag
                 style={{ fontSize: "16px", margin: 0, padding: 0 }}
@@ -467,47 +547,18 @@ const Output = () => {
               />
             </SearchContainer>
           </OptionsContainer>
-          <Label> Kinase Family </Label>
         </LabelContainer>
         <LabelContainer id={5}>
+          <Label> Probability </Label>
           <OptionsContainer>
             {" "}
-            <Tag
-              isClicked={sortOrder.sortBy === "probability"}
-              onClick={() => handleSort("probability")}
-            >
-              {sortOrder.ascending && sortOrder.sortBy === "probability" ? (
-                <i class="bi bi-sort-up"></i>
-              ) : (
-                <i class="bi bi-sort-down"></i>
-              )}
-            </Tag>
-            <SearchContainer>
-              <Tag
-                style={{ fontSize: "16px", margin: 0, padding: 0 }}
-                onClick={() => handleSearchClick("Probability")}
-              >
-                <i class="bi bi-search"></i>
-              </Tag>
-              <SearchInput
-                placeholder="Search..."
-                isClicked={searchClicked === "Probability"}
-                type="text"
-                onChange={(e) => handleSearch(e, "Probability")}
-              />
-            </SearchContainer>
+            <Tag></Tag>
           </OptionsContainer>
-          <Label> Probability </Label>
         </LabelContainer>
       </Table>
       <ResultsContainer>
-        {filteredList
+        {currentRows
           .sort((a, b) => {
-            if (sortOrder.sortBy === "probability") {
-              return sortOrder.ascending
-                ? parseFloat(a.probability) - parseFloat(b.probability)
-                : parseFloat(b.probability) - parseFloat(a.probability);
-            }
             if (sortOrder.sortBy === "position") {
               return sortOrder.ascending
                 ? parseFloat(a.position) - parseFloat(b.position)
@@ -518,16 +569,7 @@ const Output = () => {
                 ? a.geneId.localeCompare(b.geneId)
                 : b.geneId.localeCompare(a.geneId);
             }
-            if (sortOrder.sortBy === "probableKinase") {
-              return sortOrder.ascending
-                ? a.probKinase.localeCompare(b.probKinase)
-                : b.probKinase.localeCompare(a.probKinase);
-            }
-            if (sortOrder.sortBy === "kinaseFamily") {
-              return sortOrder.ascending
-                ? a.kinaseFamily.localeCompare(b.kinaseFamily)
-                : b.kinaseFamily.localeCompare(a.kinaseFamily);
-            }
+
             return 0;
           })
           .map((item, idx) => (
@@ -545,15 +587,62 @@ const Output = () => {
                   </Letter>
                 ))}
               </Data>
-              <Data>{item.probKinase}</Data>
-              <Data>{item.kinaseFamily}</Data>
-              <Probability probability={parseFloat(item.probability)}>
-                {item.probability.toFixed(3).replace(/\.?0+$/, "")}{" "}
-                <span style={{ fontSize: "24px" }}></span>
-              </Probability>
+              <InlineRow>
+                {" "}
+                {item.probKinase.map((probKinase) => {
+                  return <InlineData>{probKinase}</InlineData>;
+                })}
+              </InlineRow>
+              <InlineRow>
+                {" "}
+                {item.kinaseFamily.map((kinaseFamily) => {
+                  return <InlineData>{kinaseFamily}</InlineData>;
+                })}
+              </InlineRow>
+
+              <InlineRow>
+                {" "}
+                {item.probability.map((probability) => {
+                  return (
+                    <InlineData>
+                      {probability.toFixed(3).replace(/\.?0+$/, "")}
+                    </InlineData>
+                  );
+                })}
+              </InlineRow>
             </Row>
           ))}
       </ResultsContainer>
+      <Pagination>
+        <PaginationButton
+          onClick={handlePrevClick}
+          disabled={currentPage === 2}
+          type={"Previous"}
+          style={{ display: currentPage === 1 ? "none" : "block" }}
+        >
+          Previous
+        </PaginationButton>
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+          (page) => (
+            <PaginationButton
+              key={page}
+              onClick={() => handlePageClick(page)}
+              disabled={currentPage === page}
+              type={"Number"}
+            >
+              {page}
+            </PaginationButton>
+          )
+        )}
+        <PaginationButton
+          onClick={handleNextClick}
+          disabled={currentPage === totalPages}
+          type={"Next"}
+          style={{ display: currentPage === totalPages ? "none" : "block" }}
+        >
+          Next
+        </PaginationButton>
+      </Pagination>
     </Container>
   );
 };

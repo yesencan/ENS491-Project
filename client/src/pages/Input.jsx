@@ -5,6 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import OutputDataContext from "../contexts/OutputDataContext";
 import { PulseLoader } from "react-spinners";
+import Popup from 'reactjs-popup';
+
+const Tooltip = styled.div`
+  background: rgba(135, 135, 135, 0.9);
+  width: 15vw;
+  padding: 8px;
+  border-radius: 5px;
+  font-family: "Poppins";
+  color: white;
+  font-size: 14px;
+`
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -257,6 +268,13 @@ MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAP
 >CTNNB1
 MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVADIDGQYAMTRAQRVRAAMFPETLDEGMQIPSTQFDAAHPTNVQRLAEPSQMLKHAVVNLINYQDDAELATRAIPELTKLLNDEDQVVVNKAAVMVHQLSKK`;
 
+  const idListTooltipText = `List of UniProt ID's to run prediction on,
+   with each ID on a new line. Optionally specify a list 
+   of positions to limit prediction.
+    Click "Load Sample" to see an example input.`;
+
+  const proteinSeqTooltipText = `List of protein sequences to run prediction on, in FASTA format. 
+  Click "Load Sample" to see an example input.`
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
@@ -540,7 +558,15 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </LoadSampleLink>
               </Row>
               <Row>
-                <InputLabel>UniProt ID List</InputLabel>
+                <Popup
+                  trigger={() => (
+                    <InputLabel>Gene ID List</InputLabel>
+                  )}
+                  position="top"
+                  on={['hover', 'focus']}
+                  closeOnDocumentClick >
+                  <Tooltip> {idListTooltipText} </Tooltip>
+                </Popup>
                 <InputTextArea
                   autoFocus
                   placeholder={geneIDPlaceholderText}
@@ -572,7 +598,15 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </LoadSampleLink>
               </Row>
               <Row>
-                <InputLabel>Protein Sequence</InputLabel>
+                <Popup
+                  trigger={() => (
+                    <InputLabel>Protein Sequence(s)</InputLabel>
+                  )}
+                  position="top"
+                  on={['hover', 'focus']}
+                  closeOnDocumentClick >
+                  <Tooltip> {proteinSeqTooltipText} </Tooltip>
+                </Popup>
                 <InputTextArea
                   autoFocus
                   placeholder={proteinSequencePlaceholderText}
@@ -603,7 +637,8 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 </FileUploadContainer>
               </Row>
               <Row>
-                <LabelCentered>Scan For:</LabelCentered>
+                <LabelCentered>Scan for:</LabelCentered>
+
                 <CheckboxContainer>
                   <CheckboxWrapper>
                     <CheckboxLabel>Serine</CheckboxLabel>

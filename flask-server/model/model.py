@@ -22,16 +22,16 @@ def run(test_data_path):
 
         kinase_info_dict = results.kinase_info_dict
         
-        for i in range(5):
-            result_data.append({
-                'geneId': test_ids[idx],
-                'position': int(test_positions[idx]),
-                'proteinSeq': test_sites[idx],
-                'probKinase': max_5_kinase[i],
-                'probability': max_5_prob[i].item(),
-                'kinaseFamily': kinase_info_dict[max_5_kinase[i]]['family'],
-                'kinaseGroup': kinase_info_dict[max_5_kinase[i]]['group']
-                }
-            )
+        
+        result_data.append({
+            'geneId': test_ids[idx],
+            'position': int(test_positions[idx]),
+            'proteinSeq': test_sites[idx],
+            'probKinase': max_5_kinase,
+            'probability': [max_5_prob[i].item() for i in range(5)],
+            'kinaseFamily': [kinase_info_dict[max_5_kinase[i]]['family'] for i in range(5)],
+            'kinaseGroup': [kinase_info_dict[max_5_kinase[i]]['group'] for i in range(5)]
+            }
+        )
 
     return result_data

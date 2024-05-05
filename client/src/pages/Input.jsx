@@ -331,29 +331,24 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   const handlePredictClick = async () => {
     setIsPredicting(true);
 
-    const parseGeneListInput = (geneListInput) => {
-      const geneList = [];
-      let currentGene = null;
-
-      geneListInput.forEach((item) => {
-        if (/^P\d+$/.test(item)) {
-          currentGene = { gene: item, positions: [] };
-          geneList.push(currentGene);
-        } else if (/^\d+$/.test(item) && currentGene !== null) {
-          // position, add to the current gene
-          currentGene.positions.push(parseInt(item));
-        }
-      });
-
-      return geneList;
-    };
-
     // Assuming geneIDInputText is a string with genes and positions
-    const geneListInput = geneIDInputText.trim().split(/\s+/);
-    console.log(geneListInput);
-    const geneList = parseGeneListInput(geneListInput);
-    console.log(geneList);
+    const geneListLines = geneIDInputText.trim().split(/\n+/);
+    const geneList = []
+    geneListLines.forEach(line => {
+      // Split the line by spaces to separate ID from positions
+      const parts = line.split(/\s+/);
 
+      // Extract ID and positions
+      const id = parts[0];
+      const positions = parts.slice(1).filter(pos => /^\d+$/.test(pos)).map(pos => parseInt(pos));
+
+      // Create an object with ID and positions
+      const obj = { "gene": id, "positions": positions };
+
+      // Push the object into the resulting array
+      geneList.push(obj);
+    });
+    console.log(geneList)
     const apiEndpoint = "http://127.0.0.1:5000/api/predict/gene-id";
 
     try {

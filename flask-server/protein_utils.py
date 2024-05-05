@@ -30,6 +30,10 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                 start = max(0, i - 7)
                 end = i + 7
                 peptide = sequence[start:end + 1]
+
+                if len(peptide) < 7:
+                    continue
+
                 peptide = pad_peptide(peptide, i - start)
 
                 result.append([i + 1, peptide])
@@ -47,6 +51,10 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                 start = max(0, position - 7)
                 end = position + 7
                 peptide = sequence[start:end + 1]
+                
+                if len(peptide) < 7:
+                    continue
+
                 peptide = pad_peptide(peptide, 'start', i - start)
 
                 result.append([position + 1, peptide])

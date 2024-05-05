@@ -30,11 +30,7 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                 start = max(0, i - 7)
                 end = i + 7
                 peptide = sequence[start:end + 1]
-
-                if i < 7:
-                    peptide = pad_peptide(peptide, 'start')
-                elif i > len(sequence) - 8:
-                    peptide = pad_peptide(peptide, 'end')
+                peptide = pad_peptide(peptide, i - start)
 
                 result.append([i + 1, peptide])
         return result, []
@@ -51,20 +47,16 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                 start = max(0, position - 7)
                 end = position + 7
                 peptide = sequence[start:end + 1]
-
-                if position < 7:
-                    peptide = pad_peptide(peptide, 'start')
-                elif position > len(sequence) - 8:
-                    peptide = pad_peptide(peptide, 'end')
+                peptide = pad_peptide(peptide, 'start', i - start)
 
                 result.append([position + 1, peptide])
             else:
                 invalid_positions.append(position)
         return result, invalid_positions
 
-def pad_peptide(peptide, pad_direction):
-    padding = '_' * (15 - len(peptide))
-    peptide = peptide + padding if pad_direction == 'end' else padding + peptide
+def pad_peptide(peptide, pad_position):
+    peptide = '_' * (7 - pad_position) + peptide
+    peptide = peptide + '_' * (15 - len(peptide))
     return peptide
     
 def get_uniprot_id(s):

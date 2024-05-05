@@ -3,6 +3,7 @@ import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import OutputDataContext from "../contexts/OutputDataContext";
 import CsvDownloadButton from "react-json-to-csv"
+import { Link } from "react-router-dom";
 
 const FadeInAnimation = keyframes`
   from {
@@ -181,8 +182,8 @@ const Probability = styled.div`
     props.probability > 0.8
       ? "green"
       : props.probability > 0.5
-      ? "orange"
-      : "red"};
+        ? "orange"
+        : "red"};
   font-size: 14px;
   font-weight: 700;
   box-sizing: border-box;
@@ -213,6 +214,9 @@ const Output = () => {
     sortBy: "",
     ascending: true,
   });
+
+  const uniprotIdRegexPattern = "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}";
+  const uniprotIdRegex = new RegExp(uniprotIdRegexPattern);
 
   const handleSort = (sortBy) => {
     if (sortOrder.sortBy === sortBy) {
@@ -536,7 +540,11 @@ const Output = () => {
               idx={idx}
               bgColor={idx % 2 === 0 ? "#ffa60045" : "#ffa60026"}
             >
-              <Data>{item.geneId}</Data>
+              <Data>
+                {uniprotIdRegex.test(item.geneId)
+                  ? <Link to={`https://www.uniprot.org/uniprotkb/${item.geneId}/entry`} target="_blank">{item.geneId}</Link>
+                  : item.geneId}
+              </Data>
               <Data>{item.position}</Data>
               <Data>
                 {item.proteinSeq.split("").map((letter, idx) => (
@@ -545,7 +553,11 @@ const Output = () => {
                   </Letter>
                 ))}
               </Data>
-              <Data>{item.probKinase}</Data>
+              <Data>
+                <Link to={`https://www.uniprot.org/uniprotkb/${item.probKinase}/entry`} target="_blank">
+                  {item.probKinase}
+                </Link>
+              </Data>
               <Data>{item.kinaseFamily}</Data>
               <Probability probability={parseFloat(item.probability)}>
                 {item.probability.toFixed(3).replace(/\.?0+$/, "")}{" "}

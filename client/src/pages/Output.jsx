@@ -258,7 +258,7 @@ const Output = () => {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredList.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(outputData.length / rowsPerPage);
+  const totalPages = Math.ceil(filteredList.length / rowsPerPage);
 
   const [sortOrder, setSortOrder] = useState({
     sortBy: "",
@@ -332,6 +332,7 @@ const Output = () => {
         }
       });
       setFilteredList(filteredList);
+      setCurrentPage(1);
     }
     if (type === "Position") {
       outputData.forEach((item) => {
@@ -345,6 +346,7 @@ const Output = () => {
         }
       });
       setFilteredList(filteredList);
+      setCurrentPage(1);
     }
     if (type === "Phosphate") {
       outputData.forEach((item) => {
@@ -358,6 +360,7 @@ const Output = () => {
         }
       });
       setFilteredList(filteredList);
+      setCurrentPage(1);
     }
     if (type === "Kinase") {
       outputData.forEach((item) => {
@@ -375,6 +378,7 @@ const Output = () => {
         }
       });
       setFilteredList(filteredList);
+      setCurrentPage(1);
     }
     if (type === "KinaseFamily") {
       outputData.forEach((item) => {
@@ -392,11 +396,8 @@ const Output = () => {
         }
       });
       setFilteredList(filteredList);
+      setCurrentPage(1);
     }
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   const handlePrevClick = () => {
@@ -616,7 +617,6 @@ const Output = () => {
       <Pagination>
         <PaginationButton
           onClick={handlePrevClick}
-          disabled={currentPage === 2}
           type={"Previous"}
           style={{ display: currentPage === 1 ? "none" : "block" }}
         >
@@ -636,7 +636,6 @@ const Output = () => {
         )}
         <PaginationButton
           onClick={handleNextClick}
-          disabled={currentPage === totalPages}
           type={"Next"}
           style={{ display: currentPage === totalPages ? "none" : "block" }}
         >

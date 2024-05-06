@@ -231,7 +231,7 @@ const Pagination = styled.div`
 `;
 
 const PaginationButton = styled.button`
-  width: 30px;
+  width: 45px;
   min-width: 30px;
   height: 30px;
   margin: 2px;
@@ -243,8 +243,8 @@ const PaginationButton = styled.button`
   transition: 0.2s all;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 6px;
+  justify-content: space-evenly;
+  padding: 2px;
   cursor: pointer;
   &:hover {
     color: white;
@@ -264,7 +264,7 @@ const PaginationButtonLeft = styled.button`
   font-size: 14px;
   transition: 0.2s all;
   position: absolute;
-  right: 82px;
+  right: 97px;
   bottom: 0;
   cursor: pointer;
   display: flex;
@@ -715,6 +715,9 @@ const Output = () => {
           {!dropdownOpen && (
             <PaginationButton onClick={toggleDropdown}>
               {currentPage}
+              {!dropdownOpen && (
+                <i style={{ fontSize: "10px" }} class="bi bi-chevron-down"></i>
+              )}
             </PaginationButton>
           )}
           {dropdownOpen && (

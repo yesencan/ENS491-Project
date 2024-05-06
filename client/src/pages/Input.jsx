@@ -17,8 +17,8 @@ const Tooltip = styled.div`
   font-size: 14px;
 `
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: auto;
+  height: auto;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
   grid-template-rows: 70px 70px 40px calc(33% - 30px) calc(33% - 30px) calc(
@@ -94,7 +94,7 @@ const LoadSampleLink = styled.a`
   margin-top: 20px;
   font-family: "Poppins";
   font-size: 14px;
-  color: blue;
+  color: #004990;
   text-decoration: underline;
   text-align: right;
   cursor: pointer;

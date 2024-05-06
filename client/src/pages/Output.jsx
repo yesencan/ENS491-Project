@@ -227,14 +227,60 @@ const Pagination = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  overflow-y: scroll;
+  position: relative;
 `;
 
 const PaginationButton = styled.button`
-  width: auto;
+  width: 30px;
   min-width: 30px;
   height: 30px;
-  margin: ${(props) => (props.type === "Next" ? "5px 0 5px 5px" : "5px")};
+  margin: 2px;
+  box-sizing: border-box;
+  border: 2px solid orange;
+  color: black;
+  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  font-size: 14px;
+  transition: 0.2s all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: orange;
+  }
+`;
+
+const PaginationButtonLeft = styled.button`
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  margin: 2px;
+  box-sizing: border-box;
+  border: 2px solid orange;
+  color: black;
+  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  font-size: 14px;
+  transition: 0.2s all;
+  position: absolute;
+  right: 82px;
+  bottom: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    color: white;
+    background-color: orange;
+  }
+`;
+
+const PaginationButtonRight = styled.button`
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  margin: 2px;
   box-sizing: border-box;
   border: 2px solid orange;
   color: black;
@@ -242,9 +288,38 @@ const PaginationButton = styled.button`
   font-size: 14px;
   transition: 0.2s all;
   cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
     color: white;
     background-color: orange;
+  }
+`;
+
+const DropDownContainer = styled.div`
+  display: flex;
+  max-height: auto;
+  border: 1px solid orange;
+  z-index: 99;
+  backdrop-filter: blur(5px);
+  position: absolute;
+  bottom: 0;
+  right: 40px;
+`;
+
+const DropDown = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
@@ -259,6 +334,8 @@ const Output = () => {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredList.slice(indexOfFirstRow, indexOfLastRow);
   const totalPages = Math.ceil(filteredList.length / rowsPerPage);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const [sortOrder, setSortOrder] = useState({
     sortBy: "",
@@ -284,6 +361,12 @@ const Output = () => {
           ) {
             clickedInsideInput = true;
           }
+        }
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
+          setDropdownOpen(false);
         }
       });
 
@@ -414,7 +497,13 @@ const Output = () => {
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
+    setDropdownOpen(false);
   };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <Container>
       <DownloadCSVContainer>
@@ -615,32 +704,42 @@ const Output = () => {
           ))}
       </ResultsContainer>
       <Pagination>
-        <PaginationButton
+        <PaginationButtonLeft
           onClick={handlePrevClick}
           type={"Previous"}
           style={{ display: currentPage === 1 ? "none" : "block" }}
         >
-          Previous
-        </PaginationButton>
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-          (page) => (
-            <PaginationButton
-              key={page}
-              onClick={() => handlePageClick(page)}
-              disabled={currentPage === page}
-              type={"Number"}
-            >
-              {page}
+          <i class="bi bi-chevron-left"></i>
+        </PaginationButtonLeft>
+        <DropDownContainer ref={dropdownRef}>
+          {!dropdownOpen && (
+            <PaginationButton onClick={toggleDropdown}>
+              {currentPage}
             </PaginationButton>
-          )
-        )}
-        <PaginationButton
+          )}
+          {dropdownOpen && (
+            <DropDown>
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (page) => (
+                  <PaginationButton
+                    key={page}
+                    onClick={() => handlePageClick(page)}
+                    disabled={currentPage === page}
+                  >
+                    {page}
+                  </PaginationButton>
+                )
+              )}
+            </DropDown>
+          )}
+        </DropDownContainer>
+        <PaginationButtonRight
           onClick={handleNextClick}
           type={"Next"}
           style={{ display: currentPage === totalPages ? "none" : "block" }}
         >
-          Next
-        </PaginationButton>
+          <i class="bi bi-chevron-right"></i>
+        </PaginationButtonRight>
       </Pagination>
     </Container>
   );

@@ -40,8 +40,8 @@ const Table = styled.div`
   box-sizing: border-box;
   font-family: "Roboto";
   font-size: 16px;
-  border-right: 5px solid orange;
-  border-left: 5px solid orange;
+  border-right: 5px solid #004990;
+  border-left: 5px solid #004990;
 `;
 
 const LabelContainer = styled.div`
@@ -87,7 +87,7 @@ const Tag = styled.button`
   border: none;
   align-items: center;
   justify-content: left;
-  color: ${(props) => (props.isClicked ? "orange" : "black")};
+  color: ${(props) => (props.isClicked ? "#004990" : "black")};
   font-family: "Roboto";
   font-size: 20px;
   background-color: transparent;
@@ -141,8 +141,8 @@ const Row = styled.div`
   opacity: 1;
   /* animation: ${FadeInAnimation} 1s ease forwards;
   animation-delay: ${(props) => props.idx * 0.1}s; */
-  border-right: 5px solid orange;
-  border-left: 5px solid orange;
+  border-right: 5px solid #004990;
+  border-left: 5px solid #004990;
 `;
 
 const Data = styled.div`
@@ -205,7 +205,7 @@ const Letter = styled.span`
 const StyledCsvDownloadButton = styled(CsvDownloadButton)`
   width: 160px;
   height: 30px;
-  border: 2px solid orange;
+  border: 2px solid #004990;
   color: black;
   background-color: white;
   font-size: 14px;
@@ -213,7 +213,7 @@ const StyledCsvDownloadButton = styled(CsvDownloadButton)`
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
@@ -237,9 +237,9 @@ const PaginationButton = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 0.5px solid orange;
+  border: 0.5px solid #004990;
   color: black;
-  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
   display: flex;
@@ -249,7 +249,7 @@ const PaginationButton = styled.button`
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
@@ -259,9 +259,9 @@ const PaginationButtonLeft = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 2px solid orange;
+  border: 2px solid #004990;
   color: black;
-  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
   position: absolute;
@@ -273,7 +273,7 @@ const PaginationButtonLeft = styled.button`
   justify-content: center;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
@@ -283,9 +283,9 @@ const PaginationButtonRight = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 2px solid orange;
+  border: 2px solid #004990;
   color: black;
-  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
   cursor: pointer;
@@ -297,14 +297,14 @@ const PaginationButtonRight = styled.button`
   justify-content: center;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
 const DropDownContainer = styled.div`
   display: flex;
   max-height: auto;
-  border: 1px solid orange;
+  border: 1px solid #004990;
   z-index: 99;
   backdrop-filter: blur(5px);
   position: absolute;
@@ -678,7 +678,7 @@ const Output = () => {
             <Row
               key={getRowKey(item, idx)}
               idx={idx}
-              bgColor={idx % 2 === 0 ? "#ffa60045" : "#ffa60026"}
+              bgColor={idx % 2 === 0 ? "#97bee545" : "#97bee526"}
               rowHeight={40 * (15 / rowsPerPage)}
             >
               <Data>

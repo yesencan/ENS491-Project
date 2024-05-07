@@ -18,8 +18,8 @@ const FadeInAnimation = keyframes`
 `;
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
   grid-template-rows: 70px 70px 70px 600px calc(100% - 810px);
@@ -698,10 +698,10 @@ const Output = () => {
                 {" "}
                 {item.probKinase.slice(0, 15 / rowsPerPage).map((probKinase) => {
                   return <InlineData>
-                            <Link to={`https://www.uniprot.org/uniprotkb/${probKinase}/entry`} target="_blank">
-                              {probKinase}
-                            </Link>
-                          </InlineData>;
+                    <Link to={`https://www.uniprot.org/uniprotkb/${probKinase}/entry`} target="_blank">
+                      {probKinase}
+                    </Link>
+                  </InlineData>;
                 })}
               </InlineRow>
               <InlineRow>

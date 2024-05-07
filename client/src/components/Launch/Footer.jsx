@@ -5,11 +5,11 @@ import LogoSabanci from '../../images/LogoSabanci.svg';
 
 
 const FooterContainer = styled.footer`
-    width: 100vw;
+    width: 100%;
     height: 70px;
     margin-top: 20px;
     display: flex;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     align-items: center;
     justify-content: center;
@@ -19,19 +19,13 @@ const FooterContainer = styled.footer`
     border-top: 1px solid #ffa60045;
 `;
 
-const MainContentContainer = styled.div`
-    padding-bottom: 80px; // Adjust the value as needed
-`;
-
 const Footer = () => {
         return (
-                <MainContentContainer>
-                        <FooterContainer>
-                                <img src={LogoSabanci} alt="Sabanci University Logo" style={{ width: '100px', height: '50px', marginRight: '10px' }} />
-                                <p>&copy; {new Date().getFullYear()} Sabancı University.</p>
-                                <img src={LogoTastanLab} alt="TastanLab Logo" style={{ width: '160px', height: '80px', marginLeft: '10px' }} />
-                        </FooterContainer>
-                </MainContentContainer>
+                <FooterContainer>
+                        <img src={LogoSabanci} alt="Sabanci University Logo" style={{ width: '100px', height: '50px', marginRight: '10px' }} />
+                        <p>&copy; {new Date().getFullYear()} Sabancı University.</p>
+                        <img src={LogoTastanLab} alt="TastanLab Logo" style={{ width: '140px', height: '70px', marginLeft: '10px' }} />
+                </FooterContainer>
         );
 };
 

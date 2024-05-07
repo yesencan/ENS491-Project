@@ -641,19 +641,19 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 <CheckboxContainer>
                   <CheckboxWrapper>
                     <CheckboxLabel>Serine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
+                    <Checkbox type="checkbox" defaultChecked/>
                   </CheckboxWrapper>
                   <CheckboxWrapper>
                     <CheckboxLabel>Threonine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
+                    <Checkbox type="checkbox" defaultChecked/>
                   </CheckboxWrapper>
                   <CheckboxWrapper>
                     <CheckboxLabel>Tyrosine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
+                    <Checkbox type="checkbox" defaultChecked/>
                   </CheckboxWrapper>
                   <CheckboxWrapper>
                     <CheckboxLabel>Histidine</CheckboxLabel>
-                    <Checkbox type="checkbox" />
+                    <Checkbox type="checkbox" defaultChecked/>
                   </CheckboxWrapper>
                 </CheckboxContainer>
               </Row>

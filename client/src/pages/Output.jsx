@@ -132,14 +132,14 @@ const ResultsContainer = styled.div`
 
 const Row = styled.div`
   width: 100%;
-  height: 200px;
+  height: ${props => props.rowHeight}px;
   box-sizing: border-box;
   background-color: ${(props) => props.bgColor};
   font-family: "Roboto";
   display: flex;
-  opacity: 0;
-  animation: ${FadeInAnimation} 1s ease forwards;
-  animation-delay: ${(props) => props.idx * 0.1}s;
+  opacity: 1;
+  /* animation: ${FadeInAnimation} 1s ease forwards;
+  animation-delay: ${(props) => props.idx * 0.1}s; */
   border-right: 5px solid orange;
   border-left: 5px solid orange;
 `;
@@ -217,7 +217,7 @@ const StyledCsvDownloadButton = styled(CsvDownloadButton)`
 `;
 
 const Pagination = styled.div`
-  grid-column: 2 / 8;
+  grid-column: 5 / 8;
   grid-row: 5 / end;
   width: auto;
   height: 40px;
@@ -236,7 +236,7 @@ const PaginationButton = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 2px solid orange;
+  border: 0.5px solid orange;
   color: black;
   background-color: ${(props) => (props.disabled ? "orange" : "white")};
   font-size: 14px;
@@ -323,13 +323,20 @@ const DropDown = styled.div`
   }
 `;
 
+const PredCountDiv = styled.div`
+  grid-row: 2/2;
+  grid-column: 2/5;
+  padding: 2px;
+  margin-top: 30px;
+  font-family: 'Roboto';
+`
 const Output = () => {
   const { outputData } = useContext(OutputDataContext);
   const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
   const [searchClicked, setSearchClicked] = useState("");
   const [filteredList, setFilteredList] = useState(outputData);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 3;
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredList.slice(indexOfFirstRow, indexOfLastRow);
@@ -667,6 +674,7 @@ const Output = () => {
               key={getRowKey(item, idx)}
               idx={idx}
               bgColor={idx % 2 === 0 ? "#ffa60045" : "#ffa60026"}
+              rowHeight={40 * (15 / rowsPerPage)}
             >
               <Data>{item.geneId}</Data>
               <Data>{item.position}</Data>
@@ -679,20 +687,20 @@ const Output = () => {
               </Data>
               <InlineRow>
                 {" "}
-                {item.probKinase.map((probKinase) => {
+                {item.probKinase.slice(0, 15 / rowsPerPage).map((probKinase) => {
                   return <InlineData>{probKinase}</InlineData>;
                 })}
               </InlineRow>
               <InlineRow>
                 {" "}
-                {item.kinaseFamily.map((kinaseFamily) => {
+                {item.kinaseFamily.slice(0, 15 / rowsPerPage).map((kinaseFamily) => {
                   return <InlineData>{kinaseFamily}</InlineData>;
                 })}
               </InlineRow>
 
               <InlineRow>
                 {" "}
-                {item.probability.map((probability) => {
+                {item.probability.slice(0, 15 / rowsPerPage).map((probability) => {
                   return (
                     <InlineData>
                       {probability.toFixed(3).replace(/\.?0+$/, "")}
@@ -703,6 +711,15 @@ const Output = () => {
             </Row>
           ))}
       </ResultsContainer>
+      <PredCountDiv>
+        Show top&nbsp;
+        <select onChange={e => { setRowsPerPage(15 / e.target.value); setCurrentPage(1); }}>
+          <option value={1}>1</option>
+          <option value={3}>3</option>
+          <option value={5}>5</option>
+        </select>
+        &nbsp;prediction(s) for each phosphosite
+      </PredCountDiv>
       <Pagination>
         <PaginationButtonLeft
           onClick={handlePrevClick}

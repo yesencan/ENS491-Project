@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -229,7 +229,7 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const ErrorMessageDiv = styled.div`
+const ErrorMessagePre = styled.pre`
   grid-column: 3 / 7;
   grid-row: 2 / 3;
   width: 100%;
@@ -243,6 +243,7 @@ const ErrorMessageDiv = styled.div`
   align-items: center;
   padding-left: 20px;
   font-family: "Roboto";
+  font-size: 14px;
 `;
 
 const InputPage = () => {
@@ -254,6 +255,7 @@ const InputPage = () => {
   const [errorOpen, setErrorOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPredicting, setIsPredicting] = useState(false);
+  const [omitErrors, setOmitErrors] = useState(true);
 
   const hiddenFileInput = useRef(null);
   const { setOutputData } = useContext(OutputDataContext);
@@ -275,9 +277,12 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
   const proteinSeqTooltipText = `List of protein sequences to run prediction on, in FASTA format. 
   Click "Load Sample" to see an example input.`;
+
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
+
+  useEffect(() => setOmitErrors(false), [geneIDInputText, proteinSequenceInputText, uploadedFile])
 
   const handleLoadSample = () => {
     // Load sample data into the input text area
@@ -327,7 +332,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
     setErrorOpen(true);
     setTimeout(() => {
       setErrorOpen(false);
-    }, 3500);
+    }, 6000);
   };
 
   const handlePredictClick = async () => {
@@ -359,12 +364,13 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ geneList: geneList }),
+        body: JSON.stringify({ geneList: geneList, omitErrors: omitErrors }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
+        setOmitErrors(true);
         const error = data["error"];
         switch (error) {
           case "invalid_id_pos":
@@ -372,35 +378,35 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               if (data["invalid_ids"].length > 2) {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_ids"].slice(0, 3) +
-                    "..."
+                  data["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
                 );
               } else {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_ids"]
+                  data["invalid_ids"] + "\nClick Predict again to ignore invalid input."
                 );
               }
             } else if (data["invalid_positions"].length > 0) {
               if (data["invalid_positions"].length > 2) {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_positions"]
-                      .slice(0, 3)
-                      .map(function (entry) {
-                        return entry.id + " (" + entry.invalid_positions + ") ";
-                      })
-                      .join(", ") +
-                    "..."
+                  data["invalid_positions"]
+                    .slice(0, 3)
+                    .map(function (entry) {
+                      return entry.id + " (" + entry.invalid_positions + ") ";
+                    })
+                    .join(", ") +
+                  "...\nClick Predict again to ignore invalid input."
                 );
               } else {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                    data["invalid_positions"]
-                      .map(function (entry) {
-                        return entry.id + " (" + entry.invalid_positions + ") ";
-                      })
-                      .join(", ")
+                  data["invalid_positions"]
+                    .map(function (entry) {
+                      return entry.id + " (" + entry.invalid_positions + ") ";
+                    })
+                    .join(", ") + "\nClick Predict again to ignore invalid input."
                 );
               }
             }
@@ -449,7 +455,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
       formData.append("file", uploadedFile);
       formData.append(
         "json",
-        new Blob([JSON.stringify({ aminoacids })], { type: "application/json" })
+        new Blob([JSON.stringify({ aminoacids, omitErrors })], { type: "application/json" })
       );
 
       try {
@@ -463,10 +469,22 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         const result = await response.json();
 
         if (!response.ok) {
+          setOmitErrors(true);
           const error = result["error"];
           switch (error) {
             case "invalid_aa_seq":
-              enableErrorMessage("Invalid aminoacid sequence.");
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Invalid aminoacid sequence. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Invalid aminoacid sequence. Please check: " +
+                  response["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
               break;
 
             case "incorrect_format":
@@ -503,15 +521,30 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
             body: JSON.stringify({
               fasta: proteinSequenceInputText,
               aminoacids,
+              omitErrors
             }),
           }
         );
         const result = await response.json();
         if (!response.ok) {
+          setOmitErrors(true);
+          console.log(omitErrors)
           const error = result["error"];
+          console.log(result["invalid_ids"])
           switch (error) {
             case "invalid_aa_seq":
-              enableErrorMessage("Invalid aminoacid sequence.");
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Invalid aminoacid sequence. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Invalid aminoacid sequence. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
               break;
 
             case "incorrect_format":
@@ -540,7 +573,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   }
   return (
     <Container>
-      {errorOpen ? <ErrorMessageDiv>{errorMessage}</ErrorMessageDiv> : null}
+      {errorOpen ? <ErrorMessagePre>{errorMessage}</ErrorMessagePre> : null}
       <TabContainer>
         <Tab active={activeTab === 1} onClick={() => handleTabClick(1)}>
           Uniprot ID

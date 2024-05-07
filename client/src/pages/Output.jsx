@@ -324,10 +324,10 @@ const DropDown = styled.div`
 `;
 
 const PredCountDiv = styled.div`
-  grid-row: 2/2;
+  grid-row: 5/5;
   grid-column: 2/5;
   padding: 2px;
-  margin-top: 30px;
+  margin-top: 10px;
   font-family: 'Roboto';
 `
 const Output = () => {

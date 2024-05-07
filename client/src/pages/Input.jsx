@@ -8,7 +8,7 @@ import { PulseLoader } from "react-spinners";
 import Popup from "reactjs-popup";
 
 const Tooltip = styled.div`
-  background: rgba(135, 135, 135, 0.9);
+  background: #f7fbff;
   width: 15vw;
   padding: 8px;
   border-radius: 5px;
@@ -41,13 +41,13 @@ const Tab = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.active ? "lightblue" : "white")};
+  background-color: ${(props) => (props.active ? "#97bee5" : "white")};
   cursor: pointer;
-  border: 1px solid lightblue;
+  border: 1px solid #97bee5;
   border-bottom: none;
   transition: background-color 0.3s;
   &:hover {
-    background-color: ${(props) => (props.active ? "lightblue" : "#f0f0f0")};
+    background-color: ${(props) => (props.active ? "#97bee5" : "#f0f0f0")};
   }
   &:first-child {
     border-top-left-radius: 5px;
@@ -70,7 +70,7 @@ const ContentArea = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  border: 1px solid lightblue;
+  border: 1px solid #97bee5;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   overflow-y: auto; /* Add scrollbar if content overflows vertically */
@@ -105,7 +105,7 @@ const InputTextArea = styled.textarea`
   height: 70%;
   min-height: 200px;
   margin-bottom: 10px;
-  border: 1px solid lightblue; /* Add border style here */
+  border: 1px solid #97bee5; /* Add border style here */
   border-radius: 5px;
   padding: 10px; /* Add padding for better visual appearance */
   font-family: "Poppins";
@@ -167,7 +167,7 @@ const PredictButton = styled.button`
   margin: 10px;
   font-family: "Poppins";
   font-size: 16px;
-  background-color: orange;
+  background-color: rgb(0, 73, 144);;
   color: white;
   border: none;
   border-radius: 5px;
@@ -181,7 +181,7 @@ const PredictButton = styled.button`
 const FileUploadContainer = styled.div`
   width: 85%;
   height: 70px;
-  border: 1px solid lightblue; /* Add border style here */
+  border: 1px solid #97bee5; /* Add border style here */
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -196,7 +196,7 @@ const UploadButton = styled.button`
   height: 40px;
   font-family: "Poppins";
   font-size: 16px;
-  background-color: orange;
+  background-color: rgb(0, 73, 144);;
   color: white;
   border: none;
   border-radius: 5px;

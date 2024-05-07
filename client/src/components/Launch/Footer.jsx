@@ -13,7 +13,7 @@ const FooterContainer = styled.footer`
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: #217ec3;
+    background-color: #97bee5;
     color: white;
     font-family: "Roboto";
     border-top: 1px solid #ffa60045;

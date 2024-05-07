@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from 'react';
 import Navbar from "./components/Launch/Navbar";
+import Footer from "./components/Launch/Footer";
 import Output from "./pages/Output";
 import Input from "./pages/Input";
 import OutputDataContext from './contexts/OutputDataContext';
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/results" element={<Output />}></Route>
           <Route path="/about" element={<Intro />}></Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </OutputDataContext.Provider>
   );

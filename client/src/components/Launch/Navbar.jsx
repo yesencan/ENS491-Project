@@ -13,7 +13,7 @@ const Container = styled.div`
   justify-content: space-between;
   padding: 0 50px 0 50px;
   box-sizing: border-box;
-  border-bottom: 1px solid #ffa60045;
+  border-bottom: 2px solid #217ec3;
 `;
 
 const ButtonContainer = styled.div`
@@ -38,7 +38,7 @@ const Button = styled.div`
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    border: 2px solid orange;
+    border: 2px solid #217ec3;
   }
 `;
 
@@ -54,7 +54,7 @@ const Navbar = () => {
   return (
     <Container>
       <Logo>
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/" style={{ textDecoration: "none", color: "#004990", fontWeight: "900", fontSize: "2.1em"}}>
           DeepKinZero
         </Link>
       </Logo>

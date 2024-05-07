@@ -22,7 +22,7 @@ const FooterContainer = styled.footer`
 const Footer = () => {
         return (
                 <FooterContainer>
-                        <img src={LogoSabanci} alt="Sabanci University Logo" style={{ width: '100px', height: '50px', marginRight: '10px' }} />
+                        <img src={LogoSabanci} alt="Sabanci University Logo" style={{ width: '100px', height: '50px', marginRight: '30px' }} />
                         <p>&copy; {new Date().getFullYear()} Sabancı University.</p>
                         <img src={LogoTastanLab} alt="TastanLab Logo" style={{ width: '140px', height: '70px', marginLeft: '10px' }} />
                 </FooterContainer>

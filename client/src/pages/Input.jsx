@@ -13,7 +13,7 @@ const Tooltip = styled.div`
   padding: 8px;
   border-radius: 5px;
   font-family: "Poppins";
-  color: white;
+  color: #f7fbff;
   font-size: 14px;
 `;
 const Container = styled.div`
@@ -47,7 +47,7 @@ const Tab = styled.div`
   border-bottom: none;
   transition: background-color 0.3s;
   &:hover {
-    background-color: ${(props) => (props.active ? "#97bee5" : "#f0f0f0")};
+    background-color: ${(props) => (props.active ? "#599de1" : "#f0f0f0")};
   }
   &:first-child {
     border-top-left-radius: 5px;
@@ -67,6 +67,7 @@ const ContentArea = styled.div`
   height: fit-content; /* Expand based on content */
   width: 100%;
   display: flex;
+  background-color: white;
   flex-direction: column;
   align-items: center;
   justify-content: start;
@@ -174,7 +175,7 @@ const PredictButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #ff8c00;
+    background-color: #599de1;
   }
 `;
 
@@ -203,7 +204,7 @@ const UploadButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #ff8c00;
+    background-color: #599de1;
   }
 `;
 

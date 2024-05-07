@@ -7,7 +7,7 @@ const Container = styled.div`
   height: 70px;
   position: fixed;
   z-index: 99;
-  backdrop-filter: blur(10px);
+  background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,7 +59,7 @@ const Navbar = () => {
         </Link>
       </Logo>
       <ButtonContainer>
-        <Link to="/about" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/about" style={{ textDecoration: "none", color: "#004990"}}>
           <Button>About</Button>
         </Link>
         {/* <Button>Page Link 3</Button>

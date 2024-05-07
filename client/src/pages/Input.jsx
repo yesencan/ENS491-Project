@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import OutputDataContext from "../contexts/OutputDataContext";
 import { PulseLoader } from "react-spinners";
-import Popup from 'reactjs-popup';
+import Popup from "reactjs-popup";
 
 const Tooltip = styled.div`
   background: rgba(135, 135, 135, 0.9);
@@ -15,7 +15,7 @@ const Tooltip = styled.div`
   font-family: "Poppins";
   color: white;
   font-size: 14px;
-`
+`;
 const Container = styled.div`
   width: auto;
   height: auto;
@@ -274,7 +274,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
     Click "Load Sample" to see an example input.`;
 
   const proteinSeqTooltipText = `List of protein sequences to run prediction on, in FASTA format. 
-  Click "Load Sample" to see an example input.`
+  Click "Load Sample" to see an example input.`;
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
@@ -313,7 +313,9 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         setUploadedFile(fileUploaded);
       } else {
         // Invalid file extension, show an error message or take appropriate action
-        enableErrorMessage("Invalid file extension. Please select a .fasta file.");
+        enableErrorMessage(
+          "Invalid file extension. Please select a .fasta file."
+        );
         // Optionally, reset the file input to clear the selected file
         event.target.value = null;
       }
@@ -370,35 +372,38 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               if (data["invalid_ids"].length > 2) {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                  data["invalid_ids"].slice(0, 3) +
-                  "..."
+                    data["invalid_ids"].slice(0, 3) +
+                    "..."
                 );
               } else {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                  data["invalid_ids"]
+                    data["invalid_ids"]
                 );
               }
-            }
-            else if (data["invalid_positions"].length > 0) {
+            } else if (data["invalid_positions"].length > 0) {
               if (data["invalid_positions"].length > 2) {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                  data["invalid_positions"].slice(0, 3).map(function (entry) {
-                    return entry.id + " (" + entry.invalid_positions + ") ";
-                  }).join(", ") +
-                  "..."
+                    data["invalid_positions"]
+                      .slice(0, 3)
+                      .map(function (entry) {
+                        return entry.id + " (" + entry.invalid_positions + ") ";
+                      })
+                      .join(", ") +
+                    "..."
                 );
               } else {
                 enableErrorMessage(
                   "Invalid UniProt ID or positions. Please check: " +
-                  data["invalid_positions"].map(function (entry) {
-                    return entry.id + " (" + entry.invalid_positions + ") ";
-                  }).join(", ")
+                    data["invalid_positions"]
+                      .map(function (entry) {
+                        return entry.id + " (" + entry.invalid_positions + ") ";
+                      })
+                      .join(", ")
                 );
               }
             }
-
 
             break;
           case "empty-test-data":
@@ -478,6 +483,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         }
 
         setOutputData(result.results);
+        console.log("result:", result.results);
         navigate("/results");
         console.log(result);
       } catch (error) {
@@ -554,12 +560,11 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               </Row>
               <Row>
                 <Popup
-                  trigger={() => (
-                    <InputLabel>Gene ID List</InputLabel>
-                  )}
+                  trigger={() => <InputLabel>Gene ID List</InputLabel>}
                   position="top"
-                  on={['hover', 'focus']}
-                  closeOnDocumentClick >
+                  on={["hover", "focus"]}
+                  closeOnDocumentClick
+                >
                   <Tooltip> {idListTooltipText} </Tooltip>
                 </Popup>
                 <InputTextArea
@@ -594,12 +599,11 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               </Row>
               <Row>
                 <Popup
-                  trigger={() => (
-                    <InputLabel>Protein Sequence(s)</InputLabel>
-                  )}
+                  trigger={() => <InputLabel>Protein Sequence(s)</InputLabel>}
                   position="top"
-                  on={['hover', 'focus']}
-                  closeOnDocumentClick >
+                  on={["hover", "focus"]}
+                  closeOnDocumentClick
+                >
                   <Tooltip> {proteinSeqTooltipText} </Tooltip>
                 </Popup>
                 <InputTextArea

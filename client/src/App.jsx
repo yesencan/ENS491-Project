@@ -13,13 +13,17 @@ const App = () => {
   return (
     <OutputDataContext.Provider value={{ outputData, setOutputData }}>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Input />}></Route>
-          <Route path="/results" element={<Output />}></Route>
-          <Route path="/about" element={<Intro />}></Route>
-        </Routes>
-        <Footer />
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar />
+          <div style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/" element={<Input />} />
+              <Route path="/results" element={<Output />} />
+              <Route path="/about" element={<Intro />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
       </BrowserRouter>
     </OutputDataContext.Provider>
   );

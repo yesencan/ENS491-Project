@@ -3,31 +3,31 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 70px;
   position: fixed;
   z-index: 99;
-  backdrop-filter: blur(10px);
-  display: flex;
+  background: white;
+  display: grid;
   align-items: center;
   justify-content: space-between;
-  padding: 0 50px 0 50px;
   box-sizing: border-box;
   border-bottom: 2px solid #217ec3;
+  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  grid-template-rows: 100%;
 `;
 
 const ButtonContainer = styled.div`
   width: auto;
   height: auto;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: flex-end;
 `;
 
 const Button = styled.div`
-  width: 120px;
+  width: 80px;
   height: 30px;
-  margin: 10px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,29 +42,40 @@ const Button = styled.div`
   }
 `;
 
+const RedirectLink = styled(Link)`
+  text-decoration: none;
+  color: #004990;
+  font-weight: 500;
+  font-size: 1.1em;
+  font-family: "Roboto";
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const Logo = styled.div`
   width: auto;
   height: auto;
-  font-family: "Roboto";
-  font-size: 16px;
+  font-family: "Freeman";
+  font-size: 20px;
   user-select: none;
 `;
 
 const Navbar = () => {
   return (
     <Container>
-      <Logo>
-        <Link to="/" style={{ textDecoration: "none", color: "#004990", fontWeight: "900", fontSize: "2.1em"}}>
+      <Logo style={{ gridColumn: "3"}}>
+        <Link to="/" style={{ textDecoration: "none", color: "#004990", fontWeight: "900", fontSize: "2.1em" }}>
           DeepKinZero
         </Link>
       </Logo>
-      <ButtonContainer>
-        <Link to="/about" style={{ textDecoration: "none", color: "black" }}>
-          <Button>About</Button>
-        </Link>
-        {/* <Button>Page Link 3</Button>
-        <Button>Page Link 4</Button>
-        <Button>Page Link 5</Button> */}
+      <ButtonContainer style={{gridColumnEnd: "7"}}>
+        <RedirectLink to="/about" style={{ margin: "0 20px 0 0"}}>
+          About
+        </RedirectLink>
+        <RedirectLink to="/">
+          Predict
+        </RedirectLink>
       </ButtonContainer>
     </Container>
   );

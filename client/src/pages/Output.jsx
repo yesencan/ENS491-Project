@@ -38,10 +38,10 @@ const Table = styled.div`
   grid-row: 3 / 4;
   display: flex;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: "Arial";
   font-size: 16px;
-  border-right: 5px solid orange;
-  border-left: 5px solid orange;
+  /* border-right: 5px solid white;
+  border-left: 5px solid white; */
 `;
 
 const LabelContainer = styled.div`
@@ -50,7 +50,7 @@ const LabelContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Roboto";
+  font-family: "Arial";
   font-weight: bold;
   font-size: 14px;
   color: black;
@@ -87,8 +87,8 @@ const Tag = styled.button`
   border: none;
   align-items: center;
   justify-content: left;
-  color: ${(props) => (props.isClicked ? "orange" : "black")};
-  font-family: "Roboto";
+  color: ${(props) => (props.isClicked ? "#004990" : "black")};
+  font-family: "Arial";
   font-size: 20px;
   background-color: transparent;
   transition: 0.2s all;
@@ -136,13 +136,13 @@ const Row = styled.div`
   height: ${props => props.rowHeight}px;
   box-sizing: border-box;
   background-color: ${(props) => props.bgColor};
-  font-family: "Roboto";
+  font-family: "Arial";
   display: flex;
   opacity: 1;
   /* animation: ${FadeInAnimation} 1s ease forwards;
   animation-delay: ${(props) => props.idx * 0.1}s; */
-  border-right: 5px solid orange;
-  border-left: 5px solid orange;
+  /* border-right: 5px solid white;
+  border-left: 5px solid white; */
 `;
 
 const Data = styled.div`
@@ -154,7 +154,7 @@ const Data = styled.div`
   color: black;
   font-size: 14px;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: "Arial";
   border-right: 0.5px solid lightgray;
   padding: 0 20px;
 `;
@@ -169,7 +169,7 @@ const InlineRow = styled.div`
   color: black;
   font-size: 14px;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: "Arial";
 `;
 
 const InlineData = styled.div`
@@ -181,7 +181,7 @@ const InlineData = styled.div`
   color: black;
   font-size: 14px;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: "Arial";
   border-right: 0.5px solid lightgray;
   border-bottom: 0.5px solid lightgray;
   background-color: ${(props) => props.bgColor};
@@ -191,13 +191,13 @@ const InlineData = styled.div`
 const Letter = styled.span`
   width: ${(props) => (props.idx === 7 ? "5px" : "2px")};
   flex: ${(props) => (props.idx === 7 ? "2" : "1")};
-  font-size: ${(props) => (props.idx === 7 ? "40px" : "12px")};
+  font-size: ${(props) => (props.idx === 7 ? "30px" : "12px")};
   color: ${(props) => (props.idx === 7 ? "gray" : "black")};
   margin: ${(props) => (props.idx === 7 ? "0 3px 0 3px" : "0")};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Roboto";
+  font-family: "Arial";
   &:hover {
   }
 `;
@@ -205,7 +205,7 @@ const Letter = styled.span`
 const StyledCsvDownloadButton = styled(CsvDownloadButton)`
   width: 160px;
   height: 30px;
-  border: 2px solid orange;
+  border: 2px solid #004990;
   color: black;
   background-color: white;
   font-size: 14px;
@@ -213,7 +213,7 @@ const StyledCsvDownloadButton = styled(CsvDownloadButton)`
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
@@ -237,9 +237,9 @@ const PaginationButton = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 0.5px solid orange;
+  border: 0.5px solid #004990;
   color: black;
-  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
   display: flex;
@@ -249,7 +249,7 @@ const PaginationButton = styled.button`
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
@@ -259,9 +259,9 @@ const PaginationButtonLeft = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 2px solid orange;
+  border: 2px solid #004990;
   color: black;
-  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
   position: absolute;
@@ -273,7 +273,7 @@ const PaginationButtonLeft = styled.button`
   justify-content: center;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
@@ -283,9 +283,9 @@ const PaginationButtonRight = styled.button`
   height: 30px;
   margin: 2px;
   box-sizing: border-box;
-  border: 2px solid orange;
+  border: 2px solid #004990;
   color: black;
-  background-color: ${(props) => (props.disabled ? "orange" : "white")};
+  background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
   cursor: pointer;
@@ -297,14 +297,14 @@ const PaginationButtonRight = styled.button`
   justify-content: center;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: #004990;
   }
 `;
 
 const DropDownContainer = styled.div`
   display: flex;
   max-height: auto;
-  border: 1px solid orange;
+  border: 1px solid #004990;
   z-index: 99;
   backdrop-filter: blur(5px);
   position: absolute;
@@ -329,7 +329,7 @@ const PredCountDiv = styled.div`
   grid-column: 2/5;
   padding: 2px;
   margin-top: 10px;
-  font-family: 'Roboto';
+  font-family: 'Arial';
 `
 const Output = () => {
   const { outputData } = useContext(OutputDataContext);
@@ -678,7 +678,7 @@ const Output = () => {
             <Row
               key={getRowKey(item, idx)}
               idx={idx}
-              bgColor={idx % 2 === 0 ? "#ffa60045" : "#ffa60026"}
+              bgColor={idx % 2 === 0 ? "#97bee545" : "#97bee526"}
               rowHeight={40 * (15 / rowsPerPage)}
             >
               <Data>

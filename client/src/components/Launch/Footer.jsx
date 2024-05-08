@@ -8,23 +8,24 @@ const FooterContainer = styled.footer`
     width: 100%;
     height: 70px;
     margin-top: 20px;
-    display: flex;
+    display: grid;
     /* position: fixed; */
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: #217ec3;
+    background-color: #97bee5;
     color: white;
     font-family: "Roboto";
     border-top: 1px solid #ffa60045;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
 `;
 
 const Footer = () => {
         return (
                 <FooterContainer>
-                        <img src={LogoSabanci} alt="Sabanci University Logo" style={{ width: '100px', height: '50px', marginRight: '30px' }} />
-                        <p>&copy; {new Date().getFullYear()} Sabancı University.</p>
-                        <img src={LogoTastanLab} alt="TastanLab Logo" style={{ width: '140px', height: '70px', marginLeft: '10px' }} />
+                        <img src={LogoSabanci} alt="Sabanci University Logo" style={{ width: '100px', height: '50px', gridColumn: "3" }} />
+                        <p style={{gridColumn: "4 / 6", justifySelf: "center"}}>&copy; {new Date().getFullYear()} Sabancı University.</p>
+                        <img src={LogoTastanLab} alt="TastanLab Logo" style={{ width: '140px', height: '70px', justifySelf: "end",  gridColumn: "6"}} />
                 </FooterContainer>
         );
 };

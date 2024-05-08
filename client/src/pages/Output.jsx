@@ -40,8 +40,8 @@ const Table = styled.div`
   box-sizing: border-box;
   font-family: "Arial";
   font-size: 16px;
-  border-right: 5px solid white;
-  border-left: 5px solid white;
+  /* border-right: 5px solid white;
+  border-left: 5px solid white; */
 `;
 
 const LabelContainer = styled.div`
@@ -141,8 +141,8 @@ const Row = styled.div`
   opacity: 1;
   /* animation: ${FadeInAnimation} 1s ease forwards;
   animation-delay: ${(props) => props.idx * 0.1}s; */
-  border-right: 5px solid white;
-  border-left: 5px solid white;
+  /* border-right: 5px solid white;
+  border-left: 5px solid white; */
 `;
 
 const Data = styled.div`
@@ -191,7 +191,7 @@ const InlineData = styled.div`
 const Letter = styled.span`
   width: ${(props) => (props.idx === 7 ? "5px" : "2px")};
   flex: ${(props) => (props.idx === 7 ? "2" : "1")};
-  font-size: ${(props) => (props.idx === 7 ? "40px" : "12px")};
+  font-size: ${(props) => (props.idx === 7 ? "30px" : "12px")};
   color: ${(props) => (props.idx === 7 ? "gray" : "black")};
   margin: ${(props) => (props.idx === 7 ? "0 3px 0 3px" : "0")};
   display: flex;

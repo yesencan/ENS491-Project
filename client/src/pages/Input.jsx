@@ -8,7 +8,7 @@ import { PulseLoader } from "react-spinners";
 import Popup from "reactjs-popup";
 
 const Tooltip = styled.div`
-  background: #f7fbff;
+  background: rgba(135, 135, 135, 0.9);
   width: 15vw;
   padding: 8px;
   border-radius: 5px;
@@ -20,6 +20,7 @@ const Container = styled.div`
   width: auto;
   height: auto;
   display: grid;
+  background-color: #f7fbff;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
   grid-template-rows: 70px 70px 40px calc(33% - 30px) calc(33% - 30px) calc(
       33% - 30px
@@ -675,19 +676,19 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 <CheckboxContainer>
                   <CheckboxWrapper>
                     <CheckboxLabel>Serine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked/>
+                    <Checkbox type="checkbox" defaultChecked />
                   </CheckboxWrapper>
                   <CheckboxWrapper>
                     <CheckboxLabel>Threonine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked/>
+                    <Checkbox type="checkbox" defaultChecked />
                   </CheckboxWrapper>
                   <CheckboxWrapper>
                     <CheckboxLabel>Tyrosine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked/>
+                    <Checkbox type="checkbox" defaultChecked />
                   </CheckboxWrapper>
                   <CheckboxWrapper>
                     <CheckboxLabel>Histidine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked/>
+                    <Checkbox type="checkbox" defaultChecked />
                   </CheckboxWrapper>
                 </CheckboxContainer>
               </Row>

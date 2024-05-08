@@ -45,8 +45,8 @@ const Button = styled.div`
 const Logo = styled.div`
   width: auto;
   height: auto;
-  font-family: "Roboto";
-  font-size: 16px;
+  font-family: "Freeman";
+  font-size: 20px;
   user-select: none;
 `;
 
@@ -54,17 +54,17 @@ const Navbar = () => {
   return (
     <Container>
       <Logo>
-        <Link to="/" style={{ textDecoration: "none", color: "#004990", fontWeight: "900", fontSize: "2.1em"}}>
+        <Link to="/" style={{ textDecoration: "none", color: "#004990", fontWeight: "900", fontSize: "2.1em" }}>
           DeepKinZero
         </Link>
       </Logo>
       <ButtonContainer>
-        <Link to="/about" style={{ textDecoration: "none", color: "#004990"}}>
+        <Link to="/about" style={{ textDecoration: "none", color: "#004990" }}>
           <Button>About</Button>
         </Link>
-        {/* <Button>Page Link 3</Button>
-        <Button>Page Link 4</Button>
-        <Button>Page Link 5</Button> */}
+        <Link to="/" style={{ textDecoration: "none", color: "#004990" }}>
+          <Button>Predict</Button>
+        </Link>
       </ButtonContainer>
     </Container>
   );

@@ -50,7 +50,6 @@ const KinaseSection = styled.div`
 const AboutPage = () => {
   return (
     <PageContainer>
-      <Title>DeepKinZero</Title>
       <Subtitle>Zero-shot learning for predicting kinase-phosphosite associations involving understudied kinases</Subtitle>
       <Section>
         <SectionTitle>What is DeepKinZero?</SectionTitle>
@@ -69,45 +68,45 @@ const AboutPage = () => {
         <KinaseSection>
           <strong>Serine/Threonine Kinases:</strong>
           <Paragraph>These kinases primarily phosphorylate the serine or threonine residues of target proteins. Major sub-families include:
-          <ul>
-            <li>PKA (Protein Kinase A): Also known as cAMP-dependent kinase, involved in the pathway mediated by cyclic AMP (cAMP).</li>
-            <li>PKC (Protein Kinase C): Activated by diacylglycerol (DAG) and calcium ions, involved in numerous signaling pathways.</li>
-            <li>MAPK (Mitogen-Activated Protein Kinases): Involved in pathways that convert extracellular signals into a variety of cellular activities. MAPKs themselves are part of a cascade that includes several other kinases.</li>
-          </ul>
+            <ul>
+              <li>PKA (Protein Kinase A): Also known as cAMP-dependent kinase, involved in the pathway mediated by cyclic AMP (cAMP).</li>
+              <li>PKC (Protein Kinase C): Activated by diacylglycerol (DAG) and calcium ions, involved in numerous signaling pathways.</li>
+              <li>MAPK (Mitogen-Activated Protein Kinases): Involved in pathways that convert extracellular signals into a variety of cellular activities. MAPKs themselves are part of a cascade that includes several other kinases.</li>
+            </ul>
           </Paragraph>
         </KinaseSection>
         <KinaseSection>
           <strong>Tyrosine Kinases:</strong>
           <Paragraph>These enzymes phosphorylate tyrosine residues on target proteins. They are often associated with the receptors of growth factors and play pivotal roles in signal transduction and cancer development. They include:
-          <ul>
-            <li>Receptor Tyrosine Kinases (RTKs): Part of the receptor on cellular membranes; examples include EGFR, VEGFR, and FGFR.</li>
-            <li>Non-receptor Tyrosine Kinases: These operate within the cell and include the SRC family, ABL kinase, and JAK kinases.</li>
-          </ul>
+            <ul>
+              <li>Receptor Tyrosine Kinases (RTKs): Part of the receptor on cellular membranes; examples include EGFR, VEGFR, and FGFR.</li>
+              <li>Non-receptor Tyrosine Kinases: These operate within the cell and include the SRC family, ABL kinase, and JAK kinases.</li>
+            </ul>
           </Paragraph>
         </KinaseSection>
         <KinaseSection>
           <strong>Dual-Specificity Kinases:</strong>
           <Paragraph>These kinases can phosphorylate both serine/threonine and tyrosine residues. Examples include:
-          <ul>
-            <li>MEK (MAPK/ERK Kinase): Specifically phosphorylates MAPKs and is part of the MAP kinase signal transduction pathway.</li>
-          </ul>
+            <ul>
+              <li>MEK (MAPK/ERK Kinase): Specifically phosphorylates MAPKs and is part of the MAP kinase signal transduction pathway.</li>
+            </ul>
           </Paragraph>
         </KinaseSection>
         <KinaseSection>
           <strong>Lipid Kinases:</strong>
           <Paragraph>Involved in phosphorylating lipids instead of proteins, critical in signaling pathways. Examples include:
-          <ul>
-            <li>PI3K (Phosphoinositide 3-Kinases): Catalyzes the phosphorylation of the 3 position on the inositol ring of phosphoinositides. They play a key role in cell growth and survival pathways.</li>
-          </ul>
+            <ul>
+              <li>PI3K (Phosphoinositide 3-Kinases): Catalyzes the phosphorylation of the 3 position on the inositol ring of phosphoinositides. They play a key role in cell growth and survival pathways.</li>
+            </ul>
           </Paragraph>
         </KinaseSection>
         <KinaseSection>
           <strong>Atypical Kinases:</strong>
           <Paragraph>These do not fit into the conventional kinase categories based on their substrates or the amino acids they phosphorylate. Examples include:
-          <ul>
-            <li>Alpha-kinases: Phosphorylate targets different from the conventional serine, threonine, or tyrosine residues.</li>
-            <li>PIKK family: Includes ATM and ATR kinases, which are critical for the DNA damage response.</li>
-          </ul>
+            <ul>
+              <li>Alpha-kinases: Phosphorylate targets different from the conventional serine, threonine, or tyrosine residues.</li>
+              <li>PIKK family: Includes ATM and ATR kinases, which are critical for the DNA damage response.</li>
+            </ul>
           </Paragraph>
         </KinaseSection>
       </Section>

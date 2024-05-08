@@ -58,14 +58,14 @@ def predict_gene_id():
 @app.post("/api/predict/sequence-file")
 def predict_sequence_file():
     aminoacid_set = set(['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'])
-    omit_errors = request.json["omitErrors"]
     
     is_invalid = False
     invalid_ids = []
 
     json_data = flask.json.loads(request.files['json'].read())
     target_aminoacids = set(json_data['aminoacids'])
-    
+    omit_errors = json_data["omitErrors"]
+
     test_data = []
     fasta_records = protein_utils.parse_fasta(request.files['file'].read().decode('utf-8'))
     for record in fasta_records: 

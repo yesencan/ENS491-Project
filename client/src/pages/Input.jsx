@@ -379,20 +379,20 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
             if (data["invalid_ids"].length > 0) {
               if (data["invalid_ids"].length > 2) {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid UniProt ID(s). Please check: " +
                   data["invalid_ids"].slice(0, 3) +
                   "...\nClick Predict again to ignore invalid input."
                 );
               } else {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid UniProt ID(s). Please check: " +
                   data["invalid_ids"] + "\nClick Predict again to ignore invalid input."
                 );
               }
             } else if (data["invalid_positions"].length > 0) {
               if (data["invalid_positions"].length > 2) {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid positions. Please check: " +
                   data["invalid_positions"]
                     .slice(0, 3)
                     .map(function (entry) {
@@ -403,7 +403,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 );
               } else {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid positions. Please check: " +
                   data["invalid_positions"]
                     .map(function (entry) {
                       return entry.id + " (" + entry.invalid_positions + ") ";

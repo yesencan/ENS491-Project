@@ -325,10 +325,10 @@ const DropDown = styled.div`
 `;
 
 const PredCountDiv = styled.div`
-  grid-row: 5/5;
+  grid-row: 2/5;
   grid-column: 2/5;
   padding: 2px;
-  margin-top: 10px;
+  margin-top: 40px;
   font-family: 'Arial';
 `
 const Output = () => {

@@ -332,9 +332,6 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   const enableErrorMessage = (msg) => {
     setErrorMessage(msg);
     setErrorOpen(true);
-    setTimeout(() => {
-      setErrorOpen(false);
-    }, 6000);
   };
 
   const handlePredictClick = async () => {
@@ -415,7 +412,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
             break;
           case "empty-test-data":
-            enableErrorMessage("Input data is empty.");
+            enableErrorMessage("Input data is empty. This may have caused by omitted input(s).");
             break;
 
           case "invalid-aa-seq":
@@ -491,8 +488,35 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
             case "incorrect_format":
               enableErrorMessage(
-                "Input data is in incorrect format or there is no site with selected amino acid(s)."
+                "Input data is in incorrect format."
               );
+              break;
+
+            case "no_target_selected":
+              enableErrorMessage(
+                "Please select at least one amino acid to scan for."
+              );
+              break;
+
+            case "no-site":
+              enableErrorMessage(
+                "There is no site with selected amino acid(s)."
+              );
+              break;
+
+            case "short-seq":
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
               break;
 
             default:
@@ -530,9 +554,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         const result = await response.json();
         if (!response.ok) {
           setOmitErrors(true);
-          console.log(omitErrors)
           const error = result["error"];
-          console.log(result["invalid_ids"])
           switch (error) {
             case "invalid_aa_seq":
               if (result["invalid_ids"].length > 2) {
@@ -551,8 +573,35 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
             case "incorrect_format":
               enableErrorMessage(
-                "Input data is in incorrect format or there is no site with selected amino acid(s)."
+                "Input data is in incorrect format."
               );
+              break;
+
+            case "no_target_selected":
+              enableErrorMessage(
+                "Please select at least one amino acid to scan for."
+              );
+              break;
+
+            case "no-site":
+              enableErrorMessage(
+                "There is no site with selected amino acid(s)."
+              );
+              break;
+
+            case "short-seq":
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
               break;
 
             default:

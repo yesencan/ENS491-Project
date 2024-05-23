@@ -24,24 +24,6 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const Button = styled.div`
-  width: 80px;
-  height: 30px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Roboto";
-  font-size: 16px;
-  transition: 0.2s all;
-  border: 2px solid transparent;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    border: 2px solid #217ec3;
-  }
-`;
-
 const RedirectLink = styled(Link)`
   text-decoration: none;
   color: #004990;
@@ -64,17 +46,20 @@ const Logo = styled.div`
 const Navbar = () => {
   return (
     <Container>
-      <Logo style={{ gridColumn: "3"}}>
+      <Logo style={{ gridColumn: "3" }}>
         <Link to="/" style={{ textDecoration: "none", color: "#004990", fontWeight: "900", fontSize: "2.1em" }}>
           DeepKinZero
         </Link>
       </Logo>
-      <ButtonContainer style={{gridColumnEnd: "7"}}>
-        <RedirectLink to="/about" style={{ margin: "0 20px 0 0"}}>
+      <ButtonContainer style={{ gridColumnEnd: "7" }}>
+        <RedirectLink to="/about" style={{ margin: "0 20px 0 0" }}>
           About
         </RedirectLink>
-        <RedirectLink to="/">
+        <RedirectLink to="/" style={{ margin: "0 20px 0 0" }}>
           Predict
+        </RedirectLink>
+        <RedirectLink to="/tutorial">
+          Tutorial
         </RedirectLink>
       </ButtonContainer>
     </Container>

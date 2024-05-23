@@ -16,7 +16,7 @@ const FooterContainer = styled.footer`
     background-color: #97bee5;
     color: white;
     font-family: "Roboto";
-    border-top: 1px solid #ffa60045;
+    border-top: 1px solid #217ec3;
     grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
 `;
 

@@ -52,10 +52,10 @@ function ScanCheckboxGroup() {
     <>
       <LabelCentered>Scan for:</LabelCentered>
       <CheckboxContainer>
-        <ScanCheckbox label="Serine" defaultChecked />
-        <ScanCheckbox label="Threonine" defaultChecked />
-        <ScanCheckbox label="Tyrosine" defaultChecked />
-        <ScanCheckbox label="Histidine" defaultChecked />
+        <ScanCheckbox label="Serine (S)" defaultChecked />
+        <ScanCheckbox label="Threonine (T)" defaultChecked />
+        <ScanCheckbox label="Tyrosine (Y)" defaultChecked />
+        <ScanCheckbox label="Histidine (H)" defaultChecked />
       </CheckboxContainer>
     </>
   );

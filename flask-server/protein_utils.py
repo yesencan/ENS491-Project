@@ -21,8 +21,7 @@ def fetch_gene_sequence(gene):
     
     return str(sequence), error
 
-def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'])):
-    aminoacids = aminoacids if len(aminoacids) > 0 else set(['S', 'T', 'Y', 'H'])    
+def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'])):  
     if positions == []:
         result = []
         for i, residue in enumerate(sequence):
@@ -31,7 +30,7 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                 end = i + 7
                 peptide = sequence[start:end + 1]
 
-                if len(peptide) < 7:
+                if len(peptide) < 10:
                     continue
 
                 peptide = pad_peptide(peptide, i - start)
@@ -52,7 +51,7 @@ def separate_peptides(sequence, positions=[], aminoacids=set(['S', 'T', 'Y', 'H'
                 end = position + 7
                 peptide = sequence[start:end + 1]
                 
-                if len(peptide) < 7:
+                if len(peptide) < 10:
                     continue
 
                 peptide = pad_peptide(peptide, position - start)

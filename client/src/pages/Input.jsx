@@ -302,9 +302,6 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
   const enableErrorMessage = (msg) => {
     setErrorMessage(msg);
     setErrorOpen(true);
-    setTimeout(() => {
-      setErrorOpen(false);
-    }, 6000);
   };
 
   const handlePredictClick = async () => {
@@ -349,20 +346,20 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
             if (data["invalid_ids"].length > 0) {
               if (data["invalid_ids"].length > 2) {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid UniProt ID(s). Please check: " +
                   data["invalid_ids"].slice(0, 3) +
                   "...\nClick Predict again to ignore invalid input."
                 );
               } else {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid UniProt ID(s). Please check: " +
                   data["invalid_ids"] + "\nClick Predict again to ignore invalid input."
                 );
               }
             } else if (data["invalid_positions"].length > 0) {
               if (data["invalid_positions"].length > 2) {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid positions. Please check: " +
                   data["invalid_positions"]
                     .slice(0, 3)
                     .map(function (entry) {
@@ -373,7 +370,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 );
               } else {
                 enableErrorMessage(
-                  "Invalid UniProt ID or positions. Please check: " +
+                  "Invalid positions. Please check: " +
                   data["invalid_positions"]
                     .map(function (entry) {
                       return entry.id + " (" + entry.invalid_positions + ") ";
@@ -385,7 +382,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
             break;
           case "empty-test-data":
-            enableErrorMessage("Input data is empty.");
+            enableErrorMessage("Input data is empty. This may have caused by omitted input(s).");
             break;
 
           case "invalid-aa-seq":
@@ -466,8 +463,35 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
             case "incorrect_format":
               enableErrorMessage(
-                "Input data is in incorrect format or there is no site with selected amino acid(s)."
+                "Input data is in incorrect format."
               );
+              break;
+
+            case "no_target_selected":
+              enableErrorMessage(
+                "Please select at least one amino acid to scan for."
+              );
+              break;
+
+            case "no-site":
+              enableErrorMessage(
+                "There is no site with selected amino acid(s)."
+              );
+              break;
+
+            case "short-seq":
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
               break;
 
             default:
@@ -541,8 +565,35 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
 
             case "incorrect_format":
               enableErrorMessage(
-                "Input data is in incorrect format or there is no site with selected amino acid(s)."
+                "Input data is in incorrect format."
               );
+              break;
+
+            case "no_target_selected":
+              enableErrorMessage(
+                "Please select at least one amino acid to scan for."
+              );
+              break;
+
+            case "no-site":
+              enableErrorMessage(
+                "There is no site with selected amino acid(s)."
+              );
+              break;
+
+            case "short-seq":
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
               break;
 
             default:

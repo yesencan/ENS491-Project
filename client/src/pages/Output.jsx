@@ -325,10 +325,10 @@ const DropDown = styled.div`
 `;
 
 const PredCountDiv = styled.div`
-  grid-row: 5/5;
+  grid-row: 2/2;
   grid-column: 2/5;
   padding: 2px;
-  margin-top: 10px;
+  margin-top: 40px;
   font-family: 'Arial';
 `
 const Output = () => {
@@ -520,7 +520,15 @@ const Output = () => {
     <Container>
       <DownloadCSVContainer>
         <StyledCsvDownloadButton
-          data={outputData}
+          data={outputData.map((item) => {
+            return {
+              ...item,
+              "probKinase": rowsPerPage === 15 ? item.probKinase[0] : item.probKinase.slice(0, 15 / rowsPerPage),
+              "probability": rowsPerPage === 15 ? item.probability[0] : item.probability.slice(0, 15 / rowsPerPage),
+              "kinaseFamily": rowsPerPage === 15 ? item.kinaseFamily[0] : item.kinaseFamily.slice(0, 15 / rowsPerPage),
+              "kinaseGroup": rowsPerPage === 15 ? item.kinaseGroup[0] : item.kinaseGroup.slice(0, 15 / rowsPerPage),
+            }
+          })}
           filename="deepkinzero-output.csv"
         >
           Download CSV <i class="bi bi-box-arrow-down"></i>

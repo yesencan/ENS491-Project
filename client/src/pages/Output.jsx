@@ -26,7 +26,7 @@ const Container = styled.div`
 `;
 
 const DownloadCSVContainer = styled.div`
-  grid-column: 7 / 8;
+  grid-column: 6 / 7;
   grid-row: 2 / 3;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@ const DownloadCSVContainer = styled.div`
 `;
 
 const Table = styled.div`
-  grid-column: 2 / 8;
+  grid-column: 3 / 7;
   grid-row: 3 / 4;
   display: flex;
   box-sizing: border-box;
@@ -45,7 +45,7 @@ const Table = styled.div`
 `;
 
 const LabelContainer = styled.div`
-  width: calc(100% / 6);
+  width: calc(100% / 6 * ${props => props.width ? props.width : 1});
   height: 100%;
   display: flex;
   align-items: center;
@@ -120,7 +120,7 @@ const SearchInput = styled.input`
 `;
 
 const ResultsContainer = styled.div`
-  grid-column: 2 / 8;
+  grid-column: 3 / 7;
   grid-row: 4 / 5;
   overflow-y: auto;
   position: relative;
@@ -146,7 +146,7 @@ const Row = styled.div`
 `;
 
 const Data = styled.div`
-  width: calc(100% / 6);
+  width: calc(100% / 6 * ${props => props.width ? props.width : 1});
   height: 100%;
   display: flex;
   align-items: center;
@@ -160,7 +160,7 @@ const Data = styled.div`
 `;
 
 const InlineRow = styled.div`
-  width: calc(100% / 6);
+  width: calc(100% / 6 * ${props => props.width ? props.width : 1});
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -218,7 +218,7 @@ const StyledCsvDownloadButton = styled(CsvDownloadButton)`
 `;
 
 const Pagination = styled.div`
-  grid-column: 5 / 8;
+  grid-column: 3 / 7;
   grid-row: 5 / end;
   width: auto;
   height: 40px;
@@ -326,7 +326,7 @@ const DropDown = styled.div`
 
 const PredCountDiv = styled.div`
   grid-row: 2/2;
-  grid-column: 2/5;
+  grid-column: 3/5;
   padding: 2px;
   margin-top: 40px;
   font-family: 'Arial';
@@ -537,7 +537,7 @@ const Output = () => {
 
       <Table></Table>
       <Table>
-        <LabelContainer id={0}>
+        <LabelContainer id={0} width={0.875}>
           <Label>ID</Label>
           <OptionsContainer ref={searchContainerRefs.GeneID}>
             {" "}
@@ -568,7 +568,7 @@ const Output = () => {
             </SearchContainer>
           </OptionsContainer>
         </LabelContainer>
-        <LabelContainer id={1}>
+        <LabelContainer id={1} width={0.75}>
           <Label> Position </Label>
           <OptionsContainer ref={searchContainerRefs.Position}>
             {" "}
@@ -598,7 +598,7 @@ const Output = () => {
             </SearchContainer>
           </OptionsContainer>
         </LabelContainer>
-        <LabelContainer id={2}>
+        <LabelContainer id={2} width={1.5}>
           <Label> Phosphosite (+-7) </Label>
           <OptionsContainer ref={searchContainerRefs.Phosphate}>
             {" "}
@@ -619,7 +619,7 @@ const Output = () => {
           </OptionsContainer>
         </LabelContainer>
 
-        <LabelContainer id={3}>
+        <LabelContainer id={3} width={0.875}>
           <Label> Probable Kinase </Label>
           <OptionsContainer ref={searchContainerRefs.Kinase}>
             <SearchContainer>
@@ -689,20 +689,20 @@ const Output = () => {
               bgColor={idx % 2 === 0 ? "#97bee545" : "#97bee526"}
               rowHeight={40 * (15 / rowsPerPage)}
             >
-              <Data>
+              <Data width={0.875}>
                 {uniprotIdRegex.test(item.geneId)
                   ? <Link to={`https://www.uniprot.org/uniprotkb/${item.geneId}/entry`} target="_blank">{item.geneId}</Link>
                   : item.geneId}
               </Data>
-              <Data>{item.position}</Data>
-              <Data>
+              <Data width={0.75} >{item.position}</Data>
+              <Data width={1.5}>
                 {item.proteinSeq.split("").map((letter, idx) => (
                   <Letter key={idx} idx={idx}>
                     {letter}
                   </Letter>
                 ))}
               </Data>
-              <InlineRow>
+              <InlineRow width={0.875}>
                 {" "}
                 {item.probKinase.slice(0, 15 / rowsPerPage).map((probKinase) => {
                   return <InlineData>

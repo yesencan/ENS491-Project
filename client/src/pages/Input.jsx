@@ -6,6 +6,7 @@ import { useContext } from "react";
 import OutputDataContext from "../contexts/OutputDataContext";
 import { PulseLoader } from "react-spinners";
 import Popup from "reactjs-popup";
+import ScanCheckboxGroup from "../components/Launch/Checkbox";
 
 const Tooltip = styled.div`
   background: rgba(135, 135, 135, 0.9);
@@ -65,7 +66,7 @@ const ContentArea = styled.div`
   grid-column: 3 / 7;
   grid-row: 4 / 6;
   box-sizing: border-box;
-  height: fit-content; /* Expand based on content */
+  height: fit-content;
   width: 100%;
   display: flex;
   background-color: white;
@@ -75,7 +76,7 @@ const ContentArea = styled.div`
   border: 1px solid #97bee5;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  overflow-y: auto; /* Add scrollbar if content overflows vertically */
+  overflow-y: auto;
 `;
 
 const InputLabel = styled.div`
@@ -107,9 +108,9 @@ const InputTextArea = styled.textarea`
   height: 70%;
   min-height: 200px;
   margin-bottom: 10px;
-  border: 1px solid #97bee5; /* Add border style here */
+  border: 1px solid #97bee5;
   border-radius: 5px;
-  padding: 10px; /* Add padding for better visual appearance */
+  padding: 10px;
   font-family: "Poppins";
   font-size: 16px;
   resize: none;
@@ -118,12 +119,6 @@ const InputTextArea = styled.textarea`
   &::placeholder {
     color: lightgray;
   }
-`;
-
-const SeparatorText = styled.div`
-  font-family: "Poppins";
-  font-size: 14px;
-  color: black;
 `;
 
 const LabelCentered = styled.div`
@@ -137,31 +132,6 @@ const LabelCentered = styled.div`
   overflow-wrap: break-word;
 `;
 
-const CheckboxContainer = styled.div`
-  width: 85%;
-  padding: 10px;
-  display: flex;
-  justify-content: space-evenly;
-`;
-
-const CheckboxWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 20px;
-`;
-
-const CheckboxLabel = styled.label`
-  font-family: "Poppins";
-  font-size: 14px;
-  color: black;
-`;
-
-const Checkbox = styled.input`
-  width: 20px;
-  height: 20px;
-  margin-top: 5px;
-`;
 
 const PredictButton = styled.button`
   width: 150px;
@@ -183,13 +153,13 @@ const PredictButton = styled.button`
 const FileUploadContainer = styled.div`
   width: 85%;
   height: 70px;
-  border: 1px solid #97bee5; /* Add border style here */
+  border: 1px solid #97bee5;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 10px; /* Adjust padding for better spacing */
+  padding: 0 10px;
   margin: 10px 0;
 `;
 
@@ -198,7 +168,7 @@ const UploadButton = styled.button`
   height: 40px;
   font-family: "Poppins";
   font-size: 16px;
-  background-color: rgb(0, 73, 144);;
+  background-color: rgb(0, 73, 144);
   color: white;
   border: none;
   border-radius: 5px;
@@ -447,8 +417,115 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
       return document.querySelectorAll('input[type="checkbox"]')[index].checked;
     });
 
-    // check if user uploaded a file or entered as text
+    if (proteinSequenceInputText) {
+      console.log(proteinSequenceInputText);
+      if (aminoacids.length === 0) {
+        setIsPredicting(false);
+        enableErrorMessage("Please select at least one amino acid to scan for.");
+        return;
+      }
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/predict/sequence-string",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              fasta: proteinSequenceInputText,
+              aminoacids,
+              omitErrors
+            }),
+          }
+        );
+        const result = await response.json();
+        if (!response.ok) {
+          setOmitErrors(true);
+          console.log(omitErrors)
+          const error = result["error"];
+          console.log(result["invalid_ids"])
+          switch (error) {
+            case "invalid_aa_seq":
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Invalid aminoacid sequence. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Invalid aminoacid sequence. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
+              break;
+
+            case "incorrect_format":
+              enableErrorMessage(
+                "Input data is in incorrect format."
+              );
+              break;
+
+            case "no_target_selected":
+              enableErrorMessage(
+                "Please select at least one amino acid to scan for."
+              );
+              break;
+
+            case "no-site":
+              enableErrorMessage(
+                "There is no site with selected amino acid(s)."
+              );
+              break;
+
+            case "short-seq":
+              if (result["invalid_ids"].length > 2) {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"].slice(0, 3) +
+                  "...\nClick Predict again to ignore invalid input."
+                );
+              } else {
+                enableErrorMessage(
+                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
+                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
+                );
+              }
+              break;
+
+            default:
+              enableErrorMessage("Some error occurred. Please try again.");
+              break;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        setOutputData(result.results); // This updates the context
+        navigate("/results");
+        console.log("eb", result);
+      } catch (error) {
+        setIsPredicting(false);
+        console.error("Error predicting sequence from text:", error);
+      }
+    } else {
+      setIsPredicting(false);
+      enableErrorMessage("Please enter a protein sequence");
+    }
+  }
+
+  async function handlePredictLoadedFile() {
+    setIsPredicting(true);
+
+    const aminoacids = ["S", "T", "Y", "H"].filter((acid, index) => {
+      return document.querySelectorAll('input[type="checkbox"]')[index].checked;
+    });
+
     if (uploadedFile) {
+      if (aminoacids.length === 0) {
+        setIsPredicting(false);
+        enableErrorMessage("Please select at least one amino acid to scan for.");
+        return;
+      }
       // send file to the "/api/predict/sequence-file" endpoint
       const formData = new FormData();
       formData.append("file", uploadedFile);
@@ -534,92 +611,9 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         setIsPredicting(false);
         console.error("Error predicting sequence from file:", error);
       }
-    } else if (proteinSequenceInputText) {
-      console.log(proteinSequenceInputText);
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:5000/api/predict/sequence-string",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              fasta: proteinSequenceInputText,
-              aminoacids,
-              omitErrors
-            }),
-          }
-        );
-        const result = await response.json();
-        if (!response.ok) {
-          setOmitErrors(true);
-          const error = result["error"];
-          switch (error) {
-            case "invalid_aa_seq":
-              if (result["invalid_ids"].length > 2) {
-                enableErrorMessage(
-                  "Invalid aminoacid sequence. Please check: " +
-                  result["invalid_ids"].slice(0, 3) +
-                  "...\nClick Predict again to ignore invalid input."
-                );
-              } else {
-                enableErrorMessage(
-                  "Invalid aminoacid sequence. Please check: " +
-                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
-                );
-              }
-              break;
-
-            case "incorrect_format":
-              enableErrorMessage(
-                "Input data is in incorrect format."
-              );
-              break;
-
-            case "no_target_selected":
-              enableErrorMessage(
-                "Please select at least one amino acid to scan for."
-              );
-              break;
-
-            case "no-site":
-              enableErrorMessage(
-                "There is no site with selected amino acid(s)."
-              );
-              break;
-
-            case "short-seq":
-              if (result["invalid_ids"].length > 2) {
-                enableErrorMessage(
-                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
-                  result["invalid_ids"].slice(0, 3) +
-                  "...\nClick Predict again to ignore invalid input."
-                );
-              } else {
-                enableErrorMessage(
-                  "Protein sequences should consist of at least 10 amino acids. Please check: " +
-                  result["invalid_ids"] + "\nClick Predict again to ignore invalid input."
-                );
-              }
-              break;
-
-            default:
-              enableErrorMessage("Some error occurred. Please try again.");
-              break;
-          }
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        setOutputData(result.results); // This updates the context
-        navigate("/results");
-        console.log("eb", result);
-      } catch (error) {
-        setIsPredicting(false);
-        console.error("Error predicting sequence from text:", error);
-      }
     } else {
       setIsPredicting(false);
-      enableErrorMessage("Please enter a protein sequence or upload a file.");
+      enableErrorMessage("Please upload a file.");
     }
   }
   return (
@@ -631,6 +625,9 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
         </Tab>
         <Tab active={activeTab === 2} onClick={() => handleTabClick(2)}>
           Protein Sequence
+        </Tab>
+        <Tab active={activeTab === 3} onClick={() => handleTabClick(3)}>
+          Fasta File
         </Tab>
       </TabContainer>
       <ContentArea>
@@ -698,48 +695,7 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
                 />
               </Row>
               <Row>
-                <SeparatorText>or</SeparatorText>
-              </Row>
-              <Row>
-                <LabelCentered>Fasta File</LabelCentered>
-
-                <FileUploadContainer>
-                  <UploadButton onClick={handleFileUpload}>
-                    Upload File
-                    <input
-                      type="file"
-                      accept=".fasta"
-                      ref={hiddenFileInput}
-                      onChange={handleFileChange}
-                      style={{ display: "none" }}
-                    />
-                  </UploadButton>
-                  <UploadedFileName>
-                    {uploadedFile ? uploadedFile.name : ""}
-                  </UploadedFileName>
-                </FileUploadContainer>
-              </Row>
-              <Row>
-                <LabelCentered>Scan for:</LabelCentered>
-
-                <CheckboxContainer>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Serine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked />
-                  </CheckboxWrapper>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Threonine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked />
-                  </CheckboxWrapper>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Tyrosine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked />
-                  </CheckboxWrapper>
-                  <CheckboxWrapper>
-                    <CheckboxLabel>Histidine</CheckboxLabel>
-                    <Checkbox type="checkbox" defaultChecked />
-                  </CheckboxWrapper>
-                </CheckboxContainer>
+                <ScanCheckboxGroup />
               </Row>
               <Row>
                 <PredictButton
@@ -755,6 +711,44 @@ MATQADLMELDMAMEPDRKAAVSHWQQQSYLDSGIHSGATTTAPSLSGKGNPEEEDVDTSQVLYEWEQGFSQSFTQEQVA
               </Row>
             </Col>
           </>
+        )}
+        {activeTab === 3 && (
+          <Col>
+            <Row style={{marginTop: "30px"}}>
+                <LabelCentered>Upload <br/> Fasta File</LabelCentered>
+
+                <FileUploadContainer>
+                  <UploadButton onClick={handleFileUpload}>
+                    Select File
+                    <input
+                      type="file"
+                      accept=".fasta"
+                      ref={hiddenFileInput}
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
+                  </UploadButton>
+                  <UploadedFileName>
+                    {uploadedFile ? uploadedFile.name : ""}
+                  </UploadedFileName>
+                </FileUploadContainer>
+              </Row>
+              <Row>
+                <ScanCheckboxGroup />
+              </Row>
+              <Row>
+                <PredictButton
+                  onClick={handlePredictLoadedFile}
+                  disabled={isPredicting}
+                >
+                  {isPredicting ? (
+                    <PulseLoader color="hsla(168, 0%, 100%, 1)" size={8} />
+                  ) : (
+                    "Predict"
+                  )}
+                </PredictButton>
+              </Row>
+          </Col>
         )}
       </ContentArea>
     </Container>

@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import Figure1 from '../images/figure1.jpeg';
+import Figure2 from '../images/figure2.jpeg';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -9,7 +11,6 @@ const PageContainer = styled.div`
 
 const ContentContainer = styled.div`
   font-family: "Roboto", sans-serif;
-  
   color: #333;
   padding: 80px 0 0 0;
   background-color: #f7fbff;
@@ -44,6 +45,10 @@ const Paragraph = styled.p`
   line-height: 1.6;
   margin: 0;
   margin-top: 15px;
+
+  ul {
+    margin: 10px 0px 0px 0px;
+  }
 `;
 
 const KinaseSection = styled.div`
@@ -51,9 +56,69 @@ const KinaseSection = styled.div`
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   margin-top: 20px;
 `;
+
+const ImageSection = styled(Section)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+`;
+
+const Figure = styled.img`
+  width: ${props => props.width || '100%'};
+  height: auto;
+  margin: 0 auto;
+`;
+
+const FigureDescription = styled.p`
+  font-size: 14px;
+  color: #666;
+  text-align: left;
+  padding-top: 10px;
+  margin: 12px 0px 0px 0px;
+`;
+
+const FigureLabel = styled.span`
+  font-weight: 500;
+  font-size: 14px;
+  color: #666;
+`;
+
+const FigureText = styled.span`
+  font-size: 14px;
+  color: #666;
+`;
+
+const ButtonSection = styled.div`
+  text-align: center; // Centers the button within its section
+  margin: 30px 0px 20px 0px;
+`;
+
+const Button = styled.a`
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #004990;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #007bb5;
+  }
+`;
+
+const DOIInfo = styled.p`
+  color: #666;
+  font-size: 14px;
+  margin-top: 10px;
+  `;
 
 const AboutPage = () => {
   return (
@@ -66,12 +131,26 @@ const AboutPage = () => {
             We present DeepKinZero, the first zero-shot learning approach to predict the kinase acting on a phosphosite for kinases with no known phosphosite information. DeepKinZero transfers knowledge from kinases with many known target phosphosites to those kinases with no known sites through a zero-shot learning model. The kinase-specific positional amino acid preferences are learned using a bidirectional recurrent neural network. We show that DeepKinZero achieves significant improvement in accuracy for kinases with no known phosphosites in comparison to the baseline model and other methods available. By expanding our knowledge on understudied kinases, DeepKinZero can help to chart the phosphoproteome atlas.
           </Paragraph>
         </Section>
+        <ImageSection>
+          <Figure src={Figure1} alt="ZSL Model Architecture" width="90%" />
+          <FigureDescription>
+            <FigureLabel>Figure 1: </FigureLabel>
+            <FigureText>The DeepKinzero framework. First, the embedded vectors of phosphosites are passed to a two-layer bidirectional LSTM network, and then the results after passing through an attention layer are input to the ZSL model. The whole model is trained end-to-end over the common kinases.</FigureText>
+          </FigureDescription>
+        </ImageSection>
         <Section>
           <SectionTitle>Motivation</SectionTitle>
           <Paragraph>
             Protein phosphorylation is a key regulator of protein function in signal transduction pathways. Kinases are the enzymes that catalyze the phosphorylation of other proteins in a target-specific manner. The dysregulation of phosphorylation is associated with many diseases, including cancer. Although advances in phosphoproteomics enable the identification of phosphosites at the proteome level, most of the phosphoproteome is still in the dark: more than 95% of the reported human phosphosites have no known kinases. Determining which kinase is responsible for phosphorylating a site remains an experimental challenge. Existing computational methods require several examples of known targets of a kinase to make accurate kinase-specific predictions, yet for a large body of kinases, only a few or no target sites are reported.
           </Paragraph>
         </Section>
+        <ImageSection>
+          <Figure src={Figure2} alt="Phosphosite and Kinase Embedding" width="50%" />
+          <FigureDescription>
+            <FigureLabel>Figure 2: </FigureLabel>
+            <FigureText>Overview of the application of zero-shot learning to the prediction of kinase-phosphosite associations. The phosphosites and the kinases are embedded into multi-dimensional vector spaces using the information on sites and kinases, respectively. The parameters W of the function F(x, y; W) are estimated from the training data such that the compatibility between phosphosite embedding θ(x) and kinase embeddings φ(y) is maximized.</FigureText>
+          </FigureDescription>
+        </ImageSection>
         <Section>
           <SectionTitle>Protein Kinase Families</SectionTitle>
           <KinaseSection>
@@ -119,6 +198,10 @@ const AboutPage = () => {
             </Paragraph>
           </KinaseSection>
         </Section>
+        <ButtonSection>
+          <Button href="https://doi.org/10.1093/bioinformatics/btaa013" target="_blank">Read the DeepKinZero Paper</Button>
+          <DOIInfo>DOI: 10.1093/bioinformatics/btaa013</DOIInfo>
+        </ButtonSection>
       </ContentContainer>
     </PageContainer>
   );

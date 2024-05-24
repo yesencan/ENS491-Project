@@ -45,7 +45,7 @@ const Tab = styled.div`
   justify-content: center;
   background-color: ${(props) => (props.active ? "#97bee5" : "white")};
   cursor: pointer;
-  border: 1px solid #97bee5;
+  border: 1px solid #f0f0f0;
   border-bottom: none;
   transition: background-color 0.3s;
   &:hover {
@@ -73,7 +73,7 @@ const ContentArea = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  border: 1px solid #97bee5;
+  border: 1px solid #f0f0f0;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   overflow-y: auto;
@@ -94,6 +94,7 @@ const InputLabel = styled.div`
 const LoadSampleLink = styled.a`
   margin-left: auto;
   margin-right: 10px;
+  margin-bottom: 10px;
   margin-top: 20px;
   font-family: "Poppins";
   font-size: 14px;
@@ -108,7 +109,7 @@ const InputTextArea = styled.textarea`
   height: 70%;
   min-height: 200px;
   margin-bottom: 10px;
-  border: 1px solid #97bee5;
+  border: 1px solid #f0f0f0;
   border-radius: 5px;
   padding: 10px;
   font-family: "Poppins";
@@ -153,7 +154,7 @@ const PredictButton = styled.button`
 const FileUploadContainer = styled.div`
   width: 85%;
   height: 70px;
-  border: 1px solid #97bee5;
+  border: 1px solid #f0f0f0;
   border-radius: 5px;
   display: flex;
   flex-direction: row;

@@ -6,8 +6,9 @@ import Footer from "./components/Launch/Footer";
 import Output from "./pages/Output";
 import Input from "./pages/Input";
 import OutputDataContext from './contexts/OutputDataContext';
-import Intro from "./components/Launch/Intro";
 import AboutPage from "./pages/About";
+import TutorialPage from "./pages/Tutorial";
+
 const App = () => {
   const [outputData, setOutputData] = React.useState(null);
   return (
@@ -20,6 +21,7 @@ const App = () => {
               <Route path="/" element={<Input />} />
               <Route path="/results" element={<Output />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/tutorial" element={<TutorialPage />} />
             </Routes>
           </div>
           <Footer />

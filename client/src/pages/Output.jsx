@@ -31,6 +31,7 @@ const DownloadCSVContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: right;
+  margin-top: 30px;
 `;
 
 const Table = styled.div`

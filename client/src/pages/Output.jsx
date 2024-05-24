@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import OutputDataContext from "../contexts/OutputDataContext";
-import CsvDownloadButton from "react-json-to-csv"
+import CsvDownloadButton from "react-json-to-csv";
 import { Link } from "react-router-dom";
 
 const FadeInAnimation = keyframes`
@@ -45,7 +45,7 @@ const Table = styled.div`
 `;
 
 const LabelContainer = styled.div`
-  width: calc(100% / 6 * ${props => props.width ? props.width : 1});
+  width: calc(100% / 6 * ${(props) => (props.width ? props.width : 1)});
   height: 100%;
   display: flex;
   align-items: center;
@@ -67,6 +67,7 @@ const Label = styled.div`
   align-items: center;
   padding-left: 20px;
   box-sizing: border-box;
+  font-weight: 900;
 `;
 
 const OptionsContainer = styled.div`
@@ -133,7 +134,7 @@ const ResultsContainer = styled.div`
 
 const Row = styled.div`
   width: 100%;
-  height: ${props => props.rowHeight}px;
+  height: ${(props) => props.rowHeight}px;
   box-sizing: border-box;
   background-color: ${(props) => props.bgColor};
   font-family: "Arial";
@@ -146,7 +147,7 @@ const Row = styled.div`
 `;
 
 const Data = styled.div`
-  width: calc(100% / 6 * ${props => props.width ? props.width : 1});
+  width: calc(100% / 6 * ${(props) => (props.width ? props.width : 1)});
   height: 100%;
   display: flex;
   align-items: center;
@@ -160,7 +161,7 @@ const Data = styled.div`
 `;
 
 const InlineRow = styled.div`
-  width: calc(100% / 6 * ${props => props.width ? props.width : 1});
+  width: calc(100% / 6 * ${(props) => (props.width ? props.width : 1)});
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -238,7 +239,7 @@ const PaginationButton = styled.button`
   margin: 2px;
   box-sizing: border-box;
   border: 0.5px solid #004990;
-  color: black;
+  color: ${(props) => (props.disabled ? "white" : "black")};
   background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
@@ -246,11 +247,27 @@ const PaginationButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   padding: 2px;
+  transition: 0.5s all;
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: #004990;
+    background-color: #0048909e;
   }
+`;
+
+const Ellipsis = styled.div`
+  width: 45px;
+  min-width: 30px;
+  height: 30px;
+  margin: 2px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: 0.2s all;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 2px;
+  cursor: pointer;
 `;
 
 const PaginationButtonLeft = styled.button`
@@ -284,7 +301,7 @@ const PaginationButtonRight = styled.button`
   margin: 2px;
   box-sizing: border-box;
   border: 2px solid #004990;
-  color: black;
+  color: ${(props) => (props.disabled ? "white" : "black")};
   background-color: ${(props) => (props.disabled ? "#004990" : "white")};
   font-size: 14px;
   transition: 0.2s all;
@@ -329,12 +346,12 @@ const PredCountDiv = styled.div`
   grid-column: 3/5;
   padding: 2px;
   margin-top: 40px;
-  font-family: 'Arial';
-`
+  font-family: "Arial";
+`;
 const Output = () => {
   const { outputData } = useContext(OutputDataContext);
   const getRowKey = (item, idx) => `${idx}-${sortOrder.sortBy}`;
-  const [searchClicked, setSearchClicked] = useState("");
+  const [searchClicked, setSearchClicked] = useState([]);
   const [filteredList, setFilteredList] = useState(outputData);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(15);
@@ -344,6 +361,7 @@ const Output = () => {
   const totalPages = Math.ceil(filteredList.length / rowsPerPage);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const pageNumbers = [];
 
   const [sortOrder, setSortOrder] = useState({
     sortBy: "",
@@ -362,19 +380,14 @@ const Output = () => {
     const handleClickOutside = (event) => {
       let clickedInsideInput = false;
       Object.values(searchContainerRefs).forEach((ref) => {
-        if (ref.current && ref.current.contains(event.target)) {
+        console.log(ref.current.children[1]?.children[1]?.value);
+        if (ref.current) {
           if (
             event.target.tagName === "INPUT" &&
             event.target.type === "text"
           ) {
             clickedInsideInput = true;
           }
-        }
-        if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target)
-        ) {
-          setDropdownOpen(false);
         }
       });
 
@@ -389,9 +402,9 @@ const Output = () => {
     };
   }, [searchContainerRefs]);
 
-  const uniprotIdRegexPattern = "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}";
+  const uniprotIdRegexPattern =
+    "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}";
   const uniprotIdRegex = new RegExp(uniprotIdRegexPattern);
-
 
   const handleSort = (sortBy) => {
     if (sortOrder.sortBy === sortBy) {
@@ -414,10 +427,8 @@ const Output = () => {
   const handleSearch = (e, type) => {
     let filteredList = [];
     let text = e.target.value;
-    console.log(text);
     if (type === "GeneID") {
       outputData.forEach((item) => {
-        console.log(item);
         if (text === "") {
           filteredList.push(item);
         } else if (
@@ -431,7 +442,6 @@ const Output = () => {
     }
     if (type === "Position") {
       outputData.forEach((item) => {
-        console.log(item);
         if (text === "") {
           filteredList.push(item);
         } else if (
@@ -445,7 +455,6 @@ const Output = () => {
     }
     if (type === "Phosphate") {
       outputData.forEach((item) => {
-        console.log(item);
         if (text === "") {
           filteredList.push(item);
         } else if (
@@ -459,7 +468,6 @@ const Output = () => {
     }
     if (type === "Kinase") {
       outputData.forEach((item) => {
-        console.log(item);
         if (text === "") {
           filteredList.push(item);
         } else {
@@ -477,7 +485,6 @@ const Output = () => {
     }
     if (type === "KinaseFamily") {
       outputData.forEach((item) => {
-        console.log(item);
         if (text === "") {
           filteredList.push(item);
         } else {
@@ -488,6 +495,19 @@ const Output = () => {
               filteredList.push(item);
             }
           });
+        }
+      });
+      setFilteredList(filteredList);
+      setCurrentPage(1);
+    }
+    if (type === "Probability") {
+      outputData.forEach((item) => {
+        if (text === "") {
+          filteredList.push(item);
+        } else if (
+          item.probability.toString().toLowerCase().includes(text.toLowerCase())
+        ) {
+          filteredList.push(item);
         }
       });
       setFilteredList(filteredList);
@@ -516,6 +536,24 @@ const Output = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const paginationNumbers = () => {
+    for (let index = 1; index <= totalPages; index++) {
+      if (
+        index === 1 ||
+        index === totalPages ||
+        (index >= currentPage - 1 && index <= currentPage + 1)
+      ) {
+        pageNumbers.push(index);
+      } else if (
+        (index === currentPage - 2 && currentPage > 4) ||
+        (index === currentPage + 2 && currentPage < totalPages - 3)
+      ) {
+        pageNumbers.push("ellipsis");
+      }
+    }
+    return pageNumbers;
+  };
+
   return (
     <Container>
       <DownloadCSVContainer>
@@ -523,11 +561,23 @@ const Output = () => {
           data={outputData.map((item) => {
             return {
               ...item,
-              "probKinase": rowsPerPage === 15 ? item.probKinase[0] : item.probKinase.slice(0, 15 / rowsPerPage),
-              "probability": rowsPerPage === 15 ? item.probability[0] : item.probability.slice(0, 15 / rowsPerPage),
-              "kinaseFamily": rowsPerPage === 15 ? item.kinaseFamily[0] : item.kinaseFamily.slice(0, 15 / rowsPerPage),
-              "kinaseGroup": rowsPerPage === 15 ? item.kinaseGroup[0] : item.kinaseGroup.slice(0, 15 / rowsPerPage),
-            }
+              probKinase:
+                rowsPerPage === 15
+                  ? item.probKinase[0]
+                  : item.probKinase.slice(0, 15 / rowsPerPage),
+              probability:
+                rowsPerPage === 15
+                  ? item.probability[0]
+                  : item.probability.slice(0, 15 / rowsPerPage),
+              kinaseFamily:
+                rowsPerPage === 15
+                  ? item.kinaseFamily[0]
+                  : item.kinaseFamily.slice(0, 15 / rowsPerPage),
+              kinaseGroup:
+                rowsPerPage === 15
+                  ? item.kinaseGroup[0]
+                  : item.kinaseGroup.slice(0, 15 / rowsPerPage),
+            };
           })}
           filename="deepkinzero-output.csv"
         >
@@ -662,13 +712,31 @@ const Output = () => {
           <Label> Probability </Label>
           <OptionsContainer>
             {" "}
-            <Tag></Tag>
+            {rowsPerPage === 15 ? (
+              <Tag
+                isClicked={sortOrder.sortBy === "probability"}
+                onClick={() => handleSort("probability")}
+              >
+                {sortOrder.ascending && sortOrder.sortBy === "probability" ? (
+                  <i class="bi bi-sort-up"></i>
+                ) : (
+                  <i class="bi bi-sort-down"></i>
+                )}
+              </Tag>
+            ) : (
+              <Tag></Tag>
+            )}
           </OptionsContainer>
         </LabelContainer>
       </Table>
       <ResultsContainer>
         {currentRows
           .sort((a, b) => {
+            if (sortOrder.sortBy === "probability") {
+              return sortOrder.ascending
+                ? parseFloat(a.probability) - parseFloat(b.probability)
+                : parseFloat(b.probability) - parseFloat(a.probability);
+            }
             if (sortOrder.sortBy === "position") {
               return sortOrder.ascending
                 ? parseFloat(a.position) - parseFloat(b.position)
@@ -690,11 +758,18 @@ const Output = () => {
               rowHeight={40 * (15 / rowsPerPage)}
             >
               <Data width={0.875}>
-                {uniprotIdRegex.test(item.geneId)
-                  ? <Link to={`https://www.uniprot.org/uniprotkb/${item.geneId}/entry`} target="_blank">{item.geneId}</Link>
-                  : item.geneId}
+                {uniprotIdRegex.test(item.geneId) ? (
+                  <Link
+                    to={`https://www.uniprot.org/uniprotkb/${item.geneId}/entry`}
+                    target="_blank"
+                  >
+                    {item.geneId}
+                  </Link>
+                ) : (
+                  item.geneId
+                )}
               </Data>
-              <Data width={0.75} >{item.position}</Data>
+              <Data width={0.75}>{item.position}</Data>
               <Data width={1.5}>
                 {item.proteinSeq.split("").map((letter, idx) => (
                   <Letter key={idx} idx={idx}>
@@ -704,37 +779,53 @@ const Output = () => {
               </Data>
               <InlineRow width={0.875}>
                 {" "}
-                {item.probKinase.slice(0, 15 / rowsPerPage).map((probKinase) => {
-                  return <InlineData>
-                    <Link to={`https://www.uniprot.org/uniprotkb/${probKinase}/entry`} target="_blank">
-                      {probKinase}
-                    </Link>
-                  </InlineData>;
-                })}
+                {item.probKinase
+                  .slice(0, 15 / rowsPerPage)
+                  .map((probKinase) => {
+                    return (
+                      <InlineData>
+                        <Link
+                          to={`https://www.uniprot.org/uniprotkb/${probKinase}/entry`}
+                          target="_blank"
+                        >
+                          {probKinase}
+                        </Link>
+                      </InlineData>
+                    );
+                  })}
               </InlineRow>
               <InlineRow>
                 {" "}
-                {item.kinaseFamily.slice(0, 15 / rowsPerPage).map((kinaseFamily) => {
-                  return <InlineData>{kinaseFamily}</InlineData>;
-                })}
+                {item.kinaseFamily
+                  .slice(0, 15 / rowsPerPage)
+                  .map((kinaseFamily) => {
+                    return <InlineData>{kinaseFamily}</InlineData>;
+                  })}
               </InlineRow>
 
               <InlineRow>
                 {" "}
-                {item.probability.slice(0, 15 / rowsPerPage).map((probability) => {
-                  return (
-                    <InlineData>
-                      {probability.toFixed(3).replace(/\.?0+$/, "")}
-                    </InlineData>
-                  );
-                })}
+                {item.probability
+                  .slice(0, 15 / rowsPerPage)
+                  .map((probability) => {
+                    return (
+                      <InlineData>
+                        {probability.toFixed(3).replace(/\.?0+$/, "")}
+                      </InlineData>
+                    );
+                  })}
               </InlineRow>
             </Row>
           ))}
       </ResultsContainer>
       <PredCountDiv>
         Show top&nbsp;
-        <select onChange={e => { setRowsPerPage(15 / e.target.value); setCurrentPage(1); }}>
+        <select
+          onChange={(e) => {
+            setRowsPerPage(15 / e.target.value);
+            setCurrentPage(1);
+          }}
+        >
           <option value={1}>1</option>
           <option value={3}>3</option>
           <option value={5}>5</option>
@@ -742,45 +833,48 @@ const Output = () => {
         &nbsp;prediction(s) for each phosphosite
       </PredCountDiv>
       <Pagination>
-        <PaginationButtonLeft
+        <PaginationButton
           onClick={handlePrevClick}
+          disabled={currentPage === 1}
           type={"Previous"}
-          style={{ display: currentPage === 1 ? "none" : "block" }}
+          style={{
+            pointerEvents: currentPage === 1 ? "none" : "auto",
+            opacity: currentPage === 1 ? "0.2" : "1",
+          }}
         >
           <i class="bi bi-chevron-left"></i>
-        </PaginationButtonLeft>
-        <DropDownContainer ref={dropdownRef}>
-          {!dropdownOpen && (
-            <PaginationButton onClick={toggleDropdown}>
-              {currentPage}
-              {!dropdownOpen && (
-                <i style={{ fontSize: "10px" }} class="bi bi-chevron-down"></i>
-              )}
-            </PaginationButton>
+        </PaginationButton>
+
+        <Pagination>
+          {paginationNumbers().map((page) =>
+            page === "ellipsis" ? (
+              <Ellipsis>
+                <i class="bi bi-three-dots"></i>
+              </Ellipsis>
+            ) : (
+              <PaginationButton
+                key={page}
+                onClick={() => handlePageClick(page)}
+                disabled={currentPage === page}
+                type={"Number"}
+              >
+                {page}
+              </PaginationButton>
+            )
           )}
-          {dropdownOpen && (
-            <DropDown>
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-                (page) => (
-                  <PaginationButton
-                    key={page}
-                    onClick={() => handlePageClick(page)}
-                    disabled={currentPage === page}
-                  >
-                    {page}
-                  </PaginationButton>
-                )
-              )}
-            </DropDown>
-          )}
-        </DropDownContainer>
-        <PaginationButtonRight
+        </Pagination>
+
+        <PaginationButton
           onClick={handleNextClick}
+          disabled={currentPage === totalPages}
           type={"Next"}
-          style={{ display: currentPage === totalPages ? "none" : "block" }}
+          style={{
+            pointerEvents: currentPage === totalPages ? "none" : "auto",
+            opacity: currentPage === totalPages ? "0.2" : "1",
+          }}
         >
           <i class="bi bi-chevron-right"></i>
-        </PaginationButtonRight>
+        </PaginationButton>
       </Pagination>
     </Container>
   );

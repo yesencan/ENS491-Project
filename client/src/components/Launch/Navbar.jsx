@@ -52,14 +52,14 @@ const Navbar = () => {
         </Link>
       </Logo>
       <ButtonContainer style={{ gridColumnEnd: "7" }}>
-        <RedirectLink to="/about" style={{ margin: "0 20px 0 0" }}>
-          About
-        </RedirectLink>
         <RedirectLink to="/" style={{ margin: "0 20px 0 0" }}>
           Predict
         </RedirectLink>
-        <RedirectLink to="/tutorial">
+        <RedirectLink to="/tutorial" style={{ margin: "0 20px 0 0" }}>
           Tutorial
+        </RedirectLink>
+        <RedirectLink to="/about">
+          About
         </RedirectLink>
       </ButtonContainer>
     </Container>

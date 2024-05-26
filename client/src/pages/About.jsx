@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Figure1 from '../images/figure1.jpeg';
 import Figure2 from '../images/figure2.jpeg';
-
+import Figure3 from '../images/figure3.png'; 
+import Figure4 from '../images/figure4.png';
 const PageContainer = styled.div`
   width: 100%;
   display: grid;
@@ -72,7 +73,13 @@ const Figure = styled.img`
   height: auto;
   margin: 0 auto;
 `;
-
+const FigureWrapper = styled.div`
+  width: 50%; // Each wrapper takes up half the space
+  text-align: center; // Center content within each wrapper
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const FigureDescription = styled.p`
   font-size: 14px;
   color: #666;
@@ -172,6 +179,15 @@ const AboutPage = () => {
             </Paragraph>
           </KinaseSection>
         </Section>
+        <ImageSection>
+          <Figure src={Figure4} alt="Phosphosite and Kinase Embedding" width="50%" />
+          
+          <Figure src={Figure3} alt="Phosphosite and Kinase Embedding" width="50%" />
+          <FigureDescription>
+            <FigureLabel>Figure 1: </FigureLabel>
+            <FigureText>For more than 35% of the kinases have no/few phosphosites.</FigureText>
+          </FigureDescription>
+        </ImageSection>
         <Section>
           <SectionTitle>What is DeepKinZero?</SectionTitle>
           <Paragraph>
@@ -181,8 +197,8 @@ const AboutPage = () => {
         <ImageSection>
           <Figure src={Figure2} alt="Phosphosite and Kinase Embedding" width="50%" />
           <FigureDescription>
-            <FigureLabel>Figure 1: </FigureLabel>
-            <FigureText>The DeepKinzero framework. First, the embedded vectors of phosphosites are passed to a two-layer bidirectional LSTM network, and then the results after passing through an attention layer are input to the ZSL model. The whole model is trained end-to-end over the common kinases.</FigureText>
+            <FigureLabel>Figure 2: </FigureLabel>
+            <FigureText>Overview of the application of zero-shot learning to the prediction of kinase-phosphosite associations. The phosphosites and the kinases are embedded into multi-dimensional vector spaces using the information on sites and kinases, respectively. The parameters W of the function F(x, y; W) are estimated from the training data such that the compatibility between phosphosite embedding θ(x) and kinase embeddings φ(y) is maximized.</FigureText>
           </FigureDescription>
         </ImageSection>
         <Section>
@@ -194,8 +210,8 @@ const AboutPage = () => {
         <ImageSection>
           <Figure src={Figure1} alt="ZSL Model Architecture" width="50%" />
           <FigureDescription>
-            <FigureLabel>Figure 2: </FigureLabel>
-            <FigureText>Overview of the application of zero-shot learning to the prediction of kinase-phosphosite associations. The phosphosites and the kinases are embedded into multi-dimensional vector spaces using the information on sites and kinases, respectively. The parameters W of the function F(x, y; W) are estimated from the training data such that the compatibility between phosphosite embedding θ(x) and kinase embeddings φ(y) is maximized.</FigureText>
+            <FigureLabel>Figure 3: </FigureLabel>
+            <FigureText>The DeepKinzero framework. First, the embedded vectors of phosphosites are passed to a two-layer bidirectional LSTM network, and then the results after passing through an attention layer are input to the ZSL model. The whole model is trained end-to-end over the common kinases.</FigureText>
           </FigureDescription>
         </ImageSection>
         <Section>

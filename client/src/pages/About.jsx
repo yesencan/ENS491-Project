@@ -126,32 +126,6 @@ const AboutPage = () => {
       <ContentContainer>
         <Subtitle>Zero-shot learning for predicting kinase-phosphosite associations involving understudied kinases</Subtitle>
         <Section>
-          <SectionTitle>What is DeepKinZero?</SectionTitle>
-          <Paragraph>
-            We present DeepKinZero, the first zero-shot learning approach to predict the kinase acting on a phosphosite for kinases with no known phosphosite information. DeepKinZero transfers knowledge from kinases with many known target phosphosites to those kinases with no known sites through a zero-shot learning model. The kinase-specific positional amino acid preferences are learned using a bidirectional recurrent neural network. We show that DeepKinZero achieves significant improvement in accuracy for kinases with no known phosphosites in comparison to the baseline model and other methods available. By expanding our knowledge on understudied kinases, DeepKinZero can help to chart the phosphoproteome atlas.
-          </Paragraph>
-        </Section>
-        <ImageSection>
-          <Figure src={Figure1} alt="ZSL Model Architecture" width="90%" />
-          <FigureDescription>
-            <FigureLabel>Figure 1: </FigureLabel>
-            <FigureText>The DeepKinzero framework. First, the embedded vectors of phosphosites are passed to a two-layer bidirectional LSTM network, and then the results after passing through an attention layer are input to the ZSL model. The whole model is trained end-to-end over the common kinases.</FigureText>
-          </FigureDescription>
-        </ImageSection>
-        <Section>
-          <SectionTitle>Motivation</SectionTitle>
-          <Paragraph>
-            Protein phosphorylation is a key regulator of protein function in signal transduction pathways. Kinases are the enzymes that catalyze the phosphorylation of other proteins in a target-specific manner. The dysregulation of phosphorylation is associated with many diseases, including cancer. Although advances in phosphoproteomics enable the identification of phosphosites at the proteome level, most of the phosphoproteome is still in the dark: more than 95% of the reported human phosphosites have no known kinases. Determining which kinase is responsible for phosphorylating a site remains an experimental challenge. Existing computational methods require several examples of known targets of a kinase to make accurate kinase-specific predictions, yet for a large body of kinases, only a few or no target sites are reported.
-          </Paragraph>
-        </Section>
-        <ImageSection>
-          <Figure src={Figure2} alt="Phosphosite and Kinase Embedding" width="50%" />
-          <FigureDescription>
-            <FigureLabel>Figure 2: </FigureLabel>
-            <FigureText>Overview of the application of zero-shot learning to the prediction of kinase-phosphosite associations. The phosphosites and the kinases are embedded into multi-dimensional vector spaces using the information on sites and kinases, respectively. The parameters W of the function F(x, y; W) are estimated from the training data such that the compatibility between phosphosite embedding θ(x) and kinase embeddings φ(y) is maximized.</FigureText>
-          </FigureDescription>
-        </ImageSection>
-        <Section>
           <SectionTitle>Protein Kinase Families</SectionTitle>
           <KinaseSection>
             <strong>Serine/Threonine Kinases:</strong>
@@ -197,6 +171,42 @@ const AboutPage = () => {
               </ul>
             </Paragraph>
           </KinaseSection>
+        </Section>
+        <Section>
+          <SectionTitle>What is DeepKinZero?</SectionTitle>
+          <Paragraph>
+            We present DeepKinZero, the first zero-shot learning approach to predict the kinase acting on a phosphosite for kinases with no known phosphosite information. DeepKinZero transfers knowledge from kinases with many known target phosphosites to those kinases with no known sites through a zero-shot learning model. The kinase-specific positional amino acid preferences are learned using a bidirectional recurrent neural network. We show that DeepKinZero achieves significant improvement in accuracy for kinases with no known phosphosites in comparison to the baseline model and other methods available. By expanding our knowledge on understudied kinases, DeepKinZero can help to chart the phosphoproteome atlas.
+          </Paragraph>
+        </Section>
+        <ImageSection>
+          <Figure src={Figure2} alt="Phosphosite and Kinase Embedding" width="50%" />
+          <FigureDescription>
+            <FigureLabel>Figure 1: </FigureLabel>
+            <FigureText>The DeepKinzero framework. First, the embedded vectors of phosphosites are passed to a two-layer bidirectional LSTM network, and then the results after passing through an attention layer are input to the ZSL model. The whole model is trained end-to-end over the common kinases.</FigureText>
+          </FigureDescription>
+        </ImageSection>
+        <Section>
+          <SectionTitle>Motivation</SectionTitle>
+          <Paragraph>
+            Protein phosphorylation is a key regulator of protein function in signal transduction pathways. Kinases are the enzymes that catalyze the phosphorylation of other proteins in a target-specific manner. The dysregulation of phosphorylation is associated with many diseases, including cancer. Although advances in phosphoproteomics enable the identification of phosphosites at the proteome level, most of the phosphoproteome is still in the dark: more than 95% of the reported human phosphosites have no known kinases. Determining which kinase is responsible for phosphorylating a site remains an experimental challenge. Existing computational methods require several examples of known targets of a kinase to make accurate kinase-specific predictions, yet for a large body of kinases, only a few or no target sites are reported.
+          </Paragraph>
+        </Section>
+        <ImageSection>
+          <Figure src={Figure1} alt="ZSL Model Architecture" width="50%" />
+          <FigureDescription>
+            <FigureLabel>Figure 2: </FigureLabel>
+            <FigureText>Overview of the application of zero-shot learning to the prediction of kinase-phosphosite associations. The phosphosites and the kinases are embedded into multi-dimensional vector spaces using the information on sites and kinases, respectively. The parameters W of the function F(x, y; W) are estimated from the training data such that the compatibility between phosphosite embedding θ(x) and kinase embeddings φ(y) is maximized.</FigureText>
+          </FigureDescription>
+        </ImageSection>
+        <Section>
+          <SectionTitle>About Team</SectionTitle>
+          <Paragraph>
+          <li><strong>Öznur Taştan, Assoc. Prof.</strong>(<a href="mailto:oznur.tastan@sabanciuniv.edu">oznur.tastan@sabanciuniv.edu</a>)</li>
+          <li><strong>Ebrar Güler               </strong>(<a href="mailto:ebrarguler@sabanciuniv.edu">ebrarguler@sabanciuniv.edu</a>)</li>
+          <li><strong>Yunus Emre Şencan</strong> (<a href="mailto:yesencan@sabanciuniv.edu">yesencan@sabanciuniv.edu</a>)</li>
+          <li><strong>Yusuf Erkut Bayram</strong>(<a href="mailto:yusuferkut@sabanciuniv.edu">yusuferkut@sabanciuniv.edu</a>)</li>
+          <li><strong>Emir Balkan</strong>  (<a href="mailto:balkanemir@sabanciuniv.edu">balkanemir@sabanciuniv.edu</a>)</li>
+          </Paragraph>
         </Section>
         <ButtonSection>
           <Button href="https://doi.org/10.1093/bioinformatics/btaa013" target="_blank">Read the DeepKinZero Paper</Button>

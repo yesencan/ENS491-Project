@@ -25,15 +25,21 @@ jobs:
 
     - name: Download file with gdown
       run: gdown https://drive.google.com/uc?id=1UCBpkqe5-IhlnLIZpyfHgsYYYe0LgGku
-
-    - name: list files
-      run: ls .
-
+      
     - name: Unzip checkpoint.zip
-      run: unzip /checkpoint.zip
+      run: unzip checkpoints.zip
 
     - name: Move checkpoint folder to flask-server/model
-      run: mv /checkpoint /flask-server/model/
+      run: mv checkpoints /flask-server/model/
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag dkz-backend:$(date +%s)
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push image to Docker Hub
+      run: docker push dkz-backend:$(date +%s)

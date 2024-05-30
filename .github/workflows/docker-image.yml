@@ -32,6 +32,9 @@ jobs:
     - name: Delete checkpoints.zip
       run: rm checkpoints.zip
 
+    - name: Delete unnecessary checkpoints
+      run: rm -r checkpoints/proteinbert*
+      
     - name: Move checkpoints folder to flask-server/model
       run: mv checkpoints flask-server/model/
 

@@ -11,13 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 512
-        swap-size-mb: 1024
-        remove-dotnet: 'true'
-          
     - uses: actions/checkout@v4
     
     - name: Set up Python
@@ -33,10 +26,13 @@ jobs:
     - name: Download file with gdown
       run: gdown https://drive.google.com/uc?id=1UCBpkqe5-IhlnLIZpyfHgsYYYe0LgGku
       
-    - name: Unzip checkpoint.zip
+    - name: Unzip checkpoints.zip
       run: unzip checkpoints.zip
 
-    - name: Move checkpoint folder to flask-server/model
+    - name: Delete checkpoints.zip
+      run: rm checkpoints.zip
+
+    - name: Move checkpoints folder to flask-server/model
       run: mv checkpoints flask-server/model/
 
     - name: Change directory to server folder

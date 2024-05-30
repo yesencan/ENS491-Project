@@ -9,17 +9,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 512
+        swap-size-mb: 1024
+        remove-dotnet: 'true'
+          
     - uses: actions/checkout@v4
     
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'  # Specify the version of Python you need
-
-    - name: lsblk
-      run: lsblk
 
     - name: Install gdown
       run: |

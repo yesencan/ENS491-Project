@@ -39,7 +39,7 @@ jobs:
       run: ls .
       
     - name: Build the Docker image
-      run: docker build . --file ./Dockerfile --tag dkz-backend:latest
+      run: docker build flask-server --file flask-server/Dockerfile --tag dkz-backend:latest
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2

@@ -32,8 +32,11 @@ jobs:
     - name: Move checkpoint folder to flask-server/model
       run: mv checkpoints /flask-server/model/
 
+    - name: Change directory to server folder
+      run: cd flask-server
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag dkz-backend:$(date +%s)
+      run: docker build . --file Dockerfile --tag dkz-backend:latest
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
@@ -42,4 +45,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push image to Docker Hub
-      run: docker push dkz-backend:$(date +%s)
+      run: docker push dkz-backend:latest

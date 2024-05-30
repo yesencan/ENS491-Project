@@ -30,7 +30,7 @@ jobs:
       run: unzip checkpoints.zip
 
     - name: Move checkpoint folder to flask-server/model
-      run: mv checkpoints /flask-server/model/
+      run: mv checkpoints flask-server/model/
 
     - name: Change directory to server folder
       run: cd flask-server

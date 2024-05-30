@@ -34,7 +34,7 @@ jobs:
         pip install gdown
 
     - name: Download file with gdown
-      run: gdown https://drive.google.com/uc?id=1UCBpkqe5-IhlnLIZpyfHgsYYYe0LgGku
+      run: gdown https://drive.google.com/uc?id=1CVt0ymU6S-4UEBFAMvhzagGt8oW-95Zk
       
     - name: Unzip checkpoints.zip
       run: unzip checkpoints.zip

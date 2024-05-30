@@ -30,10 +30,10 @@ jobs:
       run: ls .
 
     - name: Unzip checkpoint.zip
-      run: unzip checkpoint.zip
+      run: unzip /checkpoint.zip
 
     - name: Move checkpoint folder to flask-server/model
-      run: mv checkpoint /flask-server/model/
+      run: mv /checkpoint /flask-server/model/
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag dkz-backend:$(date +%s)

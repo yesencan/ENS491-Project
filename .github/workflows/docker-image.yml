@@ -26,6 +26,9 @@ jobs:
     - name: Download file with gdown
       run: gdown https://drive.google.com/uc?id=1UCBpkqe5-IhlnLIZpyfHgsYYYe0LgGku
 
+    - name: list files
+      run: ls .
+
     - name: Unzip checkpoint.zip
       run: unzip checkpoint.zip
 

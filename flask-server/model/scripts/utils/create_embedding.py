@@ -13,6 +13,8 @@ def create_distilprotbert_embeddings(modelname, sequences, savepath):
     model = BertModel.from_pretrained(modelname).to(device)
 
     for seq in sequences: 
+        if seq in embs_matrix:
+            continue
         prep_seq = " ".join(list(seq.upper()))
         prep_seq = re.sub(r"[UZOB]", "X", prep_seq).replace("_","-")
 
@@ -24,9 +26,10 @@ def create_distilprotbert_embeddings(modelname, sequences, savepath):
             embs_matrix[seq] = outputs.last_hidden_state[0][0,:]
 
     torch.save(embs_matrix, savepath)
-    print("Model saved to", savepath)
+
+
 
 def create_embeddings(sequences):
     modelname = 'yarongef/DistilProtBert'
-    savepath = "model/checkpoints/distilprotbert_embeddings/user_input_phosphosite.pt"
+    savepath = "model/checkpoints/distilprotbert_embeddings/distilprotbert_phosphosite.pt"
     create_distilprotbert_embeddings(modelname, sequences, savepath)

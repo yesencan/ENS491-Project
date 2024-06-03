@@ -83,6 +83,30 @@ const TutorialPage = () => {
             3. FASTA File. The file may contain one or more protein sequences in the FASTA format. Prediction can be limited to a subset of the four amino acids similar to protein sequence input.
           </Paragraph>
         </Section>
+        <Section style={{ marginBottom: "20px" }}>
+          <SectionTitle>How to interpret the results?</SectionTitle>
+          <Paragraph>
+            The results are presented in a table. You may choose to display 1, 3 or 5 predictions for each phosphosite in the dropdown menu above the results table. The results table has the following columns:
+          </Paragraph>
+          <Paragraph>
+            1. ID: The identifier of the query protein. If this is a UniProt ID, a link to the UniProt page is provided.
+          </Paragraph>
+          <Paragraph>
+            2. Position: The position of the phosphorylation site in the protein sequence.
+          </Paragraph>
+          <Paragraph>
+            3. Phosphosite (±7): The sequence of the phosphorylation site, with the phosphorylated amino acid in the center and the surrounding amino acids within a window of ±7 amino acids.
+          </Paragraph>
+          <Paragraph>
+            4. Probable Kinase: The kinase predicted to act on the phosphorylation site. If more than one prediction is chosen to be displayed, the kinases are presented in separate rows within the row. The predictions of one phosphosite are sorted in a descending order with respect to their prediction probabilities. The kinase name is a link to the UniProt page of the kinase.
+          </Paragraph>
+          <Paragraph>
+            5. Kinase Family: The family of the kinase predicted to act on the phosphorylation site.
+          </Paragraph>
+          <Paragraph>
+            6. Probability: The probability of the kinase acting on the phosphorylation site.
+          </Paragraph>
+        </Section>
       </ContentContainer>
     </PageContainer>
   );
